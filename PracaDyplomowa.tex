@@ -8,17 +8,9 @@
 \documentclass{PracaDyplomowa-Szablon}
 
 %--------------------------------------
-% początek: wskazówka
-%--------------------------------------
-%„W pracy nie należy używać wielokrotnych spacji, ani wielokrotnych znaków nowego akapitu. Znaki interpunkcyjne takie jak przecinek (,), kropka (.), dwukropek (:), średnik (;), znak zapytania (?), wykrzyknik (!), zamknięcie dowolnego nawiasu (]})>), zamknięcie cudzysłowu (” lub ’) nie mogą być nigdy poprzedzone spacją. Bezpośrednio po wymienionych znakach może wystąpić wyłącznie spacja, znak nowego akapitu lub inny znak interpunkcyjny. Po znakach otwierających dowolnego nawiasu ([{(<) lub otwarcia cudzysłowu („ lub ‘) nigdy nie należy używać spacji. Spację używamy przed tymi znakami. Nie należy rozpoczynać akapitu od spacji – wcięcia uzyskuje się przez zastosowanie stylu „Tekst podstawowy z~wcięciem” (patrz punkt Style). Nie należy pozostawiać spacji na końcu akapitu – przed znakiem nowego akapitu. Tytułu rozdziałów i~podrozdziałów pozostawiamy bez kropki na końcu.”
-% wstawianie spacji nierozdzielającej po spójnikach:~ (powoduje ona, że spójnik przechodzi do nowej linii wraz z~kolejnym wyrazem)
-%--------------------------------------
-% koniec: wskazówka
-%--------------------------------------
-
-%--------------------------------------
 % początek: do uzupełnienia
 %--------------------------------------
+
 \author{Krzysztof~Piełot}
 
 \title{Analiza wydajności i efektywności wybranych algorytmów sortowania równoległego na~wielordzeniowych procesorach}
@@ -34,6 +26,7 @@
 \promotor{dr inż. Bartosz Kowalczyk}
 
 \dedykacja{Niniejszym chciałbym serdecznie podziękować\\…\\za bezcenne wsparcie udzielone mi\\w trakcie trwania studiów.}
+
 %--------------------------------------
 % koniec: do uzupełnienia
 %--------------------------------------
@@ -43,261 +36,33 @@
 \frontpage
 \tableofcontents
 
-\cleardoublepage %wymuszenie umieszczenia na nieparzystej stronie (dotyczy to tylko wstępu, pierwszego rozdziału, podsumowania i~bibliografii)
-\chapter*{Wstęp}
-\addcontentsline{toc}{chapter}{Wstęp}
-
 %--------------------------------------
-% początek: wskazówka
-%--------------------------------------
-%„Wstęp powinien przedstawiać ogólne informacje na temat, którego dotyczy praca, historię i~zakres zastosowań”~\cite{bib:ZasadyPisania}. We wstępie nie powinno być rysunków, tabel i~wzorów.
-%--------------------------------------
-% koniec: wskazówka
+% Rozdziały
 %--------------------------------------
 
-W ostatnim czasie można zaobserować intensywny rozwój architektury procesorów wielordzeniowych. Producenci sprzętu zamiast dalszego zwiększania częstotliwości taktowania pojedynczego rdzenia decydują się na zwiększanie liczby rdzeni fizycznych oraz~logicznych. Taka zmiana podejścia projektowania procesorów stawia przed twórcami oprogramowania nowe wyzwania. Klasyczne algorytmy sekwencyjne nie wykorzystują w~pełni dostępnej mocy obliczeniowej współczesnych jednostek centralnych.
+\input{chapters/0-wstep}
 
-Szczególnie ważnym obszarem, w~którym równoległość może przynieść wymierne korzyści, jest sortowanie danych. Sortowanie stanowi jeden z~fundamentalnych problemów informatyki i~jest wykorzystywane w~ogromnej liczbie miejsc takich jak bazy danych, systemy plików, aż po przetwarzanie dużych zbiorów danych i~uczenie maszynowe. Wraz ze wzrostem objętości przetwarzanych informacji klasyczne algorytmy sortowania sekwencyjnego mogą coraz częściej stać się wąskim gardłem wydajnościowym.
+\input{chapters/1-wprowadzenie}
 
-Niestety, implementacja efektywnych algorytmów sortowania równoległego nie jest zadaniem trywialnym. Wymaga ona odpowiedniego podziału danych, synchronizacji procesów, zarządzania pamięcią współdzieloną oraz minimalizacji narzutu związanego z~tworzeniem i~komunikacją procesów. W~praktyce wiele istniejących rozwiązań albo pozostaje na poziomie teoretycznym, albo nie uwzględnia realnych ograniczeń sprzętowych i~systemowych, takich jak koszt przełączania kontekstu, konflikty w~dostępie do pamięci czy nierównomierne obciążenie rdzeni.
+\input{chapters/2-algorytmy}
 
-W związku z~tym, interesującym i~aktualnym zagadnieniem wydaje się praktyczne zbadanie wydajności oraz efektywności wybranych algorytmów sortowania równoległego w~rzeczywistych warunkach obliczeniowych. Niniejsza praca koncentruje się na implementacji i~porównaniu czterech popularnych algorytmów: Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort. Algorytmy zostały zrealizowane w~języku Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, a~następnie poddane systematycznym testom pod kątem czasu wykonania, zużycia pamięci RAM, obciążenia procesora, skalowalności oraz wpływu charakterystyki danych wejściowych.
+\input{chapters/3-srodowisko}
 
-\section*{Cel pracy}
-\addcontentsline{toc}{section}{Cel pracy}
+\input{chapters/4-metodyka}
 
-Głównym celem niniejszej pracy magisterskiej jest przeprowadzenie kompleksowej analizy wydajności i~efektywności wybranych algorytmów sortowania równoległego na współczesnych wielordzeniowych procesorach. Praca skupia się na praktycznej implementacji oraz systematycznym porównaniu czterech algorytmów: Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort.
+\input{chapters/5-analiza}
 
-Celem szczegółowym jest zbadanie, w~jaki sposób wybrane algorytmy zachowują się w~realnych warunkach obliczeniowych, a~nie jedynie w~warunkach idealnych zakładanych przez modele teoretyczne. W~tym celu algorytmy zostały zaimplementowane w~języku Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, która umożliwia tworzenie procesów oraz współdzielenie pamięci. Każdy z~algorytmów został uruchomiony zarówno w~wariancie sekwencyjnym stanowiącym punkt odniesienia, jak i~w wariancie równoległym, przy różnej liczbie wykorzystywanych rdzeni procesora.
-
-Badanie obejmuje kilka kluczowych aspektów:
-\begin{itemize}
-    \item pomiar czasu sortowania w~zależności od rozmiaru zbioru danych oraz liczby użytych rdzeni,
-    \item analizę zużycia pamięci operacyjnej (RAM) oraz obciążenia procesora (CPU) podczas wykonywania algorytmów,
-    \item ocenę skalowalności, czyli zdolności algorytmów do efektywnego wykorzystania rosnącej liczby rdzeni,
-    \item porównanie zachowania algorytmów przy różnych charakterystykach danych wejściowych (dane losowe, częściowo posortowane, z duplikatami).
-\end{itemize}
-
-Dodatkowym celem pracy jest wyznaczenie i~analiza klasycznych metryk równoległości, \textit{speedup} (przyspieszenie) oraz \textit{efficiency} (efektywność), a~także identyfikacja głównych czynników ograniczających wydajność poszczególnych algorytmów (m.in. narzut związany z~tworzeniem procesów, synchronizacją, komunikacją oraz zarządzaniem pamięcią współdzieloną).
-
-W rezultacie pracy oczekuje się uzyskania praktycznych wniosków dotyczących tego, które z~badanych algorytmów sortowania równoległego najlepiej sprawdzają się w~środowisku wielordzeniowym przy określonych rozmiarach i~typach danych, a~także wskazania ich mocnych i~słabych stron w~kontekście rzeczywistego wykorzystania zasobów obliczeniowych.
-
-\section*{Zakres pracy}
-\addcontentsline{toc}{section}{Zakres pracy}
-
-Zakres pracy obejmuje:
-
-\begin{itemize}
-\item zebranie wiadomości z~zakresu sortowania równoległego, architektury procesorów wielordzeniowych, metryk wydajności i~efektywności oraz skalowalności algorytmów równoległych,
-
-\item porównanie wybranych algorytmów sortowania równoległego (Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort) pod kątem wydajności, skalowalności i~zużycia zasobów obliczeniowych,
-
-\item opracowanie założeń projektowych dotyczących implementacji algorytmów w~środowisku wielordzeniowym z~wykorzystaniem biblioteki \texttt{multiprocessing} oraz pamięci współdzielonej,
-
-\item implementację wariantów sekwencyjnych i~równoległych wybranych algorytmów sortowania w~języku Python,
-
-\item implementację generatora danych testowych o~różnych charakterystykach (dane losowe, częściowo posortowane, odwrotnie posortowane oraz dane o~określonym rozkładzie),
-
-\item przetestowanie zaimplementowanych algorytmów na wielordzeniowych procesorach, obejmujące pomiar czasu wykonania, zużycia pamięci RAM, obciążenia CPU, wyznaczenie metryk \textit{speedup} i~\textit{efficiency} oraz analizę wpływu charakterystyki danych wejściowych.
-
-\item prezentację wyników badań za pomocą tabel oraz wykresów.
-\end{itemize}
-
-W rozdziale~\ref{cha:RozdzialWprowadzajacy} przedstawiono podstawy teoretyczne sortowania równoległego, charakterystykę procesorów wielordzeniowych oraz metryki wykorzystywane do oceny wydajności i~skalowalności.  
-W rozdziale~\ref{cha:WybraneAlgorytmy} opisano wybrane algorytmy sortowania równoległego.  
-W rozdziale~\ref{cha:SrodowiskoImplementacja} scharakteryzowano środowisko badawcze, zastosowane technologie oraz sposób implementacji algorytmów.  
-W rozdziale~\ref{cha:MetodykaBadan} przedstawiono metodykę badań, scenariusze testowe oraz narzędzia pomiarowe.  
-W rozdziale~\ref{cha:AnalizaBadan} zaprezentowano i~przeanalizowano wyniki przeprowadzonych eksperymentów.  
-Pracę zamyka podsumowanie zawierające najważniejsze wnioski oraz możliwe kierunki dalszych badań.
-
-\cleardoublepage
-\chapter{Wprowadzenie teoretyczne}
-\label{cha:RozdzialWprowadzajacy}
+\input{chapters/6-podsumowanie}
 
 %--------------------------------------
-% początek: wskazówka
-%--------------------------------------
-%Każdy rozdział powinien mieć zdanie wstępu przed przejściem do podrozdziału. Rysunki powinny być wyśrodkowane, numerowane i~powinny mieć odwołania do literatury lub oznaczenie że zostały opracowane samodzielnie.
-%--------------------------------------
-% koniec: wskazówka
+% Bibliografia
 %--------------------------------------
 
-\section{Wprowadzenie do sortowania równoległego}
-\label{sec:SortowanieRownolegle}
-
-Wprowadzenie w temat sortowania równoległego, dlaczego, kiedy oraz jakie korzyści. Jakie są ogólne strategie sortowania równoległego, czyli podział danych ich przetwarzanie oraz synchronizacja. Wyzwania z takiego podejścia jak komunikacja między wątakami, synchronizacja, narzut systemowy
-
-\section{Charakterystyka procesorów wielordzeniowych}
-\label{sec:ProcesoryWielordzeniowe}
-
-Wyjaśnienie na jakiej architekturze sprzętowej bedą testowane dane algorytmy, czyli czym jest procesor wielordzeniowy, jaka są różnice między rdzeniem fizycznym a wątkiem logicznym, jak przebiega komunikacja między rdzeniami, współdzielenie pamięci RAM, znaczenie równoległości sprzętowej i jej ograniczenia oraz wpływ liczby rdzeni na możliwości przyspieszania obliczeń
-
-\section{Wydajność i efektywność}
-\label{sec:WydajnoscEfektywnosc}
-
-Przedstawienie metryk używanych w analizie porównawczej algorytmów. Definicje wydajności oraz efektywności, czas przetwarzania, pomiary zużycia RAM, obciążenie CPU, Speedup oraz Efficiency
-
-\section{Skalowalność algorytmów równoległych}
-\label{sec:SkalowalnoscAlgorytmow}
-
-Omówienie, jak zmienia się wydajność algorytmu w zależności od liczby rdzeni oraz wielkości danych. Czym w ogóle jest skalowalności w informatyce, jakie są typy skalowalności czyli pozioma oraz pionowa, czynniki ograniczające skalowalność takie jak synchronizacja, nierównomierny podział danych, dostęp do pamięci, zależności danych
-
-\chapter{Opis wybranych algorytmów sortowania równoległego}
-\label{cha:WybraneAlgorytmy}
-
-Dział poświęcony wybranym algorytmom zawierający opis, schemat działania, sposób dzielenia i łączenia, złożoność, potencjalne problemy oraz kiedy algorytm jest efektywny, a kiedy nie
-
-\section{Parallel Quicksort}
-\label{sec:ParallelQuicksort}
-
-
-\section{Parallel Merge Sort}
-\label{sec:ParallelMergeSort}
-
-
-
-\section{Parallel Bucket Sort}
-\label{sec:ParallelBucketSort}
-
-
-
-\section{Parallel Samplesort}
-\label{sec:ParallelSamplesort}
-
-
-
-
-\chapter{Środowisko badawcze i implementacja}
-\label{cha:SrodowiskoImplementacja}
-
-\section{Opis środowiska testowego}
-\label{sec:SrodowiskaTestowe}
-
-\subsection{Konfiguracje sprzętowe}
-\label{subsec:KonfiguracjeSprzetowe}
-
-Szczegółowe dane dotyczące testowaych maszyn takie jak model procesora, liczba rdzeni fizycznych i logicznych, pamięć RAM itp.
-
-\subsection{Konfiguracje systemowe}
-\label{subsec:KonfiguracjeSystemowe}
-
-Szczegółowe dane dotyczące testowaych maszyn takie jak system operacyjny, wersje sterowników i bibliotek systemowcyh itp.
-
-\section{Wybór języka i bibliotek}
-\label{sec:JezykBiblioteki}
-
-Informacje o wybranym języku programowania oraz bibliotek, uzasadnienie wyboru oraz opis 
-
-\section{Sposób implementacji algorytmów}
-\label{sec:ImplementacjaAlgorytmow}
-
-Opisanie w jaki sposób zostały zaimplementowane algorytmy sortujące. Ogólna architektura, w zależności od algorytmu jak następuje dzielenie, synchronizacja danych, wymiany danych, informacje jak został zaimplementowany waraint sekwencyjny
-
-\section{Charakterystyka danych testowych}
-\label{sec:DaneTestowane}
-
-Sposób przechowywania, typy danych(int, float), charakterystyka danych(losowe, częściowo posortowane, z dużą ilością duplikatów), rozmiar testowanych zbiorów danych, jak zostały wygenerowane dane do testów
-
-\chapter{Metodyka badań}
-\label{cha:MetodykaBadan}
-
-\section{Scenariusze testowe}
-\label{sec:Scenariusze}
-
-Opis różnych warunków i przypadków testowych takich jak na jakich rozmair danych, wariant algorytmu, liczba rdzeni, różne typy zbiorów(losowe itp.)
-
-\section{Wariant sekwencyjny jako punkt odniesienia}
-\label{sec:WariantSekwencyjny}
-
-Wyjaśnienie, że dla porównania wyników algorytmów równoległych testowana jest także wersja sekwencyjna każdego algorytmu. 
-
-\section{Parametry pomiarów}
-\label{sec:ParametryPomiarow}
-
-Parametry pomiarów co i jak będzie mierzone
-
-\section{Narzędzia do pomiaru czasu, CPU i pamięci}
-\label{sec:NarzedziaPomiarowe}
-
-Opis wykorzystanych narzędzi i bibliotek użytych do pomiarów
-
-\section{Przebieg eksperymentów}
-\label{sec:PrzebiegBadan}
-
-Opis jak zostały przeprowadzone testy. Przygotowanie środowisk testowych. Sposób zapisywania i archiwizacji wyników. Procedura uruchomienia algorytmu itp.
-
-
-\chapter{Analiza wyników badań}
-\label{cha:AnalizaBadan}
-
-\section{Porównanie czasu sortowania}
-\label{sec:CzasSortowania}
-
-Prezentacja wyników pomiarów czasu wykonania dla każdego z algorytmów (dla różnych zbiorów danych, rozmiarów i typów danych). Omówienie i analiza
-
-\section{Wpływ liczby rdzeni na wydajność}
-\label{sec:LiczbaRdzeni}
-
-Prezentajca i omówienie wyników pod względem użytych liczby rdzeni
-
-\section{Analiza zużycia pamięci RAM i obciążenia CPU}
-\label{sec:RamCpu}
-
-Prezentacja i omówienie zużycia pamięci i obiciążenia w tym zestawienie średniego i maksymalnego zużycia 
-
-\section{Skalowalność algorytmów}
-\label{sec:SkalowalnoscAlgorytmow}
-
-Ocena, jak dobrze algorytmy skalują się wraz ze wzrostem liczby rdzeni i rozmiarem danych
-
-\section{Wpływ typu danych}
-\label{sec:IntFloat}
-
-Porównanie wyników dla tych samych algorytmów, ale różnych typów danych wejściowych
-
-\section{Porównanie efektywności w zależności od charakterystyki danych wejściowych}
-\label{sec:EfektywnoscDaneWejsciowe}
-
-Omówienie wyników dla danych losowych itp. Wskazanie, który algorytm radził sobie lepiej przy danym rodzaju danych
-
-
-
-\cleardoublepage
-\chapter*{Podsumowanie}
-\addcontentsline{toc}{chapter}{Podsumowanie}
-%--------------------------------------
-% początek: wskazówka
-%--------------------------------------
-%„Dyskusja nad dalszym rozwojem pracy. Wnioski. Omówienie wyników. Co zrobiono w~pracy i~jakie uzyskano wyniki? Czy i~w jakim zakresie praca stanowi nowe ujęcie problemu? Sposób wykorzystania pracy (publikacja, udostępnienie instytucjom, materiał źródłowy dla studentów). Co uważa autor za własne osiągnięcia?”~\cite{bib:ZasadyPisania}. Dodatkowo warto zaznaczyć czy udało się osiągnąć założony cel pracy.
-%--------------------------------------
-% koniec: wskazówka
-%--------------------------------------
-
-
-\cleardoublepage
-\begin{thebibliography}{99}
-\addcontentsline{toc}{chapter}{\bibname}
+\input{bibliography/bibliography}
 
 %--------------------------------------
-% początek: wskazówka
+% Spisy
 %--------------------------------------
-%formatowanie literatury:
-%Książka, artykuł:
-%Nazwisko Pierwsza_litera_imienia., Tytuł_italikiem, źródło_informacji (wydawnictwo), rok wydania, strony
-%strona WWW:
-%Autorzy (jeśli podani), Tytuł, dokładny adres, stan na dzień: data
-%Przykłady: 
-%Amborski K., Teoria sterowania, Warszawa: PWN, 1987. str. 80-100
-%Cisco Systems, Dynamic ISL (DISL), http://www.cisco.com/en/US/tech/tk389/tk390/tk162/tech_protocol_home.html, stan na dzień: 20.12.2004
-%--------------------------------------
-% koniec: wskazówka
-%--------------------------------------
-
-\bibitem{bib:ZasadyPisania} Zasady pisania prac dyplomowych, https://wiisi.pcz.pl/student-wiisi/vademecum-studenta/praca-dyplomowa, stan na dzień: 26.10.2024
-
-\bibitem{bib:LogoWIMiI} Strona internetowa Wydziału Informatyki i~Sztucznej Inteligencji, https://wiisi.pcz.pl, stan na dzień: 26.10.2024
-
-\end{thebibliography}
 
 \listoffigures
 \addcontentsline{toc}{chapter}{\listfigurename}
@@ -308,42 +73,16 @@ Omówienie wyników dla danych losowych itp. Wskazanie, który algorytm radził 
 \lstlistoflistings
 \addcontentsline{toc}{chapter}{\lstlistingname}
 
-\chapter*{Streszczenie}
-\addcontentsline{toc}{chapter}{Streszczenie}
+%--------------------------------------
+% Streszczenie i słowa kluczowe
+%--------------------------------------
 
-Streszczenie
+\input{chapters/streszczenie}
 
-\chapter*{Summary}
-\addcontentsline{toc}{chapter}{Summary}
+\input{chapters/summary}
 
-Tłumaczenie
+\input{chapters/slowa-kluczowe}
 
-\chapter*{Słowa kluczowe}
-\addcontentsline{toc}{chapter}{Słowa kluczowe}
-
-\noindent informatyka;
-\noindent sortowanie równoległe;
-\noindent algorytmy sortowania;
-\noindent wielordzeniowe procesory;
-\noindent Python;
-\noindent wydajność algorytmów;
-\noindent skalowalność;
-\noindent pomiar czasu wykonania;
-\noindent zużycie pamięci RAM;
-\noindent obciążenie CPU;
-\noindent porównanie algorytmów;
-\noindent dane losowe;
-\noindent dane częściowo posortowane;
-\noindent duplikaty danych;
-
-Do niniejszej pracy dołączono płytę z~następującą zawartością:
-
-\begin{itemize}
-\item Dokument pracy w~formatach tex i~pdf.
-
-\item Kod źródłowy zaprojektowanego i~zrealizowanego w~ramach pracy systemu.
-\end{itemize}
-
-\oswiadczenie % tego elementu ma nie być w~spisie treści
+\oswiadczenie % tego elementu ma nie być w spisie treści
 
 \end{document}
