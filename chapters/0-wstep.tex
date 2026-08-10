@@ -14,16 +14,16 @@ W ostatnim czasie można zaobserować intensywny rozwój architektury procesoró
 
 Szczególnie ważnym obszarem, w~którym równoległość może przynieść wymierne korzyści, jest sortowanie danych. Sortowanie stanowi jeden z~fundamentalnych problemów informatyki i~jest wykorzystywane w~ogromnej liczbie miejsc takich jak bazy danych, systemy plików, aż po przetwarzanie dużych zbiorów danych i~uczenie maszynowe. Wraz ze wzrostem objętości przetwarzanych informacji klasyczne algorytmy sortowania sekwencyjnego mogą coraz częściej stać się wąskim gardłem wydajnościowym.
 
-Niestety, implementacja efektywnych algorytmów sortowania równoległego nie jest zadaniem trywialnym. Wymaga ona odpowiedniego podziału danych, synchronizacji procesów, zarządzania pamięcią współdzieloną oraz minimalizacji narzutu związanego z~tworzeniem i~komunikacją procesów. W~praktyce wiele istniejących rozwiązań albo pozostaje na poziomie teoretycznym, albo nie uwzględnia realnych ograniczeń sprzętowych i~systemowych, takich jak koszt przełączania kontekstu, konflikty w~dostępie do pamięci czy nierównomierne obciążenie rdzeni.
+Niestety, implementacja efektywnych algorytmów sortowania równoległego nie jest zadaniem łatwym. Wymaga ona odpowiedniego podziału danych, synchronizacji procesów, zarządzania pamięcią współdzieloną oraz minimalizacji narzutu związanego z~tworzeniem i~komunikacją procesów. W~praktyce wiele istniejących rozwiązań albo pozostaje na poziomie teoretycznym, albo nie uwzględnia realnych ograniczeń sprzętowych i~systemowych, takich jak koszt przełączania kontekstu, konflikty w~dostępie do pamięci czy nierównomierne obciążenie rdzeni.
 
-W związku z~tym, interesującym i~aktualnym zagadnieniem wydaje się praktyczne zbadanie wydajności oraz efektywności wybranych algorytmów sortowania równoległego w~rzeczywistych warunkach obliczeniowych. Niniejsza praca koncentruje się na implementacji i~porównaniu czterech popularnych algorytmów: Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort. Algorytmy zostały zrealizowane w~języku Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, a~następnie poddane systematycznym testom pod kątem czasu wykonania, zużycia pamięci RAM, obciążenia procesora, skalowalności oraz wpływu charakterystyki danych wejściowych.
+W związku z~tym, interesującym i~aktualnym zagadnieniem wydaje się praktyczne zbadanie wydajności oraz efektywności wybranych algorytmów sortowania równoległego. Niniejsza praca koncentruje się na implementacji i~porównaniu czterech popularnych algorytmów: Parallel~Quicksort, Parallel~MergeSort, Parallel~BucketSort oraz Parallel~Samplesort. Algorytmy zostały zrealizowane w~języku Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, a~następnie poddane testom pod kątem czasu wykonania, zużycia pamięci RAM, obciążenia procesora, skalowalności oraz wpływu charakterystyki danych wejściowych.
 
 \section*{Cel pracy}
 \addcontentsline{toc}{section}{Cel pracy}
 
-Głównym celem niniejszej pracy magisterskiej jest przeprowadzenie kompleksowej analizy wydajności i~efektywności wybranych algorytmów sortowania równoległego na współczesnych wielordzeniowych procesorach. Praca skupia się na praktycznej implementacji oraz systematycznym porównaniu czterech algorytmów: Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort.
+Głównym celem niniejszej pracy magisterskiej jest przeprowadzenie dogłębnej analizy wydajności i~efektywności wybranych algorytmów sortowania równoległego na współczesnych wielordzeniowych procesorach. Praca skupia się na praktycznej implementacji oraz porównaniu czterech algorytmów: Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort.
 
-Celem szczegółowym jest zbadanie, w~jaki sposób wybrane algorytmy zachowują się w~realnych warunkach obliczeniowych, a~nie jedynie w~warunkach idealnych zakładanych przez modele teoretyczne. W~tym celu algorytmy zostały zaimplementowane w~języku Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, która umożliwia tworzenie procesów oraz współdzielenie pamięci. Każdy z~algorytmów został uruchomiony zarówno w~wariancie sekwencyjnym stanowiącym punkt odniesienia, jak i~w wariancie równoległym, przy różnej liczbie wykorzystywanych rdzeni procesora.
+Kluczowym celem jest zbadanie, w~jaki sposób wybrane algorytmy zachowują się w~realnych warunkach obliczeniowych, a~nie jedynie w~warunkach idealnych zakładanych przez modele teoretyczne. W~tym celu algorytmy zostały zaimplementowane w~języku Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, która umożliwia tworzenie procesów oraz współdzielenie pamięci. Każdy z~algorytmów został uruchomiony zarówno w~wariancie sekwencyjnym stanowiącym punkt odniesienia, jak i~w wariancie równoległym, przy różnej liczbie wykorzystywanych rdzeni procesora.
 
 Badanie obejmuje kilka kluczowych aspektów:
 
@@ -31,7 +31,7 @@ Badanie obejmuje kilka kluczowych aspektów:
     \item pomiar czasu sortowania w~zależności od rozmiaru zbioru danych oraz liczby użytych rdzeni,
     \item analizę zużycia pamięci operacyjnej (RAM) oraz obciążenia procesora (CPU) podczas wykonywania algorytmów,
     \item ocenę skalowalności, czyli zdolności algorytmów do efektywnego wykorzystania rosnącej liczby rdzeni,
-    \item porównanie zachowania algorytmów przy różnych charakterystykach danych wejściowych (dane losowe, częściowo posortowane, z duplikatami).
+    \item porównanie zachowania algorytmów przy różnych charakterystykach danych wejściowych tj. dane losowe, częściowo posortowane oraz z duplikatami.
 \end{itemize}
 
 Dodatkowym celem pracy jest wyznaczenie i~analiza klasycznych metryk równoległości, \textit{speedup} (przyspieszenie) oraz \textit{efficiency} (efektywność), a~także identyfikacja głównych czynników ograniczających wydajność poszczególnych algorytmów (m.in. narzut związany z~tworzeniem procesów, synchronizacją, komunikacją oraz zarządzaniem pamięcią współdzieloną).
@@ -52,7 +52,7 @@ Zakres pracy obejmuje:
 
     \item implementację wariantów sekwencyjnych i~równoległych wybranych algorytmów sortowania w~języku Python,
 
-    \item implementację generatora danych testowych o~różnych charakterystykach (dane losowe, częściowo posortowane, odwrotnie posortowane oraz dane o~określonym rozkładzie),
+    \item implementację generatora danych testowych o~różnych charakterystykach (dane losowe, częściowo posortowane, oraz dane z duplikatami),
 
     \item przetestowanie zaimplementowanych algorytmów na wielordzeniowych procesorach, obejmujące pomiar czasu wykonania, zużycia pamięci RAM, obciążenia CPU, wyznaczenie metryk \textit{speedup} i~\textit{efficiency} oraz analizę wpływu charakterystyki danych wejściowych.
 
