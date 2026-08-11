@@ -5,20 +5,39 @@
 \section{Opis środowiska testowego}
 \label{sec:SrodowiskaTestowe}
 
-\subsection{Konfiguracje sprzętowe}
-\label{subsec:KonfiguracjeSprzetowe}
+Wszystkie eksperymenty zostały przeprowadzone na komputerze o następującej konfiguracji:
 
-Szczegółowe dane dotyczące testowaych maszyn takie jak model procesora, liczba rdzeni fizycznych i logicznych, pamięć RAM itp.
+\begin{itemize}
+    \item \textbf{Procesor:} Intel Core i5-9300H @ 2.40\,GHz
+    \item \textbf{Rdzenie fizyczne:} 4
+    \item \textbf{Rdzenie logiczne:} 8 
+    \item \textbf{Taktowanie bazowe:} 2401\,MHz
+    \item \textbf{Pamięć operacyjna RAM:} 15,85\,GB
+    \item \textbf{System operacyjny:} Windows 10
+    \item \textbf{Architektura:} AMD64 (x86-64)
+    \item \textbf{Interpreter Python:} 3.11.7
+\end{itemize}
 
-\subsection{Konfiguracje systemowe}
-\label{subsec:KonfiguracjeSystemowe}
+Środowisko to umożliwia badanie zachowania algorytmów sortowania równoległego przy ograniczonej, ale realnej liczbie rdzeni. Obecność technologii Hyper-Threading (8 procesorów logicznych przy 4 rdzeniach fizycznych) pozwala dodatkowo ocenić wpływ logicznych jednostek wykonawczych na wydajność algorytmów.
 
-Szczegółowe dane dotyczące testowaych maszyn takie jak system operacyjny, wersje sterowników i bibliotek systemowcyh itp.
+Dane dotyczące sprzętu i oprogramowania były automatycznie zebrane i zapisywane w bazie danych SQLite przed przeprowadzaniem eksperymentów.
 
 \section{Wybór języka i bibliotek}
 \label{sec:JezykBiblioteki}
 
-Informacje o wybranym języku programowania oraz bibliotek, uzasadnienie wyboru oraz opis 
+Do implementacji algorytmów sortowania równoległego, genrowania danych, przeprowadzenia eksperymentów oraz wizualizacji wyników wybrano język programowania Python w wersji 3.11.7~\cite{bib:Python}. Decyzja ta wynikała z kilku powodów. Python jest jednym z najpoularnijeszych języków, charakteryzuje się przejrzystą i elegancką składnią, co ułatwia tworzenie, analizę i utrzymanie kodu. Posiada bogatą bibliotekę standardową oraz rozbudowany zbiór dostępnych bibliotek, pakietów i narzędzi programistycznych rozszerzających możliwości języka, które znacząco przyspieszają rozwój oprogramowania. Dodatkowo język ten jest w pełni przenośny między systemami operacyjnymi tj. Windows, Linux, macOS, co ma znaczenie przy planowaniu ewentualnych dalszych testów na innych platformach.
+
+Niezwykle istotną rolę w projekcie odgrywa biblioteka \texttt{multiprocessing}~\cite{bib:Multiprocessing}, stanowiąca część standardowej biblioteki Pythona. Pakiet ten przy użyciu interfejsu programistycznego podobnego do pythonowego modułu \texttt{threading} umożliwia tworzenie procesów oraz realizację obliczeń równoległych z pominięciem ograniczeń wynikających z Global Interpreter Lock (GIL). Dzięki temu możliwe jest efektywne wykorzystanie wielu rdzeni procesora. W ramach tej biblioteki wykorzystano również moduł \texttt{multiprocessing.shared\_memory}~\cite{bib:SharedMemory}, który pozwala na bezpośredni dostęp wielu procesów do wspólnego obszaru pamięci. Mechanizm ten eliminuje konieczność serializacji oraz przesyłania dużych struktur danych między procesami, ograniczając związany z tym narzut, co ma szczególne znaczenie podczas sortowania dużych zbiorów danych.
+
+Biblioteka \texttt{NumPy}~\cite{bib:NumPy} obsługująca dane numeryczne i szybkie operacje na tablicach, została wykorzystana w optymalizacji algorytmów Parallel Bucket Sort oraz Parallel Samplesort. Posłużyła w nich do efektywnego rozdzielania elementów do kubełków, co znacznie przyśpieszyło etap dystrybucji danych. Ponadto \texttt{NumPy} wykorzystano w module analizy złożoności obliczeniowej oraz przy generowaniu wykresów i rankingów. 
+
+Wyniki eksperymentów były przechowywane i przetwarzane z użyciem biblioteki \texttt{pandas}~\cite{bib:Pandas}, która oferuje wygodne struktury danych (DataFrame) oraz narzędzia do filtrowania, agregacji i analizy tabelarycznej. Do generowania wykresów i wizualizacji wyników wykorzystano bibliotekę \texttt{matplotlib}~\cite{bib:Matplotlib}.
+
+Do monitorowania zużycia zasobów systemowych wykorzystano bibliotekę \texttt{psutil}~\cite{bib:Psutil} oraz narzędzia \texttt{py-cpuinfo} i \texttt{py-spy}~\cite{bib:PySpy}. 
+
+Całość kodu źródłowego została opracowana w środowisku programistycznym JetBrains PyCharm~\cite{bib:PyCharm}, które zapewnia wsparcie dla języka Python, debugowanie oraz wygodne zarządzanie projektem.
+
+Wybór powyższego zestawu technologii umożliwia na spójną implementację algorytmów, precyzyjny pomiar ich charakterystyk wydajnościowych oraz wygodną analizę i prezentację wyników badań.
 
 \section{Sposób implementacji algorytmów}
 \label{sec:ImplementacjaAlgorytmow}

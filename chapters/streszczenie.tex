@@ -2,4 +2,8 @@
 \chapter*{Streszczenie}
 \addcontentsline{toc}{chapter}{Streszczenie}
 
-W niniejszej pracy przeprowadzono analizę wydajności i efektywności wybranych algorytmów sortowania równoległego na wielordzeniowych procesorach.
+W niniejszej pracy przeprowadzono analizę wydajności i efektywności wybranych algorytmów sortowania równoległego na wielordzeniowych procesorach. W ramach pracy zaimplementowano i porównano algorytmy Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort w wariantach sekwencyjnych i równoległych.
+
+Badania obejmowały pomiary czasu wykonania, zużycia pamięci operacyjnej oraz obciążenia procesora dla różnych rozmiarów danych, liczby rdzeni oraz charakterystyk zbiorów wejściowych. Na podstawie uzyskanych wyników przeanalizowano skalowalność algorytmów oraz wyznaczono wartości przyspieszenia (\textit{speedup}) i efektywności (\textit{efficiency}).
+
+Przeprowadzone eksperymenty pozwoliły na ocenę wpływu równoległości na wydajność poszczególnych algorytmów oraz identyfikację czynników ograniczających ich efektywność, takich jak narzut związany z tworzeniem procesów, synchronizacją, komunikacją i zarządzaniem pamięcią.
