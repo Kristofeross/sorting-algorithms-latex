@@ -1,6 +1,7 @@
 \cleardoublepage
-\chapter*{Wstęp}
-\addcontentsline{toc}{chapter}{Wstęp}
+\chapter{Wstęp}
+\label{cha:Wstep}
+% \addcontentsline{toc}{chapter}{Wstęp}
 
 %--------------------------------------
 % początek: wskazówka
@@ -16,25 +17,26 @@ Taka zmiana podejścia projektowania procesorów stawia przed twórcami oprogram
 nie wykorzystują w~pełni dostępnej mocy obliczeniowej współczesnych jednostek centralnych.
 
 Szczególnie ważnym obszarem, w~którym równoległość może przynieść wymierne korzyści, jest sortowanie danych. Sortowanie stanowi 
-jeden z~fundamentalnych problemów informatyki i~jest wykorzystywane w~ogromnej liczbie miejsc takich jak bazy danych, systemy plików, 
-aż po przetwarzanie dużych zbiorów danych i~uczenie maszynowe. Wraz ze wzrostem objętości przetwarzanych informacji klasyczne algorytmy 
+jeden z~fundamentalnych problemów informatyki i~znajduje szerokie zastosowanie m.in. w bazach danych, systemach plików, 
+przetwarzaniu dużych zbiorów danych oraz uczeniu maszynowym. Wraz ze wzrostem objętości przetwarzanych informacji klasyczne algorytmy 
 sortowania sekwencyjnego mogą coraz częściej stać się wąskim gardłem wydajnościowym.
 
-Niestety, implementacja efektywnych algorytmów sortowania równoległego nie jest zadaniem łatwym. Wymaga ona odpowiedniego podziału danych, 
-synchronizacji procesów, zarządzania pamięcią współdzieloną oraz minimalizacji narzutu związanego z~tworzeniem i~komunikacją procesów. 
+Implementacja efektywnych algorytmów sortowania równoległego wiąże się z~szeregiem wyzwań, takich jak odpowiedni podział danych,
+synchronizacja jednostek wykonawczych, zarządzanie dostępem do pamięci oraz ograniczanie narzutu wynikającego z~realizacji obliczeń równoległych.
 W~praktyce wiele istniejących rozwiązań albo pozostaje na poziomie teoretycznym, albo nie uwzględnia realnych ograniczeń sprzętowych 
 i~systemowych, takich jak koszt przełączania kontekstu, konflikty w~dostępie do pamięci czy nierównomierne obciążenie rdzeni.
 
-W związku z~tym, interesującym i~aktualnym zagadnieniem wydaje się praktyczne zbadanie wydajności oraz efektywności wybranych 
-algorytmów sortowania równoległego. Niniejsza praca koncentruje się na implementacji i~porównaniu czterech popularnych 
+W związku z~tym praktyczne zbadanie wydajności oraz efektywności wybranych algorytmów sortowania równoległego stanowi 
+istotne i~aktualne zagadnienie. W niniejszej pracy skoncentrowano się na implementacji i~porównaniu czterech popularnych 
 algorytmów: Parallel~Quicksort, Parallel~MergeSort, Parallel~BucketSort oraz Parallel~Samplesort. 
 Algorytmy zostały zrealizowane w~języku Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, a~następnie poddane testom 
-pod kątem czasu wykonania, zużycia pamięci RAM, obciążenia procesora, skalowalności oraz wpływu charakterystyki danych wejściowych.
+pod kątem czasu wykonania, wykorzystania pamięci RAM, obciążenia procesora, skalowalności oraz wpływu charakterystyki danych wejściowych.
 
-\section*{Cel pracy}
-\addcontentsline{toc}{section}{Cel pracy}
+\section{Cel pracy}
+\label{sec:CelPracy}
+% \addcontentsline{toc}{section}{Cel pracy}
 
-Głównym celem niniejszej pracy magisterskiej jest przeprowadzenie dogłębnej analizy wydajności i~efektywności wybranych algorytmów 
+Głównym celem niniejszej pracy magisterskiej jest przeprowadzenie szczegółowej analizy wydajności i~efektywności wybranych algorytmów 
 sortowania równoległego na współczesnych wielordzeniowych procesorach. Praca skupia się na praktycznej implementacji oraz 
 porównaniu czterech algorytmów: Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort.
 
@@ -48,9 +50,9 @@ Badanie obejmuje kilka kluczowych aspektów:
 
 \begin{itemize}
     \item pomiar czasu sortowania w~zależności od rozmiaru zbioru danych oraz liczby użytych rdzeni,
-    \item analizę zużycia pamięci operacyjnej (RAM) oraz obciążenia procesora (CPU) podczas wykonywania algorytmów,
+    \item analizę zużycia pamięci operacyjnej (RAM) oraz obciążenia procesora (CPU) podczas wykonywania kodu,
     \item ocenę skalowalności, czyli zdolności algorytmów do efektywnego wykorzystania rosnącej liczby rdzeni,
-    \item porównanie zachowania algorytmów przy różnych charakterystykach danych wejściowych tj. dane losowe, częściowo posortowane 
+    \item porównanie zachowania się algorytmów przy różnych charakterystykach danych wejściowych tj. dane losowe, częściowo posortowane 
     oraz z duplikatami.
 \end{itemize}
 
@@ -62,8 +64,9 @@ W rezultacie pracy oczekuje się uzyskania praktycznych wniosków dotyczących t
 najlepiej sprawdzają się w~środowisku wielordzeniowym przy określonych rozmiarach i~typach danych, a~także wskazania ich mocnych 
 i~słabych stron w~kontekście rzeczywistego wykorzystania zasobów obliczeniowych.
 
-\section*{Zakres pracy}
-\addcontentsline{toc}{section}{Zakres pracy}
+\section{Zakres pracy}
+\label{sec:ZakresPracy}
+% \addcontentsline{toc}{section}{Zakres pracy}
 
 Zakres pracy obejmuje:
 
@@ -87,6 +90,8 @@ Zakres pracy obejmuje:
     \item prezentację wyników badań za pomocą tabel oraz wykresów.
 \end{itemize}
 
+------------------- Do uzupełnienia na końcu pracy -------------------
+
 W rozdziale~\ref{cha:RozdzialWprowadzajacy} przedstawiono podstawy teoretyczne sortowania równoległego, 
 charakterystykę procesorów wielordzeniowych oraz metryki wykorzystywane do oceny wydajności i~skalowalności.  
 W rozdziale~\ref{cha:WybraneAlgorytmy} opisano wybrane algorytmy sortowania równoległego.  
@@ -95,3 +100,5 @@ sposób implementacji algorytmów.
 W rozdziale~\ref{cha:MetodykaBadan} przedstawiono metodykę badań, scenariusze testowe oraz narzędzia pomiarowe.  
 W rozdziale~\ref{cha:AnalizaBadan} zaprezentowano i~przeanalizowano wyniki przeprowadzonych eksperymentów.  
 Pracę zamyka podsumowanie zawierające najważniejsze wnioski oraz możliwe kierunki dalszych badań.
+
+-----------------------------------------------------------------------
