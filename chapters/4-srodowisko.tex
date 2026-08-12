@@ -92,7 +92,7 @@ Wariant sekwencyjny realizuje klasyczny Quicksort z wyborem pivota jako elementu
 
 \lstinputlisting[
   language=Python, caption={Funkcja partycjonowania w Quicksort}, label={lst:qs-partition}
-]{listings/chapter3/quicksort_partition.py}
+]{listings/chapter4/quicksort_partition.py}
 
 W wersji równoległej po wykonaniu partycji lewa i prawa część tablicy mogą być sortowane niezależnie przez osobne procesy. 
 Każdy proces dołącza się do istniejącego bloku pamięci współdzielonej, sortuje przypisany dla siebie zakres, a następnie kończy działanie. 
@@ -101,7 +101,7 @@ dalsze sortowanie odbywa się sekwencyjnie.
 
 \lstinputlisting[
   language=Python, caption={Tworzenie procesów w Parallel Quicksort}, label={lst:qs-parallel-spawn}
-]{listings/chapter3/quicksort_parallel_spawn.py}
+]{listings/chapter4/quicksort_parallel_spawn.py}
 
 \subsection*{Parallel Merge Sort}
 
@@ -109,7 +109,7 @@ Wariant sekwencyjny realizuje klasyczny Merge Sort z rekurencyjnym podziałem ta
 
 \lstinputlisting[
   language=Python, caption={Funkcja scalania w Merge Sort}, label={lst:ms-merge}
-]{listings/chapter3/mergesort_merge.py}
+]{listings/chapter4/mergesort_merge.py}
 
 W wersji równoległej obie połowy mogą być sortowane jednocześnie przez osobne procesy. 
 Po zakończeniu obu procesów następuje etap scalania, który w danej implementacji wykonywany jest sekwencyjnie. 
@@ -117,7 +117,7 @@ Głębokość równoległości oraz minimalny rozmiar zakresu ograniczają nadmi
 
 \lstinputlisting[
   language=Python, caption={Równoległe sortowanie połówek i sekwencyjne scalanie w Parallel Merge Sort}, label={lst:ms-parallel-spawn}
-]{listings/chapter3/mergesort_parallel_spawn.py}
+]{listings/chapter4/mergesort_parallel_spawn.py}
 
 \subsection*{Parallel Bucket Sort}
 
@@ -126,7 +126,7 @@ sortuje każdy kubełek z wykorzystaniem zaimplementowanego algorytmu Merge Sort
 
 \lstinputlisting[
   language=Python, caption={Rozdzielanie elementów do kubełków w Bucket Sort}, label={lst:bs-distribute}
-]{listings/chapter3/bucketsort_distribute.py}
+]{listings/chapter4/bucketsort_distribute.py}
 
 W wersji równoległej liczba utworzonych kubełków jest wyliczana na podstawie rozmiaru danych oraz liczby wykorzystywanych rdzeni. 
 Po utworzeniu kubełków ich zawartość jest łączona w jedną tablicę, która umieszczana zostaje w pamięci współdzielonej, 
@@ -136,7 +136,7 @@ Do efektywnego rozdzielania elementów wykorzystano operacje wektorowe bibliotek
 
 \lstinputlisting[
   language=Python, caption={Przydzielanie grup kubełków procesom w Parallel Bucket Sort}, label={lst:bs-parallel-spawn}
-]{listings/chapter3/bucketsort_parallel_spawn.py}
+]{listings/chapter4/bucketsort_parallel_spawn.py}
 
 \subsection*{Parallel Samplesort}
 
@@ -145,7 +145,7 @@ rozdzielenie elementów do kubełków według wyznaczonych wartości oraz ostate
 
 \lstinputlisting[
   language=Python, caption={Rozdzielanie elementów do kubełków na podstawie wartości rozdzielających w Samplesort}, label={lst:ss-distribute}
-]{listings/chapter3/samplesort_distribute.py}
+]{listings/chapter4/samplesort_distribute.py}
 
 W wersji równoległej etapy te realizowane są z wykorzystaniem wielu procesów. 
 Na początku procesy równolegle sortują lokalne fragmenty danych i zbierają próbki. 
@@ -156,7 +156,7 @@ Do dystrybucji elementów wykorzystano operacje wektorowe biblioteki \texttt{Num
 
 \lstinputlisting[
   language=Python, caption={Równoległe sortowanie grup kubełków w Parallel Samplesort}, label={lst:ss-parallel-spawn}
-]{listings/chapter3/samplesort_parallel_spawn.py}
+]{listings/chapter4/samplesort_parallel_spawn.py}
 
 \section{Charakterystyka danych testowych}
 \label{sec:DaneTestowane}
@@ -200,7 +200,7 @@ Przygotowano trzy główne kategorie danych:
 
 \lstinputlisting[
   language=Python, caption={Generowanie danych częściowo posortowanych}, label={lst:data-part-sorted}
-]{listings/chapter3/generate_part_sorted.py}
+]{listings/chapter4/generate_part_sorted.py}
 
 Do testów przygotowano dwanaście wariantów zbiorów (2 typy danych X 6 charakterystyk).
 

@@ -14,22 +14,16 @@ Po zakończeniu partycjonowania pivot trafia na pozycję $A[q]$, przy czym wszys
 lub równe $A[q]$, a wszystkie elementy w podciągu $A[q+1 \ldots r]$ są od niego większe. 
 Następnie oba podciągi są rekurencyjnie sortowane aż do uzyskania podciągów o długości 1~\cite{bib:Božidar2015}.
 
-% \begin{figure}[htbp]
-% % \begin{figure}[H]
-%   \centering \includegraphics[width=0.85\textwidth]{images/chapter3/parallelQuicksort.png}
-%   \caption{Schemat działania Quicksortu.} \label{fig:qs-partition}
-% \end{figure}
-
 Średnia złożoność obliczeniowa Quicksortu wynosi $O(n \log n)$, natomiast w przypadku pesymistycznym 
 związanym z silnie niezrównoważonym podziałem może wzrosnąć do $O(n^2)$~\cite{bib:CLRS}.
 
 W wersji równoległej algorytm wykorzystuje fakt, że po wykonaniu partycjonowania powstałe podciągi mogą być sortowane niezależnie od siebie. 
-Dzięki temu możliwe jest równoległe przetwarzanie obu części tablicy przez osobne wątki. W praktycznej implementacji równoległość 
-jest ograniczana parametrem głębokości rekurencji, co umożliwia uniknięcia nadmiernego narzutu związanego z tworzeniem 
-zbyt dużej liczby wątków. Po osiągnięciu założonej głębokości dalsze sortowanie odbywa się sekwencyjnie.
+Dzięki temu możliwe jest równoległe przetwarzanie obu części tablicy przez osobne wątki. W praktycznych realizacjach poziom równoległości 
+może być ograniczany poprzez ustalenie maksymalnej głębokości równoległej rekurencji, co umożliwia zmniejszenie nadmiernego narzutu związanego 
+z tworzeniem i synchronizacją wątków. Po osiągnięciu założonej głębokości dalsze sortowanie odbywa się sekwencyjnie.
 
 Jednym z głównych wyzwań wersji równoległej Quicksortu pozostaje nierównomierny podział danych, który występuje w sytuacji, 
-gdy pivot jest źle dobrany. Problem ten, w połączeniu z narzutem związanym z tworzeniem i synchronizacją procesów, 
+gdy pivot jest źle dobrany. Problem ten, w połączeniu z narzutem związanym z tworzeniem i synchronizacją wątków, 
 może istotnie ograniczać skalowalność algorytmu~\cite{bib:Maus}. 
 Algorytm sprawdza się najlepiej przy danych zrównoważonych i dobrym wyborze pivota,
 traci natomiast na efektywności m.in. gdy podziały stają się nierówne.
@@ -37,6 +31,43 @@ traci natomiast na efektywności m.in. gdy podziały stają się nierówne.
 \begin{figure}[htbp]
 % \begin{figure}[H]
   \centering \includegraphics[width=0.85\textwidth]{images/chapter3/parallelQuicksort.png}
-  \caption{Schemat działania Quicksortu.} \label{fig:qs-partition}
+  \caption{Schemat działania Quicksort.} \label{fig:qs-partition}
+\end{figure}
+
+\section{Parallel Merge Sort}
+\label{sec:ParallelMergeSort}
+
+Merge Sort należy do algorytmów opartych na strategii ``dziel i zwyciężaj'' (ang. \textit{divide-and-conquer})~\cite{bib:CLRS4}. 
+Algorytm dzieli wejściowy ciąg na dwa podciągi o zbliżonej długości, 
+następnie rekurencyjnie sortuje obie części, a na końcu scala je w jeden posortowany ciąg.
+
+Operacja scalania stanowi kluczowy etap algorytmu i dla dwóch posortowanych podciągów 
+o łącznej liczbie $n$ elementów może zostać wykonana w czasie $O(n)$.
+Jeżeli zastosowana procedura scalania jest stabilna, cały algorytm Merge Sort również zachowuje stabilność~\cite{bib:Božidar2015}.
+
+Złożoność czasowa Merge Sort wynosi $O(n \log n)$.
+W przeciwieństwie do Quicksortu jej rząd nie zależy od początkowego uporządkowania danych,
+ponieważ algorytm w kolejnych krokach dzieli problem na dwa podproblemy o zbliżonych rozmiarach
+i wykonuje liniową operację scalania~\cite{bib:CLRS4}.
+
+W wersji równoległej wykorzystuje się niezależność dwóch podproblemów powstałych po podziale danych.
+Rekurencyjne sortowanie obu części może dzięki temu odbywać się równolegle.
+Przed rozpoczęciem scalania konieczne jest jednak zakończenie sortowania obu podciągów,
+ponieważ etap scalania wykorzystuje wyniki obu wcześniejszych operacji~\cite{bib:CLRS4}.
+Samo scalanie może być realizowane sekwencyjnie lub równolegle.
+
+Jednym z ograniczeń Parallel Merge Sort jest etap scalania.
+Wariant wykorzystujący równoległe sortowanie podciągów, lecz sekwencyjne scalanie, oferuje ograniczony poziom równoległości, 
+ponieważ sekwencyjna operacja scalania staje się wąskim gardłem algorytmu~\cite{bib:CLRS4}.
+Zastosowanie równoległego scalania pozwala zwiększyć dostępny poziom równoległości,
+jednak wiąże się z bardziej rozbudowanym sposobem łączenia posortowanych części.
+W praktycznych realizacjach dla odpowiednio małych podproblemów można również przejść
+do wykonania sekwencyjnego w celu ograniczenia narzutu związanego z równoległością~\cite{bib:CLRS4}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/chapter3/parallelMergeSort.jpg}
+    \caption{Schemat działania Merge Sort.}
+    \label{fig:ms-merge}
 \end{figure}
 
