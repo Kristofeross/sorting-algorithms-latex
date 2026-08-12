@@ -2,20 +2,41 @@
 \chapter{Opis wybranych algorytmów sortowania równoległego}
 \label{cha:WybraneAlgorytmy}
 
-Dział poświęcony wybranym algorytmom zawierający opis, schemat działania, sposób dzielenia i łączenia, złożoność, potencjalne problemy oraz kiedy algorytm jest efektywny, a kiedy nie
+Dział poświęcony wybranym algorytmom zawierający opis, schemat działania, sposób dzielenia i łączenia, złożoność oraz 
+potencjalne problemy.
 
 \section{Parallel Quicksort}
 \label{sec:ParallelQuicksort}
 
+Quicksort należy do rodziny algorytmów opartych na strategii ``dziel i zwyciężaj'' (ang. \textit{divide-and-conquer})~\cite{bib:CLRS}. 
+W kroku podziału wybierany jest element rozdzielający (ang. \textit{pivot}), który dzieli wejściowy ciąg $A[p \ldots r]$ na dwa podciągi. 
+Po zakończeniu partycjonowania pivot trafia na pozycję $A[q]$, przy czym wszystkie elementy w podciągu $A[p \ldots q-1]$ są mniejsze 
+lub równe $A[q]$, a wszystkie elementy w podciągu $A[q+1 \ldots r]$ są od niego większe. 
+Następnie oba podciągi są rekurencyjnie sortowane aż do uzyskania podciągów o długości 1~\cite{bib:Božidar2015}.
 
-\section{Parallel Merge Sort}
-\label{sec:ParallelMergeSort}
+% \begin{figure}[htbp]
+% % \begin{figure}[H]
+%   \centering \includegraphics[width=0.85\textwidth]{images/chapter3/parallelQuicksort.png}
+%   \caption{Schemat działania Quicksortu.} \label{fig:qs-partition}
+% \end{figure}
 
+Średnia złożoność obliczeniowa Quicksortu wynosi $O(n \log n)$, natomiast w przypadku pesymistycznym 
+związanym z silnie niezrównoważonym podziałem może wzrosnąć do $O(n^2)$~\cite{bib:CLRS}.
 
-\section{Parallel Bucket Sort}
-\label{sec:ParallelBucketSort}
+W wersji równoległej algorytm wykorzystuje fakt, że po wykonaniu partycjonowania powstałe podciągi mogą być sortowane niezależnie od siebie. 
+Dzięki temu możliwe jest równoległe przetwarzanie obu części tablicy przez osobne wątki. W praktycznej implementacji równoległość 
+jest ograniczana parametrem głębokości rekurencji, co umożliwia uniknięcia nadmiernego narzutu związanego z tworzeniem 
+zbyt dużej liczby wątków. Po osiągnięciu założonej głębokości dalsze sortowanie odbywa się sekwencyjnie.
 
+Jednym z głównych wyzwań wersji równoległej Quicksortu pozostaje nierównomierny podział danych, który występuje w sytuacji, 
+gdy pivot jest źle dobrany. Problem ten, w połączeniu z narzutem związanym z tworzeniem i synchronizacją procesów, 
+może istotnie ograniczać skalowalność algorytmu~\cite{bib:Maus}. 
+Algorytm sprawdza się najlepiej przy danych zrównoważonych i dobrym wyborze pivota,
+traci natomiast na efektywności m.in. gdy podziały stają się nierówne.
 
-\section{Parallel Samplesort}
-\label{sec:ParallelSamplesort}
+\begin{figure}[htbp]
+% \begin{figure}[H]
+  \centering \includegraphics[width=0.85\textwidth]{images/chapter3/parallelQuicksort.png}
+  \caption{Schemat działania Quicksortu.} \label{fig:qs-partition}
+\end{figure}
 
