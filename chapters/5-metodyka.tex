@@ -7,7 +7,7 @@
 
 Eksperymenty przeprowadzono według różnych konfiguracji parametrów, których celem jest zebranie informacji potrzebnych do przeprowadzenia analizy.
 
-\subsection{Zakres badanych konfiguracji}
+\subsection*{Zakres badanych konfiguracji}
 
 W badaniach uwzględniono cztery algorytmy:
 \begin{itemize}
@@ -36,7 +36,7 @@ Wykorzystano dwanaście wariantów zbiorów wejściowych, obejmujących:
 \end{itemize}
 zarówno dla liczb całkowitych, jak i zmiennoprzecinkowych.
 
-\subsection{Konfiguracja równoległości}
+\subsection*{Konfiguracja równoległości}
 
 Testy równoległe wykonano dla dostępnych konfiguracji liczby rdzeni udostępnianych przez środowisko sprzętowe. 
 W przypadku algorytmów Quick Sort oraz Merge Sort liczba procesów była zależna od parametru głębokości równoległości:
@@ -45,7 +45,7 @@ W przypadku algorytmów Quick Sort oraz Merge Sort liczba procesów była zależ
 \]
 Dla Bucket Sort oraz Samplesort liczbę procesów ustawiano jako liczbę wykorzystanych rdzeni.
 
-\subsection{Organizacja eksperymentów}
+\subsection*{Organizacja eksperymentów}
 
 Każdy pomiar wykonywano wielokrotnie, a do analizy przyjmowano wartości uśrednione. 
 Liczbę powtórzeń ustalono na 10/100 dla każdego wariantu eksperymentu, 
@@ -119,7 +119,7 @@ co umożliwiło ich bezpieczne przechowywanie oraz wykorzystanie w dalszych etap
 Do realizacji potrzebnych pomiarów wykorzystano zestaw narzędzi i bibliotek umożliwiających 
 precyzyjne rejestrowanie czasu wykonania oraz monitorowanie wykorzystania zasobów systemowych w trakcie działania algorytmów.
 
-\subsection{Pomiar czasu}
+\subsection*{Pomiar czasu}
 
 % Czas wykonania mierzono za pomocą funkcji \texttt{time.perf\_counter}z biblioteki standardowej Pythona~\cite{bib\:PerfCounter}. 
 Zapewnia ona dostęp do zegara o wysokiej rozdzielczości, przeznaczonego do pomiaru krótkich przedziałów czasu. 
@@ -127,7 +127,7 @@ Czas wykonania wyznaczany jest jako różnica wartości licznika zarejestrowanyc
 badanego fragmentu kodu. Dzięki wysokiej rozdzielczości funkcja dobrze nadaje się do przeprowadzania pomiarów wydajnościowych. 
 W implementacji CPython wykorzystywany zegar jest monotoniczny, dzięki czemu jego wartość nie może cofać się w czasie.
 
-\subsection{Monitorowanie CPU i pamięci RAM}
+\subsection*{Monitorowanie CPU i pamięci RAM}
 
 Zużycie procesora oraz pamięci operacyjnej monitorowano z wykorzystaniem biblioteki \texttt{psutil}~\cite{bib:Psutil}. 
 Pomiary realizowano w osobnym wątku, który w ustalonych odstępach czasu zapisanych w \texttt{sample\_interval} 
@@ -141,7 +141,7 @@ Podczas każdego pomiaru odczytano:
 
 Dzięki uwzględnieniu procesów potomnych możliwe było poprawne oszacowanie wykorzystywanych zasobów przez algorytmy równoległe.
 
-\subsection{Profilowanie wydajności}
+\subsection*{Profilowanie wydajności}
 
 Do analizy szczegółowej wydajności wykorzystano dwa narzędzia:
 
@@ -156,7 +156,7 @@ Do analizy szczegółowej wydajności wykorzystano dwa narzędzia:
 Profilowanie nie wpływało na wartości raportowane w głównych wynikach, ponieważ pierwsze uruchomienie, 
 na którym działały profilery było pomijane przy obliczaniu statystyk.
 
-\subsection{Organizacja pomiaru}
+\subsection*{Organizacja pomiaru}
 
 Każdy pojedynczy przebieg algorytmu uruchamiano w osobnym procesie roboczym,co zapewniało izolajcę pomiaru oraz 
 zapewniało zabezpieczenie testów w przypadku awarii lub zawieszeniu badanego algorytmu.

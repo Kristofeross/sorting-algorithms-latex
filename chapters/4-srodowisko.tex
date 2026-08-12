@@ -2,13 +2,13 @@
 \chapter{Środowisko badawcze i implementacja}
 \label{cha:SrodowiskoImplementacja}
 
-\section{Opis środowiska testowego}
-\label{sec:SrodowiskaTestowe}
+\section{Opis środowiska}
+\label{sec:Srodowisko}
 
 Wszystkie eksperymenty zostały przeprowadzone na komputerze o następującej konfiguracji:
 
 \begin{itemize}
-    \item \textbf{Procesor:} Intel Core i5-9300H @ 2.40\,GHz
+    \item \textbf{Procesor:} Intel(R) Core(TM) i9-9980XE CPU @ 3.00\,GHz
     \item \textbf{Rdzenie fizyczne:} 4
     \item \textbf{Rdzenie logiczne:} 8 
     \item \textbf{Taktowanie bazowe:} 2401\,MHz
@@ -64,8 +64,8 @@ Rozwiązanie to upraszcza zarządzanie danymi i zapewnia łatwą przenośność 
 Wybór powyższego zestawu technologii umożliwia na spójną implementację algorytmów, precyzyjny pomiar ich charakterystyk wydajnościowych 
 oraz wygodną analizę i prezentację wyników badań.
 
-\section{Sposób implementacji algorytmów}
-\label{sec:SposobImplementacji}
+\section{Implementacja wybranych algorytmów}
+\label{sec:ImplementacjaAlgorytmow}
 
 Wszystkie algorytmy zaimplementowano w języku Python z wykorzystaniem mechanizmu wieloprocesowego oraz pamięci współdzielonej. 
 Każdy algorytm występuje w dwóch wariantach: sekwencyjnym, który stanowi punkt odniesienia oraz równoległym. 
@@ -73,7 +73,7 @@ Wspólną cechą implementacji równoległych jest przechowywanie sortowanych da
 mapowanym na tablicę typów \texttt{ctypes} (\texttt{c\_longlong} dla liczb całkowitych oraz \texttt{c\_double} dla liczb zmiennoprzecinkowych). 
 Dzięki temu procesy potomne mogą odczytywać i modyfikować te same dane bez konieczności ich kopiowania oraz przesyłania pomiędzy procesami.
 
-\subsection{Ogólna architektura rozwiązania}
+\subsection*{Ogólna architektura rozwiązania}
 
 Przy algorytmach opartych na strategii ``dziel i zwyciężaj'' czyli Parallel Quicksort oraz Parallel Merge Sort, 
 zastosowano rekurencyjne tworzenie procesów z ograniczeniem głębokości równoległości za pomocą parametru \texttt{max\_depth}. 
@@ -86,7 +86,7 @@ procesów \texttt{process\_count}. Dane są najpierw rozdzielane do kubełków, 
 Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w słownikach \texttt{PARALLEL\_\allowbreak SIZE\_\allowbreak CUTOFF} 
 oraz \texttt{GROUP\_\allowbreak SIZE\_\allowbreak CUTOFF}, poniżej których algorytm przełącza się na wariant sekwencyjny.
 
-\subsection{Parallel Quicksort}
+\subsection*{Parallel Quicksort}
 
 Wariant sekwencyjny realizuje klasyczny Quicksort z wyborem pivota jako elementu środkowego.
 
@@ -103,7 +103,7 @@ dalsze sortowanie odbywa się sekwencyjnie.
   language=Python, caption={Tworzenie procesów w Parallel Quicksort}, label={lst:qs-parallel-spawn}
 ]{listings/chapter3/quicksort_parallel_spawn.py}
 
-\subsection{Parallel Merge Sort}
+\subsection*{Parallel Merge Sort}
 
 Wariant sekwencyjny realizuje klasyczny Merge Sort z rekurencyjnym podziałem tablicy na połowy oraz scalaniem posortowanych części.
 
@@ -119,7 +119,7 @@ Głębokość równoległości oraz minimalny rozmiar zakresu ograniczają nadmi
   language=Python, caption={Równoległe sortowanie połówek i sekwencyjne scalanie w Parallel Merge Sort}, label={lst:ms-parallel-spawn}
 ]{listings/chapter3/mergesort_parallel_spawn.py}
 
-\subsection{Parallel Bucket Sort}
+\subsection*{Parallel Bucket Sort}
 
 Wariant sekwencyjny rozdziela elementy do liczby kubełków wyznaczanej na podstawie rozmiaru danych, a następnie 
 sortuje każdy kubełek z wykorzystaniem zaimplementowanego algorytmu Merge Sort. Na sam koniec łączy wyniki w jedną posortowaną tablicę.
@@ -138,7 +138,7 @@ Do efektywnego rozdzielania elementów wykorzystano operacje wektorowe bibliotek
   language=Python, caption={Przydzielanie grup kubełków procesom w Parallel Bucket Sort}, label={lst:bs-parallel-spawn}
 ]{listings/chapter3/bucketsort_parallel_spawn.py}
 
-\subsection{Parallel Samplesort}
+\subsection*{Parallel Samplesort}
 
 Wariant sekwencyjny działa w kilku etapach: podział danych na części, lokalne sortowanie, wybór próbek, wyznaczenie wartości rozdzielających, 
 rozdzielenie elementów do kubełków według wyznaczonych wartości oraz ostateczne sortowanie kubełków.
@@ -164,7 +164,7 @@ Do dystrybucji elementów wykorzystano operacje wektorowe biblioteki \texttt{Num
 Do przeprowadzenia testów przygotowano zestawy danych o zróżnicowanej charakterystyce, 
 tak aby możliwe było ocenienie zachowania algorytmów w różnych scenariuszach.
 
-\subsection{Typy i rozmiary danych}
+\subsection*{Typy i rozmiary danych}
 
 Testy przeprowadzono dla dwóch typów wartości:
 \begin{itemize}
@@ -182,7 +182,7 @@ Dla każdego typu wygenerowano zbiory o następujących rozmiarach:
 
 Wygenerowane wartości znajdują się w zakresie od 0 do 1000 000.
 
-\subsection{Charakterystyka zbiorów}
+\subsection*{Charakterystyka zbiorów}
 
 Przygotowano trzy główne kategorie danych:
 
@@ -204,7 +204,7 @@ Przygotowano trzy główne kategorie danych:
 
 Do testów przygotowano dwanaście wariantów zbiorów (2 typy danych X 6 charakterystyk).
 
-\subsection{Sposób przechowywania}
+\subsection*{Sposób przechowywania}
 
 Wszystkie dane testowe zapisano w bazie danych SQLite. Każdy wariant przechowywany był w osobnej tabeli o strukturze:
 
