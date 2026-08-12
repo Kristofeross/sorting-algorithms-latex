@@ -1,7 +1,6 @@
 \cleardoublepage
 \chapter{Wstęp}
 \label{cha:Wstep}
-% \addcontentsline{toc}{chapter}{Wstęp}
 
 %--------------------------------------
 % początek: wskazówka
@@ -34,60 +33,53 @@ pod kątem czasu wykonania, wykorzystania pamięci RAM, obciążenia procesora, 
 
 \section{Cel pracy}
 \label{sec:CelPracy}
-% \addcontentsline{toc}{section}{Cel pracy}
 
 Głównym celem niniejszej pracy magisterskiej jest przeprowadzenie szczegółowej analizy wydajności i~efektywności wybranych algorytmów 
-sortowania równoległego na współczesnych wielordzeniowych procesorach. Praca skupia się na praktycznej implementacji oraz 
-porównaniu czterech algorytmów: Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort.
+sortowania równoległego na współczesnych wielordzeniowych procesorach. Analizie podano cztery algorytmy: 
+Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort.
 
-Kluczowym celem jest zbadanie, w~jaki sposób wybrane algorytmy zachowują się w~realnych warunkach obliczeniowych, a~nie 
-jedynie w~warunkach idealnych zakładanych przez modele teoretyczne. W~tym celu algorytmy zostały zaimplementowane w~języku 
-Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, która umożliwia tworzenie procesów oraz współdzielenie pamięci. 
-Każdy z~algorytmów został uruchomiony zarówno w~wariancie sekwencyjnym stanowiącym punkt odniesienia, jak i~w wariancie równoległym, 
-przy różnej liczbie wykorzystywanych rdzeni procesora.
-
-Badanie obejmuje kilka kluczowych aspektów:
-
-\begin{itemize}
-    \item pomiar czasu sortowania w~zależności od rozmiaru zbioru danych oraz liczby użytych rdzeni,
-    \item analizę zużycia pamięci operacyjnej (RAM) oraz obciążenia procesora (CPU) podczas wykonywania kodu,
-    \item ocenę skalowalności, czyli zdolności algorytmów do efektywnego wykorzystania rosnącej liczby rdzeni,
-    \item porównanie zachowania się algorytmów przy różnych charakterystykach danych wejściowych tj. dane losowe, częściowo posortowane 
-    oraz z duplikatami.
-\end{itemize}
-
-Dodatkowym celem pracy jest wyznaczenie i~analiza klasycznych metryk równoległości, \textit{speedup} (przyspieszenie) oraz 
-\textit{efficiency} (efektywność), a~także identyfikacja głównych czynników ograniczających wydajność poszczególnych algorytmów 
-(m.in. narzut związany z~tworzeniem procesów, synchronizacją, komunikacją oraz zarządzaniem pamięcią współdzieloną).
-
-W rezultacie pracy oczekuje się uzyskania praktycznych wniosków dotyczących tego, które z~badanych algorytmów sortowania równoległego 
-najlepiej sprawdzają się w~środowisku wielordzeniowym przy określonych rozmiarach i~typach danych, a~także wskazania ich mocnych 
-i~słabych stron w~kontekście rzeczywistego wykorzystania zasobów obliczeniowych.
+Realizacja głównego celu pracy opiera się na implementacji wybranych algorytmów w~języku Python z~wykorzystaniem 
+biblioteki \texttt{multiprocessing}, a~następnie przeprowadzeniu badań eksperymentalnych w~środowisku wielordzeniowym. 
+Każdy z~algorytmów zaimplementowano zarówno w~wariancie sekwencyjnym, stanowiącym punkt odniesienia, 
+jak i~w~wariancie równoległym, uruchamianym przy różnej liczbie wykorzystywanych rdzeni procesora.
 
 \section{Zakres pracy}
 \label{sec:ZakresPracy}
-% \addcontentsline{toc}{section}{Zakres pracy}
 
 Zakres pracy obejmuje:
 
 \begin{itemize}
-    \item zebranie wiadomości z~zakresu sortowania równoległego, architektury procesorów wielordzeniowych, metryk wydajności 
-    i~efektywności oraz skalowalności algorytmów równoległych,
 
-    \item porównanie wybranych algorytmów sortowania równoległego (Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz 
-    Parallel Samplesort) pod kątem wydajności, skalowalności i~zużycia zasobów obliczeniowych,
+\item zebranie wiadomości z~zakresu sortowania równoległego, architektury procesorów wielordzeniowych,
+wydajności i~efektywności obliczeń równoległych oraz skalowalności algorytmów
 
-    \item opracowanie założeń projektowych dotyczących implementacji algorytmów w~środowisku wielordzeniowym z~wykorzystaniem 
-    biblioteki \texttt{multiprocessing} oraz pamięci współdzielonej,
+\item przedstawienie i~porównanie wybranych algorytmów sortowania równoległego:
+Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort
 
-    \item implementację wariantów sekwencyjnych i~równoległych wybranych algorytmów sortowania w~języku Python,
+\item opracowanie założeń projektowych dotyczących implementacji algorytmów w~środowisku wielordzeniowym
+z~wykorzystaniem biblioteki \texttt{multiprocessing} oraz pamięci współdzielonej
 
-    \item implementację generatora danych testowych o~różnych charakterystykach (dane losowe, częściowo posortowane, oraz dane z duplikatami),
+\item implementację wariantów sekwencyjnych i~równoległych wybranych algorytmów sortowania
+w~języku Python
 
-    \item przetestowanie zaimplementowanych algorytmów na wielordzeniowych procesorach, obejmujące pomiar czasu wykonania, zużycia pamięci RAM, 
-    obciążenia CPU, wyznaczenie metryk \textit{speedup} i~\textit{efficiency} oraz analizę wpływu charakterystyki danych wejściowych.
+\item przygotowanie danych testowych o~różnych rozmiarach i~charakterystykach, obejmujących dane losowe,
+dane częściowo posortowane oraz dane zawierające duplikaty, dla liczb całkowitych oraz~zmiennoprzecinkowych
 
-    \item prezentację wyników badań za pomocą tabel oraz wykresów.
+\item przeprowadzenie eksperymentów dla różnych rozmiarów danych oraz różnej liczby wykorzystywanych rdzeni procesora
+
+\item pomiar czasu wykonania, obciążenia procesora oraz wykorzystania pamięci operacyjnej podczas działania
+badanych algorytmów
+
+\item wyznaczenie i~analizę metryk \textit{speedup} (przyspieszenie) oraz
+\textit{efficiency} (efektywność)
+
+\item ocenę skalowalności badanych algorytmów oraz analizę wpływu charakterystyki danych wejściowych
+na uzyskiwane wyniki
+
+\item analizę czynników ograniczających wydajność badanych algorytmów równoległych
+
+\item prezentację oraz analizę uzyskanych wyników za pomocą tabel i~wykresów
+
 \end{itemize}
 
 ------------------- Do uzupełnienia na końcu pracy -------------------
