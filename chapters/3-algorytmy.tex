@@ -108,3 +108,38 @@ natomiast dla większych zbiorów możliwe jest uzyskanie lepszej wydajności~\c
 \section{Parallel Samplesort}
 \label{sec:ParallelSamplesort}
 
+Samplesort jest algorytmem sortowania wykorzystującym podział danych na wiele mniejszych kubełków na podstawie odpowiednio dobranych 
+elementów rozdzielających. Dla większych zbiorów danych z ciągu wejściowego wybierana jest próbka 
+(ang. \textit{sample}), która jest następnie sortowana. Na jej podstawie wyznaczane są elementy rozdzielające 
+(ang. \textit{splitters}), określające granice poszczególnych kubełków. Elementy wejściowe są przypisywane 
+do odpowiednich kubełków zgodnie z wartościami splitterów, po czym zawartość kubełków jest sortowana, 
+a wyniki są łączone w jeden uporządkowany ciąg~\cite{bib:Božidar2015,bib:Bingmann2013}.
+
+Samplesort można traktować jako uogólnienie Quicksortu wykorzystujące jednocześnie wiele elementów rozdzielających. 
+Zamiast pojedynczego pivota stosuje się $k-1$ splitterów, które umożliwiają podział danych na $k$ kubełków. 
+Splittery mogą być wyznaczane na podstawie posortowanej próbki poprzez wybór elementów rozmieszczonych w niej 
+w regularnych odstępach. Odpowiedni dobór próbki i splitterów pozwala uzyskać kubełki o zbliżonych rozmiarach, 
+co sprzyja bardziej równomiernemu podziałowi pracy~\cite{bib:Bingmann2013}.
+
+W wersji równoległej dane wejściowe mogą zostać podzielone pomiędzy niezależne jednostki wykonawcze. 
+Każda z nich sortuje lokalnie przypisany fragment danych oraz wybiera z niego elementy próbki. 
+Na podstawie zebranych próbek wyznaczane są globalne elementy rozdzielające, które następnie wykorzystywane są 
+do podziału lokalnych danych na odpowiednie części. Powstałe części są przypisywane jednostkom wykonawczym 
+odpowiedzialnym za ich dalsze przetwarzanie. Po zakończeniu tej fazy uporządkowane fragmenty tworzą wynikowy 
+posortowany ciąg~\cite{bib:ShiSchaeffer1992}.
+
+Istotną zaletą Samplesort jest możliwość wyznaczania granic podziału na podstawie informacji uzyskanych 
+z próbki danych. Odpowiednio dobrane elementy rozdzielające pozwalają ograniczyć różnice pomiędzy rozmiarami 
+powstających części, a tym samym sprzyjają równomiernemu rozłożeniu pracy pomiędzy jednostki 
+wykonawcze~\cite{bib:Bingmann2013,bib:ShiSchaeffer1992}. 
+Dodatkowy koszt algorytmu wynika natomiast z konieczności wyboru i sortowania 
+próbki, wyznaczenia splitterów oraz dystrybucji elementów pomiędzy utworzone części. Dla odpowiednio małych 
+fragmentów danych dalsze sortowanie może być realizowane za pomocą algorytmu sekwencyjnego
+~\cite{bib:Bingmann2013}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/chapter3/parallelSampleSort.jpg}
+    \caption{Schemat działania Samplesort.}
+    \label{fig:ss-samplesort}
+\end{figure}
