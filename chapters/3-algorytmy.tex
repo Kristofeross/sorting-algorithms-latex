@@ -29,7 +29,6 @@ Algorytm sprawdza się najlepiej przy danych zrównoważonych i dobrym wyborze p
 traci natomiast na efektywności m.in. gdy podziały stają się nierówne.
 
 \begin{figure}[htbp]
-% \begin{figure}[H]
   \centering \includegraphics[width=0.85\textwidth]{images/chapter3/parallelQuicksort.png}
   \caption{Schemat działania Quicksort.} \label{fig:qs-partition}
 \end{figure}
@@ -70,4 +69,42 @@ do wykonania sekwencyjnego w celu ograniczenia narzutu związanego z równoległ
     \caption{Schemat działania Merge Sort.}
     \label{fig:ms-merge}
 \end{figure}
+
+\section{Parallel Bucket Sort}
+\label{sec:ParallelBucketSort}
+
+Bucket Sort jest algorytmem sortowania, którego działanie opiera się na podziale zakresu wartości danych wejściowych 
+na określoną liczbę kubełków (ang. \textit{buckets}). Każdy element wejściowy jest przypisywany do odpowiedniego kubełka 
+na podstawie swojej wartości, a następnie zawartość poszczególnych kubełków jest sortowana niezależnie. 
+Na końcu posortowane kubełki są łączone w ustalonej kolejności, tworząc wynikowy ciąg~\cite{bib:CLRS4}.
+
+Przy założeniu odpowiedniego rozkładu danych wejściowych Bucket Sort może osiągać średnią złożoność czasową $O(n)$. 
+W klasycznej analizie zakłada się równomierny i niezależny rozkład elementów, dzięki czemu można oczekiwać, 
+że liczba elementów przypadających na poszczególne kubełki będzie zbliżona. 
+Każdy kubełek może być następnie sortowany za pomocą innego algorytmu, na przykład Insertion Sort, 
+a ostateczny wynik powstaje przez konkatenację kubełków w kolejności~\cite{bib:CLRS4}.
+
+W wersji równoległej możliwe jest zrównoleglenie zarówno etapu rozmieszczania elementów w kubełkach, 
+jak i sortowania ich zawartości. Dane wejściowe mogą zostać podzielone na części, które są przetwarzane równolegle 
+przez niezależne wątki. Po zakończeniu rozmieszczania elementów kubełki mogą zostać podzielone na grupy, 
+których sortowanie również odbywa się równolegle~\cite{bib:Hong}. 
+Po zakończeniu tej fazy posortowane kubełki są łączone w odpowiedniej kolejności w~jeden uporządkowany ciąg.
+
+Efektywność Parallel Bucket Sort jest w dużym stopniu zależna od sposobu rozłożenia elementów pomiędzy kubełkami. 
+Przy równomiernym wypełnieniu kubełków możliwe jest bardziej równomierne rozłożenie pracy pomiędzy jednostki wykonawcze. 
+Jeżeli natomiast część kubełków zawiera znacznie więcej elementów niż pozostałe, może prowadzić to do nierównomiernego obciążenia 
+i~ograniczenia uzyskiwanego przyspieszenia. Dodatkowym ograniczeniem jest narzut związany z realizacją obliczeń równoległych, 
+w tym z synchronizacją oraz organizacją pracy pomiędzy jednostkami wykonawczymi. 
+Dla małych zbiorów danych koszt ten może przewyższać korzyści wynikające ze zrównoleglenia, 
+natomiast dla większych zbiorów możliwe jest uzyskanie lepszej wydajności~\cite{bib:Hong}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/chapter3/parallelBucketSort.png}
+    \caption{Schemat działania Bucket Sort.}
+    \label{fig:bs-buckets}
+\end{figure}
+
+\section{Parallel Samplesort}
+\label{sec:ParallelSamplesort}
 
