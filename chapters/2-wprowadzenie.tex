@@ -13,15 +13,38 @@
 \section{Wprowadzenie do sortowania równoległego}
 \label{sec:SortowanieRownolegle}
 
+Sortowanie jest jedną z~najczęściej wykonywanych operacji w~informatyce. 
+Uporządkowane dane są łatwiejsze do dalszego przetwarzania, dlatego wiele algorytmów wymaga wcześniejszego 
+posortowania danych wejściowych. W~kontekście obliczeń równoległych sortowanie ma dodatkowe znaczenie ze względu 
+na jego ścisły związek z~przemieszczaniem i~dystrybucją danych pomiędzy jednostkami wykonawczymi, 
+co stanowi istotny element wielu algorytmów równoległych~\cite{bib:Grama}.
+
+Celem sortowania jest przekształcenie nieuporządkowanego ciągu elementów $S = \langle a_1, a_2, \ldots, a_n \rangle$
+w~ciąg uporządkowany monotonicznie rosnąco lub malejąco. Algorytmy sortowania można podzielić na porównujące
+(ang. \textit{comparison-based}) oraz nieporównujące (ang. \textit{noncomparison-based}).
+Algorytmy porównujące ustalają kolejność elementów na podstawie wykonywanych między nimi porównań.
+Dolne ograniczenie złożoności sekwencyjnej dla tej klasy algorytmów wynosi $\Omega(n \log n)$.
+Algorytmy nieporównujące wykorzystują natomiast dodatkowe właściwości danych, takie jak ich reprezentacja
+lub rozkład wartości, dzięki czemu w~określonych warunkach mogą osiągać złożoność liniową
+~\cite{bib:Grama,bib:CLRS4}.
+
+Równoległe sortowanie polega na rozłożeniu danych oraz operacji potrzebnych do ich uporządkowania pomiędzy wiele
+jednostek wykonawczych. Typowym podejściem jest podział zbioru wejściowego na fragmenty, ich równoległe przetwarzanie,
+a~następnie odpowiednia reorganizacja lub połączenie uzyskanych wyników. Sposób realizacji poszczególnych etapów
+zależy od zastosowanego algorytmu oraz modelu obliczeń równoległych~\cite{bib:Grama}.
+
+Do najważniejszych zagadnień związanych z~projektowaniem równoległych algorytmów sortowania należą sposób podziału
+danych, równomierne rozłożenie pracy, komunikacja pomiędzy jednostkami wykonawczymi oraz ich synchronizacja.
+Koszt tych operacji stanowi dodatkowy narzut, który nie występuje w~takiej samej postaci w~algorytmach sekwencyjnych
+i~może ograniczać korzyści wynikające ze zrównoleglenia. W~szczególności nadmierna komunikacja lub nierównomierny
+podział pracy mogą prowadzić do sytuacji, w~której część jednostek wykonawczych pozostaje bezczynna, podczas gdy
+pozostałe nadal wykonują obliczenia~\cite{bib:Grama,bib:Jaja}.
+
+\begin{figure}[htbp]
+    \centering \includegraphics[width=0.80\textwidth]{images/chapter2/parallelSortingGeneral.png}
+    \caption{Ogólny schemat podziału pracy w sortowaniu równoległym.} \label{fig:parallel-sorting-general}
+\end{figure}
 
 \section{Charakterystyka procesorów wielordzeniowych}
 \label{sec:ProcesoryWielordzeniowe}
-
-
-\section{Wydajność i efektywność}
-\label{sec:WydajnoscEfektywnosc}
-
-
-\section{Skalowalność algorytmów równoległych}
-\label{sec:SkalowalnoscAlgorytmow}
 
