@@ -145,3 +145,34 @@ takie jak komunikacja, synchronizacja oraz tworzenie procesów lub wątków~\cit
 
 \section{Skalowalność algorytmów równoległych}
 \label{sec:SkalowalnoscAlgorytmow}
+
+Skalowalność systemu równoległego określa, jak efektywnie wykorzystuje on rosnącą liczbę jednostek wykonawczych 
+i~jaki wzrost przyspieszenia uzyskuje wraz ze zwiększaniem ich liczby. 
+Dobrze skalowalny system powinien umożliwiać zwiększanie liczby jednostek wykonawczych bez gwałtownego spadku efektywności~\cite{bib:Grama}.
+
+Przy stałym rozmiarze danych wejściowych zwiększanie liczby jednostek wykonawczych zazwyczaj powoduje stopniowe obniżanie efektywności obliczeń. 
+Powodem tego jest wzrost całkowitego narzutu obliczeń równoległych, na który składają się takie czynniki jak komunikacja pomiędzy jednostkami, 
+czas ich bezczynności oraz dodatkowe obliczenia wykonywane w wariancie równoległym. 
+Wzrost liczby jednostek wykonawczych może przyczyniać się do zwiększenia tych kosztów, 
+co skutkuje ograniczeniem uzyskiwanego przyspieszenia~\cite{bib:Grama}.
+
+Skalowalność algorytmu zależy również od rozmiaru przetwarzanych danych.
+Dla wielu systemów równoległych zwiększenie rozmiaru danych wejściowych przy stałej liczbie jednostek wykonawczych powoduje wzrost efektywności, 
+ponieważ większy udział w całkowitym czasie wykonania mają właściwe obliczenia. 
+System równoległy uznaje się za skalowalny, jeżeli przy jednoczesnym zwiększaniu liczby jednostek wykonawczych 
+oraz rozmiaru danych możliwe jest utrzymanie efektywności na zbliżonym poziomie~\cite{bib:Grama}.
+
+Jedną z miar wykorzystywanych do oceny skalowalności jest funkcja \textit{isoefficiency}, 
+przedstawiająca zależność między wzrostem liczby jednostek wykonawczych $p$ a rozmiarem danych $W$, 
+niezbędnym do zachowania stałego poziomu efektywności.
+Im wolniej musi rosnąć rozmiar zadania obliczeniowego wraz ze wzrostem $p$, tym lepszą skalowalnością charakteryzuje się dany system równoległy. 
+Niższe tempo wzrostu funkcji \textit{isoefficiency} oznacza więc możliwość efektywnego wykorzystania 
+większej liczby jednostek wykonawczych przy stosunkowo niewielkiej zmianie rozmiaru zadania obliczeniowego.~\cite{bib:Grama}.
+
+Dolną granicą funkcji \textit{isoefficiency} jest wzrost liniowy względem liczby jednostek wykonawczych. 
+Idealnie skalowalny system charakteryzuje się zatem funkcją \textit{isoefficiency} rzędu $\Theta(p)$, co oznacza, 
+że dla zachowania stałej efektywności wystarczający jest liniowy wzrost rozmiaru danych wejściowych 
+wraz ze wzrostem liczby jednostek wykonawczych~\cite{bib:Grama}.
+
+Analiza skalowalności umożliwia ocenę, w jaki sposób system równoległy zachowuje się przy 
+zwiększaniu liczby jednostek wykonawczych oraz rozmiaru przetwarzanych danych.
