@@ -89,13 +89,13 @@ Większa liczba rdzeni nie musi więc prowadzić do proporcjonalnego skrócenia 
 \section{Wydajność i efektywność}
 \label{sec:WydajnoscEfektywnosc}
 
-Podstawowymi metrykami wykorzystywanymi do oceny algorytmów równoległych należą czas wykonania,
+Podstawowymi metrykami wykorzystywanymi do oceny algorytmów równoległych są czas wykonania,
 przyspieszenie (ang. \textit{speedup}) oraz efektywność (ang. \textit{efficiency}).
-Umożliwiają one określić, w~jakim stopniu zastosowanie wielu wątków wpływa na czas rozwiązania
+Umożliwiają one określenie, w~jakim stopniu zastosowanie wielu jednostek wykonawczych wpływa na czas rozwiązania
 problemu oraz~jak skutecznie wykorzystywane są dostępne zasoby obliczeniowe.
 
 Niech $T^*(n)$ oznacza czas wykonania najlepszego znanego algorytmu sekwencyjnego dla problemu
-o rozmiarze $n$, natomiast $T_p(n)$ czas wykonania algorytmu równoległego przy wykorzystaniu
+o rozmiarze $n$, natomiast $T_p(n)$ oznacza czas wykonania algorytmu równoległego przy wykorzystaniu
 $p$ jednostek wykonawczych. Przyspieszenie definiuje się jako:
 
 \[
@@ -103,9 +103,9 @@ S_p(n) = \frac{T^*(n)}{T_p(n)}.
 \]
 
 W przypadku idealnym przyspieszenie powinno być zbliżone do liczby
-wykorzystanych jednostek wykonawczych, czyli $S_p(n) \approx p$. W praktyce wartość ta może być
-mniejsza z różnych powodów, między innymi na ograniczony poziom współbieżności, synchronizację, komunikację 
-oraz narzuty związane z~realizacją obliczeń równoległych~\cite{bib:Jaja,bib:Grama}.
+wykorzystanych jednostek wykonawczych, czyli $S_p(n) \approx p$. W praktyce wartość ta może być mniejsza między innymi 
+ze względu na ograniczony poziom współbieżności, synchronizację, komunikację oraz narzuty związane 
+z realizacją obliczeń równoległych~\cite{bib:Jaja,bib:Grama}.
 
 Efektywność określa stopień wykorzystania dostępnych jednostek wykonawczych i~jest definiowana
 jako stosunek uzyskanego przyspieszenia do ich liczby:
@@ -128,7 +128,7 @@ poświęcany między innymi na komunikację, synchronizację oraz oczekiwanie je
 Istotnym ograniczeniem możliwego przyspieszenia jest udział części programu, która nie może zostać
 wykonana równolegle. Zależność tę opisuje prawo Amdahla. W jego podstawowym modelu czas wykonania
 programu dzielony jest na część sekwencyjną oraz część możliwą do wykonania równolegle.
-Czas części sekwencyjnej pozostaje niezależny od liczby wykorzystywanych wątków,
+Czas części sekwencyjnej pozostaje niezależny od liczby wykorzystywanych jednostek wykonawczych,
 natomiast czas idealnie skalowalnej części równoległej zmniejsza się proporcjonalnie do ich liczby~\cite{bib:KarbowskiAmdahl}.
 
 Jeżeli przez $f$ oznaczony zostanie udział części sekwencyjnej programu, a przez $p$ liczbę
@@ -140,8 +140,8 @@ S_p = \frac{1}{f + \frac{1-f}{p}}.
 
 Zależność ta wskazuje, że nawet przy zwiększaniu liczby jednostek wykonawczych część sekwencyjna
 programu ogranicza maksymalne możliwe przyspieszenie. Klasyczny model prawa Amdahla zakłada przy tym
-idealne skalowanie części równoległej i~pomija dodatkowe koszty występujące w rzeczywistych systemach,
-takie jak komunikacja, synchronizacja oraz tworzenie procesów lub wątków~\cite{bib:KarbowskiAmdahl}.
+idealne skalowanie części równoległej i~pomija dodatkowe koszty występujące w rzeczywistych systemach.
+Do takiego narzutu zalicza się komunikację, synchronizację oraz tworzenie procesów lub wątków~\cite{bib:KarbowskiAmdahl}.
 
 \section{Skalowalność algorytmów równoległych}
 \label{sec:SkalowalnoscAlgorytmow}
