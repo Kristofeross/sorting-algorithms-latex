@@ -10,10 +10,11 @@
 % koniec: wskazówka
 %--------------------------------------
 
-W ostatnim czasie można zaobserować intensywny rozwój architektury procesorów wielordzeniowych. Producenci sprzętu zamiast dalszego 
-zwiększania częstotliwości taktowania pojedynczego rdzenia decydują się na zwiększanie liczby rdzeni fizycznych oraz~logicznych. 
-Taka zmiana podejścia projektowania procesorów stawia przed twórcami oprogramowania nowe wyzwania. Klasyczne algorytmy sekwencyjne 
-nie wykorzystują w~pełni dostępnej mocy obliczeniowej współczesnych jednostek centralnych.
+W ostatnim czasie można zaobserować intensywny rozwój architektury procesorów wielordzeniowych. Ograniczenia związane z~dalszym 
+zwiększaniem wydajności pojedynczych rdzeni przyczyniły się do rozwoju procesorów wykorzystujących wiele rdzeni fizycznych oraz~logicznych. 
+Taka zmiana podejścia projektowania procesorów stawia przed programistami nowe wyzwania.
+W konsekwencji coraz większego znaczenia nabiera tworzenie oprogramowania umożliwiającego równoległą realizację obliczeń
+oraz efektywne wykorzystanie dostępnych zasobów sprzętowych~\cite{bib:Hennessy}.
 
 Szczególnie ważnym obszarem, w~którym równoległość może przynieść wymierne korzyści, jest sortowanie danych. Sortowanie stanowi 
 jeden z~fundamentalnych problemów informatyki i~znajduje szerokie zastosowanie m.in. w bazach danych, systemach plików, 
@@ -24,6 +25,8 @@ Implementacja efektywnych algorytmów sortowania równoległego wiąże się z~s
 synchronizacja jednostek wykonawczych, zarządzanie dostępem do pamięci oraz ograniczanie narzutu wynikającego z~realizacji obliczeń równoległych.
 W~praktyce wiele istniejących rozwiązań albo pozostaje na poziomie teoretycznym, albo nie uwzględnia realnych ograniczeń sprzętowych 
 i~systemowych, takich jak koszt przełączania kontekstu, konflikty w~dostępie do pamięci czy nierównomierne obciążenie rdzeni.
+Z tego względu zwiększenie liczby jednostek wykonawczych nie musi prowadzić do proporcjonalnego skrócenia czasu wykonania 
+algorytmu~\cite{bib:Grama}.
 
 W związku z~tym praktyczne zbadanie wydajności oraz efektywności wybranych algorytmów sortowania równoległego stanowi 
 istotne i~aktualne zagadnienie. W niniejszej pracy skoncentrowano się na implementacji i~porównaniu czterech popularnych 
