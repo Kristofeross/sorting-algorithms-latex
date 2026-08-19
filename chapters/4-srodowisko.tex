@@ -9,18 +9,18 @@ Wszystkie eksperymenty zostały przeprowadzone na komputerze o następującej ko
 
 \begin{itemize}
     \item \textbf{Procesor:} Intel(R) Core(TM) i9-9980XE CPU @ 3.00\,GHz
-    \item \textbf{Rdzenie fizyczne:} 4
-    \item \textbf{Rdzenie logiczne:} 8 
-    \item \textbf{Taktowanie bazowe:} 2401\,MHz
-    \item \textbf{Pamięć operacyjna RAM:} 15,85\,GB
-    \item \textbf{System operacyjny:} Windows 10
+    \item \textbf{Rdzenie fizyczne:} 18
+    \item \textbf{Rdzenie logiczne:} 36 
+    \item \textbf{Taktowanie bazowe CPU:} 3000\,MHz
+    \item \textbf{Pamięć operacyjna RAM:} 127,68\,GB
+    \item \textbf{System operacyjny:} Windows Server 2019
     \item \textbf{Architektura:} AMD64 (x86-64)
-    \item \textbf{Interpreter Python:} 3.11.7
+    \item \textbf{Interpreter Python:} 3.14.7
 \end{itemize}
 
-Środowisko to umożliwia badanie zachowania algorytmów sortowania równoległego przy ograniczonej, ale realnej liczbie rdzeni. 
-Obecność technologii Hyper-Threading (8 procesorów logicznych przy 4 rdzeniach fizycznych) pozwala dodatkowo ocenić wpływ 
-logicznych jednostek wykonawczych na wydajność algorytmów.
+Środowisko to umożliwia przeprowadzenie badań algorytmów sortowania równoległego dla różnych poziomów równoległości. 
+Procesor wyposażony w 18 rdzeni fizycznych i 36 procesorów logicznych pozwala na analizę zmian wydajności wraz ze wzrostem 
+liczby wykorzystywanych jednostek wykonawczych.
 
 Dane dotyczące sprzętu i oprogramowania były automatycznie zebrane i zapisywane w bazie danych SQLite przed przeprowadzaniem eksperymentów.
 
@@ -48,10 +48,10 @@ co znacznie przyśpieszyło etap dystrybucji danych. Ponadto \texttt{NumPy} wyko
 przy generowaniu wykresów i rankingów. 
 
 Wyniki eksperymentów były przechowywane i przetwarzane z użyciem biblioteki \texttt{pandas}~\cite{bib:Pandas}, która oferuje wygodne 
-struktury danych (DataFrame) oraz narzędzia do filtrowania, agregacji i analizy tabelarycznej. Do generowania wykresów i wizualizacji 
+struktury danych (DataFrame) oraz narzędzia do filtrowania, agregacji i~analizy tabelarycznej. Do generowania wykresów i~wizualizacji 
 wyników wykorzystano bibliotekę \texttt{matplotlib}~\cite{bib:Matplotlib}.
 
-Do monitorowania zużycia zasobów systemowych wykorzystano bibliotekę \texttt{psutil}~\cite{bib:Psutil} oraz 
+Do monitorowania wykorzystanych zasobów systemowych wykorzystano bibliotekę \texttt{psutil}~\cite{bib:Psutil} oraz 
 narzędzia \texttt{py-cpuinfo} i \texttt{py-spy}~\cite{bib:PySpy}. 
 
 Całość kodu źródłowego została opracowana w środowisku programistycznym JetBrains PyCharm~\cite{bib:PyCharm}, 
@@ -77,14 +77,15 @@ Dzięki temu procesy potomne mogą odczytywać i modyfikować te same dane bez k
 
 Przy algorytmach opartych na strategii ``dziel i zwyciężaj'' czyli Parallel Quicksort oraz Parallel Merge Sort, 
 zastosowano rekurencyjne tworzenie procesów z ograniczeniem głębokości równoległości za pomocą parametru \texttt{max\_depth}. 
-Dodatkowo wprowadzono progi minimalnego rozmiaru podproblemu zawarte w słowniku \texttt{PARALLEL\_\allowbreak CUTOFF}, 
+Dodatkowo wprowadzono progi minimalnego rozmiaru podproblemu zawarte w słowniku\\ \texttt{PARALLEL\_CUTOFF}, 
 poniżej których dalsze tworzenie procesów jest nieopłacalne i następuje przejście do sortowania sekwencyjnego. 
 Takie rozwiązanie ogranicza narzut związany z tworzeniem zbyt dużej liczby procesów przy małych fragmentach danych.
 
-Dla algorytmów opartych na kubełkach czyli Parallel Bucket Sort oraz Parallel Samplesort, zastosowano model z góry określonej liczby 
-procesów \texttt{process\_count}. Dane są najpierw rozdzielane do kubełków, a następnie grupy kubełków są przydzielane poszczególnym procesom. 
-Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w słownikach \texttt{PARALLEL\_\allowbreak SIZE\_\allowbreak CUTOFF} 
-oraz \texttt{GROUP\_\allowbreak SIZE\_\allowbreak CUTOFF}, poniżej których algorytm przełącza się na wariant sekwencyjny.
+Dla algorytmów opartych na kubełkach czyli Parallel Bucket Sort oraz Parallel Samplesort, zastosowano model, 
+w którym liczba procesów jest określana na podstawie liczby rdzeni wykorzystywanych w danym eksperymencie. 
+Dane są najpierw rozdzielane do kubełków, a następnie grupy kubełków są przydzielane poszczególnym procesom. 
+Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w słownikach \texttt{PARALLEL\_SIZE\_CUTOFF} 
+oraz \texttt{GROUP\_SIZE\_CUTOFF}, poniżej których algorytm przełącza się na wariant sekwencyjny.
 
 \subsection*{Parallel Quicksort}
 
