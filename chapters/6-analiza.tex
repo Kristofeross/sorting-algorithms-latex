@@ -2,32 +2,108 @@
 \chapter{Analiza wyników badań}
 \label{cha:AnalizaBadan}
 
+Celem niniejszego rozdziału jest przedstawionie oraz przeanalizowanie wyników przeprowadzonych eksperymentów. 
+Zaimplementowane algorytmy przeanalizowano pod względem czasu sortowania, uzyskanego przyspieszenia i~efektywności, 
+wykorzystania zasobów oraz~skalowalności. 
+Poza tym uwzględniono również wpływ rozmiaru, typu i~charakterystyki danych wejściowych.
+
 \section{Porównanie czasu sortowania}
 \label{sec:CzasSortowania}
 
-Prezentacja wyników pomiarów czasu wykonania dla każdego z algorytmów (dla różnych zbiorów danych, rozmiarów i typów danych). Omówienie i analiza
+Pierwszym i podstawowym kryterium wykorzystanym do oceny wydajności badanych algorytmów był czas wykonania sortowania. 
+Analizie poddano warianty sekwencyjne oraz równoległe algorytmów Quick Sort, Merge Sort, 
+Bucket Sort i~Sample Sort dla zbiorów danych o rozmiarach 1~000, 10~000, 100~000 oraz 1~000~000 elementów.
+
+W pierwszej kolejności przeanalizowano wpływ rozmiaru danych na czas wykonania poszczególnych algorytmów. 
+Jako punkt odniesienia przyjęto zbiór danych \texttt{random\_int}, zawierający losowo wygenerowane liczby całkowite. 
+Pozwala to na porównanie badanych algorytmów w jednakowych warunkach, 
+bez uwzględniania na tym etapie wpływu stopnia uporządkowania danych lub występowania duplikatów.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.90\textwidth]
+    {images/chapter6/execution_time/execution_time_vs_data_size_random_int.png}
+    \caption{Średni czas wykonania wariantów sekwencyjnych w zależności od rozmiaru zbioru \texttt{random\_int}.}
+    \label{fig:time-data-size-sequential}
+    
+    {\small Źródło: opracowanie własne.}
+\end{figure}
+
+Dla wszystkich badanych algorytmach zwiększenie rozmiaru zbioru skutkowało wzrostem czasu wykonania, 
+przy czym różnice dla różnych algorytmów szczególnie stawały się widoczne dla największego badanego zbioru.
+
+Zestaw danych obejmujący 1~000~000 losowych liczb całkowitych uzyskał najkrótszy średni czas wykonania dla algorytmu Bucket Sort, 
+osiągając około 2,04~s. Nieco dłuższego czasu wymagał Quick Sort z czasem około 2,25~s. 
+Merge Sort wymagał około 3,41~s, natomiast Sample Sort osiągnął najdłuższy czas spośród porównywanych algorytmów, równy 4,95~s.
+Wyniki wskazują, że różnice pomiędzy badanymi implementacjami zwiększają się wraz ze wzrostem rozmiaru przetwarzanego zbioru.
+
+W celu bezpośredniego porównania wariantów sekwencyjnych i~równoległych w tabeli~\ref{tab:best-execution-time} 
+zestawiono czasy uzyskane dla 1~000~000 losowych liczb całkowitych. 
+Dla każdego algorytmu przedstawiono czas wariantu sekwencyjnego oraz najlepszy czas uzyskany spośród badanych konfiguracji równoległych.
+
+\input{tables/chapter6/best_execution_time}
+
+Zestawienie pokazuje, że dla każdego z badanych algorytmów możliwe było uzyskanie czasu krótszego niż w wariancie sekwencyjnym, 
+niemniej najlepsze wyniki osiągęto przy różnej liczbie jednostek wykonawczych. 
+Największe przyspieszenie w stosunku do wykonania sekwencyjnego odnotowano dla Sample Sort i~wyniosło ono około 2,23. 
+Nie oznaczało to jednak najkrótszego bezwzględnego czasu sortowania. 
+Najlepszy wynik czasowy uzyskał Bucket Sort, dla którego przy wykorzystaniu 16 jednostek wykonawczych wyniósł on około 1,09~s.
+
+W przypadku Quick Sort najlepszy wynik równoległy uzyskano już dla 2 jednostek wykonawczych. 
+Pokazuje to, że liczba jednostek zapewniająca najkrótszy czas wykonania jest zależna od charakterystyki konkretnego
+algorytmu i~sposobu jego zrównoleglenia.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.90\textwidth]
+    {images/chapter6/execution_time/execution_time_vs_cores_random_int.png}
+    \caption{Średni czas wykonania wariantów równoległych dla zbioru \texttt{random\_int} w zależności od liczby jednostek wykonawczych.}
+    \label{fig:time-cores-random-int}
+    
+    {\small Źródło: opracowanie własne.}
+\end{figure}
+
+Wyniki przedstawione na rysunku~\ref{fig:time-cores-random-int} pokazują,
+że wpływ liczby jednostek wykonawczych na czas sortowania był różny dla poszczególnych algorytmów. 
+Zwiększenie liczby jednostek wykonawczych nie w każdym przypadku przekładało się na krótszy czas wykonania.
+
+Quick Sort osiągnął najkrótszy czas przy 2 jednostkach wykonawczych, Merge Sort przy 4, Sample Sort przy 8, natomiast Bucket Sort przy 16.
+Przekroczenie tych wartości dla większej liczby jednostek nie przynosiło poprawy, 
+a w niektórych przypadkach prowadziło do wydłużenia czasu wykonania.
+
+Szczególnie zauważalne jest to dla Sample Sort, którego średni czas zmniejszył się z około 3,93~s dla 2 jednostek 
+do około 2,22~s dla 8 jednostek, po czym dla 16 jednostek wzrósł do około 4,96~s. 
+Podobne pogorszenie wyników dla większej liczby jednostek zaobserwowano również w przypadku Merge Sort.
+
+Zaobserwowane różnice wskazują, że liczba jednostek wykonawczych pozwalająca uzyskać najkrótszy czas 
+była zależna od zastosowanego algorytmu.  
+Analogiczne pomiary przeprowadzone dla losowych liczb zmiennoprzecinkowych wykazały zbliżony ogólny przebieg zmian czasu wykonania.
 
 \section{Wpływ liczby rdzeni na wydajność}
 \label{sec:LiczbaRdzeni}
 
-Prezentajca i omówienie wyników pod względem użytych liczby rdzeni
+
 
 \section{Analiza zużycia pamięci RAM i obciążenia CPU}
 \label{sec:RamCpu}
 
 Prezentacja i omówienie zużycia pamięci i obiciążenia w tym zestawienie średniego i maksymalnego zużycia 
 
+\input{tables/chapter6/resources}
+
 \section{Skalowalność algorytmów}
 \label{sec:AnalizaSkalowalnosci}
 
 Ocena, jak dobrze algorytmy skalują się wraz ze wzrostem liczby rdzeni i rozmiarem danych
 
-\section{Wpływ typu danych}
-\label{sec:IntFloat}
+\section{Wpływ typu i charakterystyki danych wejściowych}
+\label{sec:CharakterystykaDanych}
 
 Porównanie wyników dla tych samych algorytmów, ale różnych typów danych wejściowych
 
-\section{Porównanie efektywności w zależności od charakterystyki danych wejściowych}
-\label{sec:EfektywnoscDaneWejsciowe}
+\input{tables/chapter6/dataset_impact}
+
+\section{Porównanie badanych algorytmów}
+\label{sec:PorownanieAlgorytmow}
 
 Omówienie wyników dla danych losowych itp. Wskazanie, który algorytm radził sobie lepiej przy danym rodzaju danych
