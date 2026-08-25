@@ -49,40 +49,86 @@ Największe przyspieszenie w stosunku do wykonania sekwencyjnego odnotowano dla 
 Nie oznaczało to jednak najkrótszego bezwzględnego czasu sortowania. 
 Najlepszy wynik czasowy uzyskał Bucket Sort, dla którego przy wykorzystaniu 16 jednostek wykonawczych wyniósł on około 1,09~s.
 
-W przypadku Quick Sort najlepszy wynik równoległy uzyskano już dla 2 jednostek wykonawczych. 
-Pokazuje to, że liczba jednostek zapewniająca najkrótszy czas wykonania jest zależna od charakterystyki konkretnego
-algorytmu i~sposobu jego zrównoleglenia.
+Uzyskane wyniki wskazują, że zastosowanie wariantu równoległego może prowadzić do skrócenia czasu sortowania,
+jednak wielkość uzyskanej poprawy jest zależna od badanego algorytmu oraz zastosowanej konfiguracji równoległości.
+
+\section{Wpływ liczby jednostek wykonawczych na wydajność}
+\label{sec:LiczbaRdzeni}
+
+Kolejnym analizowanym aspektem był wpływ liczby wykorzystywanych jednostek
+wykonawczych na czas działania równoległych wariantów badanych algorytmów.
+Analizę przeprowadzono dla zbioru \texttt{random\_int} zawierającego 1~000~000 elementów, 
+wykorzystując kolejno 2, 4, 8, 16 oraz 32 jednostki wykonawcze. 
+Pozwoliło to przeanalizować, jak zmiana liczby jednostek wykonawczych wpływa na czas sortowania.
+
+W celu porównania wpływu liczby jednostek wykonawczych na wydajność poszczególnych algorytmów 
+zestawiono wyniki uzyskane dla wszystkich badanych konfiguracji.
+
+\input{tables/chapter6/scalability_time}
+
+Uzyskane wyniki wskazują wyraźne różnice pomiędzy badanymi algorytmami.
+Wzrost liczby jednostek wykonawczych nie zawsze przekładał się na poprawę uzyskiwanego czasu sortowania, a najkrótsze
+czasy osiągano przy różnej liczbie wykorzystywanych jednostek.
+
+W przypadku Quick Sort najkrótszy średni czas wykonania uzyskano już przy wykorzystaniu 2 jednostek wykonawczych i~wyniósł on około 1,83~s.
+Zwiększenie ich liczby do 4 skutkowało wydłużeniem czasu do około 2,22~s, natomiast dla 8 jednostek osiągnął on około 2,56~s. 
+Dalsze zwiększanie liczby jednostek do 16 i 32 nie powodowało już wyraźnych różnic w czasie wykonania, 
+który utrzymywał się na poziomie około 2,58~s. 
+Wyniki wskazują, że dla badanej implementacji Quick Sort zwiększenie liczby jednostek wykonawczych 
+powyżej 2 nie przynosiło dalszych korzyści pod względem czasu wykonania.
+
+Dla Merge Sort zwiększenie liczby jednostek wykonawczych z 2 do 4 pozwoliło skrócić czas z około 2,34~s do 2,16~s. 
+Dalsze zwiększenie ich liczby do 8 nie przyniosło dalszej poprawy, a czas wyniósł około 2,32~s.
+Dla 16 oraz 32 jednostek wykonawczych odnotowano wyraźne wydłużenie czasu wykonania, który wyniósł odpowiednio około 3,78~s oraz 3,85~s.
+Najkorzystniejszy wynik dla Merge Sort osiągnięto więc przy 4 jednostkach wykonawczych.
+
+Odmienną tendencję zaobserwowano dla Bucket Sort. 
+Zwiększanie liczby jednostek wykonawczych od 2 do 16 prowadziło do systematycznego skracania czasu sortowania. 
+Średni czas skrócił się z około 1,76~s dla 2 jednostek do 1,52~s dla 4, 1,19~s dla 8 oraz 1,09~s dla 16 jednostek wykonawczych.
+Dopiero zwiększenie ich liczby do 32 skutkowało wydłużeniem czasu do około 1,25~s. 
+Spośród badanych algorytmów Bucket Sort wykazywał poprawę czasu wykonania przy zwiększaniu liczby jednostek wykonawczych aż do 16 jednostek.
+
+Sample Sort również początkowo charakteryzwoał się poprawą wydajności.
+Średni czas wykonania zmniejszył się z około 3,93~s dla 2 jednostek do 2,76~s dla 4 oraz 2,22~s dla 8 jednostek wykonawczych. 
+Po zwiększeniu ich liczby do 16 nastąpiło jednak wyraźne wydłużenie czasu wykonania do około 4,96~s. 
+Przy 32 jednostkach wartość ta uległa jedynie niewielkiej zmianie osiągając około 4,99~s. 
+Najlepszy wynik uzyskano zatem przy 8 jednostkach wykonawczych.
+
+Zmiany czasu wykonania poszczególnych algorytmów wraz ze zwiększaniem liczby 
+jednostek wykonawczych przedstawiono na rysunku~\ref{fig:time-cores-random-int}.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.90\textwidth]
     {images/chapter6/execution_time/execution_time_vs_cores_random_int.png}
-    \caption{Średni czas wykonania wariantów równoległych dla zbioru \texttt{random\_int} w zależności od liczby jednostek wykonawczych.}
+    \caption{Średni czas wykonania wariantów równoległych dla zbioru
+    \texttt{random\_int} o rozmiarze 1~000~000 elementów w zależności od liczby jednostek wykonawczych.}
     \label{fig:time-cores-random-int}
-    
+
     {\small Źródło: opracowanie własne.}
 \end{figure}
 
-Wyniki przedstawione na rysunku~\ref{fig:time-cores-random-int} pokazują,
-że wpływ liczby jednostek wykonawczych na czas sortowania był różny dla poszczególnych algorytmów. 
-Zwiększenie liczby jednostek wykonawczych nie w każdym przypadku przekładało się na krótszy czas wykonania.
+Uzyskane wyniki wskazują, że najkorzystniejsza liczba jednostek wykonawczych różniła się w zależności od badanego algorytmu.
+Quick Sort osiągnął najlepszy wynik przy 2 jednostkach, Merge Sort przy 4, 
+Sample Sort przy 8, natomiast Bucket Sort przy 16 jednostkach wykonawczych.
+Zwiększanie ich liczby powyżej tych wartości nie prowadziło do dalszej poprawy, 
+a dla niektórych algorytmów wiązało się ze wzrostem czasu wykonania.
 
-Quick Sort osiągnął najkrótszy czas przy 2 jednostkach wykonawczych, Merge Sort przy 4, Sample Sort przy 8, natomiast Bucket Sort przy 16.
-Przekroczenie tych wartości dla większej liczby jednostek nie przynosiło poprawy, 
-a w niektórych przypadkach prowadziło do wydłużenia czasu wykonania.
+W celu określenia, czy podobne zależności występują również dla innego typu danych, przeanalizowano wyniki dla zbioru \texttt{random\_float}.
+Dla Merge Sort, Bucket Sort oraz Sample Sort najkrótszy czas wykonania uzyskano przy tej samej liczbie jednostek wykonawczych 
+co dla zbioru \texttt{random\_int}, odpowiednio przy 4, 16 oraz 8 jednostkach. 
+Wyjątek stanowił Quick Sort, dla którego najkrótszy czas przy danych zmiennoprzecinkowych uzyskano przy 4 jednostkach wykonawczych zamiast 2.
 
-Szczególnie zauważalne jest to dla Sample Sort, którego średni czas zmniejszył się z około 3,93~s dla 2 jednostek 
-do około 2,22~s dla 8 jednostek, po czym dla 16 jednostek wzrósł do około 4,96~s. 
-Podobne pogorszenie wyników dla większej liczby jednostek zaobserwowano również w przypadku Merge Sort.
+Podobną tendencję zaobserwowano szczególnie dla Bucket Sort oraz Sample Sort.
+Dla obu typów danych Bucket Sort skracał czas sortowania do 16 jednostek,
+natomiast Sample Sort najkrótszy czas uzyskiwał przy 8 jednostkach. 
+Zwiększenie ich liczby do 16 i~32 prowadziło już do wyraźnego wydłużenia czasu wykonania.
+Powtarzalność tych zależności dla dwóch typów danych sugeruje, że obserwowane zmiany wydajności wynikały głównie 
+ze sposobem realizacji równoległości badanych algorytmów, a nie wyłącznie z typem przetwarzanych wartości.
 
-Zaobserwowane różnice wskazują, że liczba jednostek wykonawczych pozwalająca uzyskać najkrótszy czas 
-była zależna od zastosowanego algorytmu.  
-Analogiczne pomiary przeprowadzone dla losowych liczb zmiennoprzecinkowych wykazały zbliżony ogólny przebieg zmian czasu wykonania.
-
-\section{Wpływ liczby rdzeni na wydajność}
-\label{sec:LiczbaRdzeni}
-
-
+Uzyskane wyniki pokazują, że zwiększenie liczby wykorzystywanych jednostek nie prowadziło do proporcjonalnego wzrostu wydajności.
+Znaczenie ma również sposób zrównoleglenia konkretnego algorytmu oraz narzut związany z organizacją obliczeń równoległych. 
+Wpływ tych czynników można ocenić również na podstawie wykorzystania zasobów oraz uzyskanego przyspieszenia i~efektywności.
 
 \section{Analiza zużycia pamięci RAM i obciążenia CPU}
 \label{sec:RamCpu}
