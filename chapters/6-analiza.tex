@@ -133,9 +133,115 @@ Wpływ tych czynników można ocenić również na podstawie wykorzystania zasob
 \section{Analiza zużycia pamięci RAM i obciążenia CPU}
 \label{sec:RamCpu}
 
-Prezentacja i omówienie zużycia pamięci i obiciążenia w tym zestawienie średniego i maksymalnego zużycia 
+Kolejnym analizowanym aspektem było wykorzystanie zasobów sprzętowych podczas działania równoległych wariantów badanych algorytmów. 
+Uwzględniono średnie obciążenie procesora oraz średnie i~maksymalne wykorzystanie pamięci RAM. 
+
+W celu bezpośredniego porównania wykorzystania zasobów przez badane algorytmy
+przyjęto wspólną konfigurację wykorzystującą 8 jednostek wykonawczych,
+stanowiącą środkową wartość spośród badanych konfiguracji.
+
+W tabeli~\ref{tab:resources} przedstawiono średnie obciążenie CPU oraz wykorzystanie pamięci RAM dla 
+zbioru \texttt{random\_int} zawierającego 1~000~000 elementów.
 
 \input{tables/chapter6/resources}
+
+\subsection*{Obciążenie procesora CPU}
+
+Wartości obciążenia CPU mogą przekraczać 100\%, ponieważ pomiar uwzględnia zarówno proces główny, 
+jak i~procesy potomne wykorzystywane podczas wykonywania algorytmu równoległego.
+W zastosowanej metodzie pomiarowej 100\% oznacza pełne obciążenie jednego procesora logicznego, 
+natomiast wyższe wartości wskazują na równoczesne wykorzystanie kilku jednostek wykonawczych.
+
+Przy wykorzystaniu 8 jednostek wykonawczych najwyższe średnie obciążenie CPU odnotowano dla Sample Sort i~wyniosło ono około 431,51\%.
+Drugą najwyższą wartość uzyskał Bucket Sort z wynikiem około 365,50\%. 
+Merge Sort oraz Quick Sort charakteryzowały się wyraźnie mniejszym obciążeniem procesora, osiągając odpowiednio około 182,60\% i~149,62\%.
+
+Zmiany obciążenia procesora wraz ze wzrostem liczby jednostek wykonawczych przedstawiono na rysunku~\ref{fig:cpu-cores-random-int}.
+Dodatkowo zaznaczono teoretyczne maksymalne obciążenie CPU, odpowiadające 100\% dla każdej wykorzystywanej jednostki wykonawczej.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]
+    {images/chapter6/cpu/cpu_vs_cores_comparison_random_int.png}
+    \caption{Średnie wykorzystanie CPU dla zbioru \texttt{random\_int}
+    o rozmiarze 1~000~000 elementów w zależności od liczby jednostek
+    wykonawczych.}
+    \label{fig:cpu-cores-random-int}
+
+    {\small Źródło: opracowanie własne.}
+\end{figure}
+
+Dla Bucket Sort zwiększanie liczby jednostek wykonawczych skutkowało stopniowym wzrostem obciążenia procesora. 
+Średnie wykorzystanie CPU wzrosło z około 165,35\% dla 2 jednostek do 231,69\% dla 4,
+365,50\% dla 8 oraz 547,26\% dla 16 jednostek wykonawczych.
+Największe średnie obciążenie CPU odnotowano przy 32 jednostkach wykonawczych i~wyniosło ono około 768,07\%.
+Wyniki pokazują, że wraz ze zwiększaniem liczby jednostek wykonawczych Bucket Sort generował coraz większe łączne obciążenie procesora.
+
+Wzrost obciążenia CPU nie prowadził jednak w każdym przypadku do dalszego skracania czasu sortowania. 
+Dla Bucket Sort najlepszy czas uzyskano przy 16 jednostkach wykonawczych, natomiast zwiększenie ich liczby do 32 spowodowało 
+wydłużenie średniego czasu z około 1,09~s do 1,25~s, pomimo wzrostu średniego wykorzystania procesora z około 547\% do 768\%. 
+Wskazuje to, że większe wykorzystanie CPU nie zawsze wiąże się z poprawą czasu wykonania.
+
+Odmienną tendencję zaobserwowano dla Merge Sort. 
+Wykorzystanie CPU wzrosło z około 184,96\% dla 2 jednostek wykonawczych do około
+247,28\% dla 4 jednostek, po czym przy 8 jednostkach spadło do około 182,60\%. 
+Dla 16 oraz 32 jednostek wykonawczych średnie obciążenie procesora osiągało już tylko około 98\%. 
+Zmniejszeniu obciążenia CPU towarzyszył jednocześnie wzrost czasu sortowania. 
+Najkrótszy średni czas wykonania Merge Sort odnotowano dla 4 jednostek wykonawczych, 
+natomiast przy 16 i~32 jednostkach wzrósł on do około 3,8~s.
+
+Podobną zależność zaobserwowano dla Quick Sort. 
+Wyższe obciążenie procesora występowało przy mniejszej liczbie jednostek wykonawczych. 
+Dla 2 jednostek wynosiło ono około 170,36\%, natomiast dla 4 osiągnęło około 179,53\%.
+Przy 8 jednostkach wartość zmniejszyła się do około 149,62\%, a dla 16 i~32 wynosiła już około 98\%.
+Wraz ze zwiększaniem liczby jednostek wykonawczych nie obserwowano odpowiadającego mu wzrostu obciążenia procesora.
+
+Wyraźne zmiany wystąpiły również dla Sample Sort. 
+Średnie obciążenie procesora wzrosło z około 191,57\% dla 2 jednostek
+wykonawczych do 309,72\% dla 4, a~najwyższy poziom około 431,51\% odnotowano przy 8 jednostkach. 
+Dalsze zwiększenie ich liczby do 16 i~32 skutkowało zmniejszeniem wykorzystania CPU do około 99\%.
+
+Porównanie wyników wskazuje zatem na wyraźne różnice w sposobie wykorzystania dostępnej równoległości przez poszczególne algorytmy.
+Bucket Sort jako jedyny zwiększał średnie obciążenie CPU w całym badanym zakresie od 2 do 32 jednostek wykonawczych.
+
+Kolejnym czynnikiem wpływającym na wykorzystanie procesora był rozmiar przetwarzanego zbioru. 
+Zależność średniego obciążenia CPU od liczby sortowanych elementów dla 32 jednostek wykonawczych 
+przedstawiono na rysunku~\ref{fig:cpu-size-random-int}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]
+    {images/chapter6/cpu/cpu_vs_data_size_random_int.png}
+    \caption{Średnie wykorzystanie CPU w zależności od rozmiaru zbioru
+    \texttt{random\_int} dla 32 jednostek wykonawczych.}
+    \label{fig:cpu-size-random-int}
+
+    {\small Źródło: opracowanie własne.}
+\end{figure}
+
+Dla najmniejszych zbiorów danych w części pomiarów odnotowano bardzo niskie,
+a w niektórych przypadkach również zerowe wartości średniego wykorzystania CPU.
+Wyniki te należy interpretować z uwzględnieniem przyjętego sposobu próbkowania obciążenia procesora.
+Ze względu na krótki czas wykonania sortowania dla najmniejszych zbiorów pomiar mógł zakończyć się przed zarejestrowaniem
+wystarczającej liczby próbek. Wartość równa 0\% nie oznacza zatem braku wykorzystania procesora, lecz wynika 
+z ograniczenia zastosowanej metody pomiarowej.
+Dla większych zbiorów danych rejestrowane wartości wykorzystania procesora były wyższe. 
+Szczególnie widoczne było to dla Bucket Sort, dla którego przy 32 jednostkach wykonawczych średnie wykorzystanie CPU wzrosło
+z około 65,63\% dla 100~000 elementów do około 768,07\% dla 1~000~000 elementów.
+
+Dla Merge Sort, Quick Sort oraz Sample Sort przy 32 jednostkach wykonawczych i~1~000~000 elementów 
+średnie wykorzystanie procesora wynosiło natomiast około 97--99\%. 
+Oznacza to, że w tych konfiguracjach zwiększona liczba jednostek wykonawczych nie przełożyła się na wyższe obciążenie CPU. 
+Zaobserwowane różnice pomiędzy algorytmami wskazują na znaczenie sposobu organizacji obliczeń równoległych.
+
+Zbliżony przebieg zaobserwowano również dla zbioru \texttt{random\_float}. 
+Bucket Sort zwiększał wykorzystanie CPU wraz ze wzrostem liczby jednostek wykonawczych, 
+natomiast dla Sample Sort najwyższe obciążenie procesora wystąpiło przy 8 jednostkach.
+Wskazuje to, że zaobserwowane zależności nie były charakterystyczne wyłącznie dla danych typu całkowitego. 
+
+\subsection*{Wykorzystanie pamięci RAM}
+
+
 
 \section{Skalowalność algorytmów}
 \label{sec:AnalizaSkalowalnosci}
@@ -147,9 +253,5 @@ Ocena, jak dobrze algorytmy skalują się wraz ze wzrostem liczby rdzeni i rozmi
 
 Porównanie wyników dla tych samych algorytmów, ale różnych typów danych wejściowych
 
-\input{tables/chapter6/dataset_impact}
-
-\section{Porównanie badanych algorytmów}
-\label{sec:PorownanieAlgorytmow}
 
 Omówienie wyników dla danych losowych itp. Wskazanie, który algorytm radził sobie lepiej przy danym rodzaju danych
