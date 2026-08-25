@@ -2,7 +2,7 @@
 \chapter{Analiza wyników badań}
 \label{cha:AnalizaBadan}
 
-Celem niniejszego rozdziału jest przedstawionie oraz przeanalizowanie wyników przeprowadzonych eksperymentów. 
+Celem niniejszego rozdziału jest przedstawienie oraz przeanalizowanie wyników przeprowadzonych eksperymentów. 
 Zaimplementowane algorytmy przeanalizowano pod względem czasu sortowania, uzyskanego przyspieszenia i~efektywności, 
 wykorzystania zasobów oraz~skalowalności. 
 Poza tym uwzględniono również wpływ rozmiaru, typu i~charakterystyki danych wejściowych.
@@ -29,7 +29,7 @@ bez uwzględniania na tym etapie wpływu stopnia uporządkowania danych lub wyst
     {\small Źródło: opracowanie własne.}
 \end{figure}
 
-Dla wszystkich badanych algorytmach zwiększenie rozmiaru zbioru skutkowało wzrostem czasu wykonania, 
+Dla wszystkich badanych algorytmów zwiększenie rozmiaru zbioru skutkowało wzrostem czasu wykonania, 
 przy czym różnice dla różnych algorytmów szczególnie stawały się widoczne dla największego badanego zbioru.
 
 Zestaw danych obejmujący 1~000~000 losowych liczb całkowitych uzyskał najkrótszy średni czas wykonania dla algorytmu Bucket Sort, 
@@ -88,7 +88,7 @@ Zwiększanie liczby jednostek wykonawczych od 2 do 16 prowadziło do systematycz
 Dopiero zwiększenie ich liczby do 32 skutkowało wydłużeniem czasu do około 1,25~s. 
 Spośród badanych algorytmów Bucket Sort wykazywał poprawę czasu wykonania przy zwiększaniu liczby jednostek wykonawczych aż do 16 jednostek.
 
-Sample Sort również początkowo charakteryzwoał się poprawą wydajności.
+Sample Sort również początkowo charakteryzował się poprawą wydajności.
 Średni czas wykonania zmniejszył się z około 3,93~s dla 2 jednostek do 2,76~s dla 4 oraz 2,22~s dla 8 jednostek wykonawczych. 
 Po zwiększeniu ich liczby do 16 nastąpiło jednak wyraźne wydłużenie czasu wykonania do około 4,96~s. 
 Przy 32 jednostkach wartość ta uległa jedynie niewielkiej zmianie osiągając około 4,99~s. 
@@ -123,8 +123,8 @@ Podobną tendencję zaobserwowano szczególnie dla Bucket Sort oraz Sample Sort.
 Dla obu typów danych Bucket Sort skracał czas sortowania do 16 jednostek,
 natomiast Sample Sort najkrótszy czas uzyskiwał przy 8 jednostkach. 
 Zwiększenie ich liczby do 16 i~32 prowadziło już do wyraźnego wydłużenia czasu wykonania.
-Powtarzalność tych zależności dla dwóch typów danych sugeruje, że obserwowane zmiany wydajności wynikały głównie 
-ze sposobem realizacji równoległości badanych algorytmów, a nie wyłącznie z typem przetwarzanych wartości.
+Powtarzalność tych zależności dla dwóch typów danych sugeruje, że obserwowane zmiany wydajności mogły wynikać 
+przede wszystkim ze sposobu realizacji równoległości badanych algorytmów, a nie wyłącznie z typu przetwarzanych wartości.
 
 Uzyskane wyniki pokazują, że zwiększenie liczby wykorzystywanych jednostek nie prowadziło do proporcjonalnego wzrostu wydajności.
 Znaczenie ma również sposób zrównoleglenia konkretnego algorytmu oraz narzut związany z organizacją obliczeń równoległych. 
