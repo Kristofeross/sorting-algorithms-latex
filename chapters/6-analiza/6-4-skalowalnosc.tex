@@ -1,3 +1,187 @@
 \section{Skalowalność algorytmów}
 \label{sec:AnalizaSkalowalnosci}
 
+Kolejnym elementem analizy była ocena skalowalności równoległych wariantów badanych algorytmów. 
+W tym celu wykorzystano wartości przyspieszenia oraz efektywności uzyskane dla różnych liczb 
+jednostek wykonawczych i~rozmiarów danych wejściowych.
+
+Analizę przeprowadzono w dwóch ujęciach. 
+W pierwszym przypadku analizowano zmiany przyspieszenia i~efektywności wynikające ze wzrostu liczby 
+jednostek wykonawczych przy niezmiennym rozmiarze danych. 
+W drugim natomiast oceniono, jak zwiększanie rozmiaru danych wejściowych wpływa na wyniki z zachowaniem tej samej liczby jednostek wykonawczych.
+
+Szczegółową analizę przeprowadzono dla zbioru \texttt{random\_int}, natomiast wyniki dla zbioru \texttt{random\_float} posłużyły do oceny, 
+czy podobne zależności można zaobserwować również dla danych zmiennoprzecinkowych.
+
+\subsection*{Skalowalność względem liczby jednostek wykonawczych}
+
+W pierwszej kolejności przeanalizowano skalowalność algorytmów przy rosnącej liczbie 
+jednostek wykonawczych dla zbioru o stałym rozmiarze 1~000~000 elementów. 
+Uwzględniono konfiguracje obejmujące 2, 4, 8, 16 i~32 jednostki wykonawcze.
+
+Analiza przyspieszenia pozwala określić, jak zwiększanie liczby jednostek wykonawczych wpływało na wydajność poszczególnych algorytmów.
+Wyniki zestawiono w tabeli~\ref{tab:scalability-speedup}.
+
+\input{tables/chapter6/scalability_speedup}
+
+Przebieg zmian przyspieszenia wraz ze wzrostem jednostek wykonawczych przedstawiono również na rysunku~\ref{fig:speedup-cores-random-int}.
+Linią przerywaną oznaczono przyspieszenie idealne, zakładające wzrost wartości przyspieszenia proporcjonalnie do liczby jednostek wykonawczych.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]
+    {images/chapter6/speedup/speedup_vs_cores_comparison_random_int.png}
+    \caption{Przyspieszenie badanych algorytmów dla zbioru
+    \texttt{random\_int} o rozmiarze 1~000~000 elementów w zależności od liczby jednostek wykonawczych.}
+    \label{fig:speedup-cores-random-int}
+
+    {\small Źródło: opracowanie własne.}
+\end{figure}
+
+Uzyskane wyniki wskazują, że zwiększanie liczby jednostek wykonawczych nie prowadziło do proporcjonalnego wzrostu przyspieszenia.
+Dla każdego z badanych algorytmów najwyższa wartość przyspieszenia wystąpiła przy innej liczbie jednostek wykonawczych.
+
+W przypadku Quick Sort najwyższe przyspieszenie, wynoszące około 1,23, uzyskano dla 2 jednostek wykonawczych. 
+Dla 4 jednostek wartość przyspieszenia wyniosła około 1,01, natomiast przy większej liczbie jednostek spadła poniżej 1. 
+Dla 8, 16 i~32 jednostek osiągnęła odpowiednio około 0,88, 0,87 i~0,87, co oznacza, 
+że w tych konfiguracjach wariant równoległy wykonywał sortowanie wolniej od wariantu sekwencyjnego.
+
+Merge Sort osiągnął najwyższe przyspieszenie przy 4 jednostkach wykonawczych, dla których wyniosło ono około 1,58. 
+Dla 2 oraz 8 jednostek uzyskano odpowiednio około 1,46 i~1,47. 
+Przy dalszym zwiększaniu liczby jednostek wykonawczych zaobserwowano spadek wartości przyspieszenia 
+do poziomu około 0,90 dla 16 jednostek oraz 0,89 dla 32 jednostek. 
+Uzyskane rezultaty wskazują, że przekroczenie liczby 8 jednostek wykonawczych nie przyczyniało się 
+już do poprawy wydajności analizowanej implementacji.
+
+Odmienny przebieg zaobserwowano dla Bucket Sort. 
+Wartość przyspieszenia wzrastała od około 1,16 dla 2 jednostek wykonawczych do 1,34 dla 4 oraz 1,72 dla 8 jednostek. 
+Najwyższą wartość, wynoszącą około 1,87, uzyskano dla 16 jednostek wykonawczych. 
+Zwiększenie liczby jednostek wykonawczych do 32 doprowadziło do spadku wartości przyspieszenia do poziomu około 1,63.
+Bucket Sort jako jedyny z badanych algorytmów zachował przyspieszenie większe od 1 dla wszystkich analizowanych konfiguracji.
+
+Spośród wszystkich analizowanych algorytmów najwyższą wartość przyspieszenia osiągnął Sample Sort.
+Wartość ta zwiększyła się z około 1,26 dla 2 jednostek wykonawczych do 1,80 dla 4 oraz osiągnęła 2,23 przy 8 jednostkach. 
+Dalsze zwiększenie liczby jednostek spowodowało jednak wyraźny spadek przyspieszenia. 
+Dla 16 jednostek wykonawczych wartość ta wynosiła około 1,00, natomiast dla 32 jednostek około 0,99. 
+Najkorzystniejszą konfiguracją Sample Sort spośród przebadanych okazało się zatem zastosowanie 8 jednostek wykonawczych.
+
+Kolejną miarą wykorzystaną do oceny skalowalności była efektywność,
+określająca przyspieszenie przypadające na jedną wykorzystywaną jednostkę wykonawczą.
+Porównanie uzyskanych wartości dla badanych algorytmów zestawiono w tabeli~\ref{tab:scalability-efficiency}.
+
+\input{tables/chapter6/scalability_efficiency}
+
+Zmiany efektywności wraz ze zwiększaniem liczby jednostek wykonawczych przedstawiono na rysunku~\ref{fig:efficiency-cores-random-int}.
+Wartość równa 1 oznacza efektywność idealną, w której zwiększenie liczby jednostek wykonawczych 
+skutkowałoby proporcjonalnym przyrostem przyspieszenia.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]
+    {images/chapter6/efficiency/efficiency_vs_cores_comparison_random_int.png}
+    \caption{Efektywność badanych algorytmów dla zbioru
+    \texttt{random\_int} o rozmiarze 1~000~000 elementów w zależności od liczby jednostek wykonawczych.}
+    \label{fig:efficiency-cores-random-int}
+
+    {\small Źródło: opracowanie własne.}
+\end{figure}
+
+Dla wszystkich badanych algorytmów wraz ze zwiększaniem liczby jednostek wykonawczych obserwowano spadek efektywności. 
+Najwyższe wartości występowały dla konfiguracji wykorzystującej 2 jednostki.
+Wynosiły one około 0,73 dla Merge Sort, 0,63 dla Sample Sort, 0,61 dla Quick Sort oraz 0,58 dla Bucket Sort.
+
+Przy 4 jednostkach wykonawczych najwyższą efektywność osiągnął Sample Sort, dla którego wyniosła ona około 0,45. 
+Merge Sort uzyskał około 0,39, Bucket Sort około 0,33, natomiast Quick Sort około 0,25. 
+Przy 8 jednostkach wartości spadły odpowiednio do około 0,28 dla Sample Sort, 
+0,21 dla Bucket Sort, 0,18 dla Merge Sort oraz 0,11 dla Quick Sort.
+
+Dalsze zwiększanie liczby jednostek wykonawczych skutkowało wyraźnym obniżeniem efektywności. 
+Przy 32 jednostkach najwyższą wartość uzyskał Bucket Sort, jednak wynosiła ona jedynie około 0,05. 
+W przypadku Sample Sort, Merge Sort oraz Quick Sort efektywność utrzymywała się na poziomie około 0,03.
+
+Obserwowany spadek efektywności wraz ze zwiększaniem liczby jednostek wykonawczych wskazuje, 
+że dodatkowe zasoby obliczeniowe nie przekładały się na proporcjonalny przyrost przyspieszenia. 
+Największe różnice były widoczne dla konfiguracji wykorzystujących 16 i~32 jednostki,
+dla których efektywność wszystkich badanych algorytmów pozostawała na niskim poziomie.
+
+W porównaniu z pozostałymi algorytmami Bucket Sort wyróżniał się najbardziej równomiernym wzrostem 
+przyspieszenia wraz ze zwiększaniem liczby jednostek wykonawczych. 
+Sample Sort uzyskał natomiast najwyższą wartość przyspieszenia spośród wszystkich badanych konfiguracji, 
+wynoszącą około 2,23 przy 8 jednostkach wykonawczych.
+
+Spośród badanych algorytmów Bucket Sort charakteryzował się najbardziej
+równomiernym wzrostem przyspieszenia wraz ze zwiększaniem liczby jednostek
+wykonawczych, natomiast najwyższą pojedynczą wartość przyspieszenia,
+wynoszącą około 2,23, uzyskał Sample Sort przy 8 jednostkach.
+
+Uzyskane wartości przyspieszenia i~efektywności świadczą o ograniczonej skalowalności badanych implementacji. 
+Żaden z algorytmów nie zbliżył się do skalowania idealnego, a wraz ze wzrostem liczby jednostek wykonawczych 
+różnica pomiędzy uzyskanym a teoretycznym przyspieszeniem ulegała zwiększeniu.
+
+\subsection*{Wpływ rozmiaru danych na skalowalność}
+
+Drugim analizowanym czynnikiem był wpływ rozmiaru danych wejściowych na skalowalność badanych algorytmów. 
+W tym celu porównano wartości przyspieszenia uzyskane przy niezmiennej liczbie 32 jednostek wykonawczych 
+dla zbiorów liczących 1~000, 10~000, 100~000 oraz 1~000~000 elementów.
+
+Zmiany wartości przyspieszenia w zależności od rozmiaru zbioru \texttt{random\_int} przedstawiono na rysunku~\ref{fig:speedup-size-random-int}.
+Linią przerywaną oznaczono poziom przyspieszenia równy 1, przy którym czas wykonania wariantu równoległego i~sekwencyjnego jest taki sam.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]
+    {images/chapter6/speedup/speedup_vs_data_size_random_int.png}
+    \caption{Przyspieszenie badanych algorytmów w zależności od rozmiaru
+    zbioru \texttt{random\_int} dla 32 jednostek wykonawczych.}
+    \label{fig:speedup-size-random-int}
+
+    {\small Źródło: opracowanie własne.}
+\end{figure}
+
+Uzyskane rezultaty pokazują, że wpływ zwiększania rozmiaru danych na przyspieszenie różnił się w zależności od analizowanego algorytmu.
+Najbardziej zauważalną zmianę odnotowano dla Bucket Sort.
+Dla zbioru zawierającego 1~000 elementów przyspieszenie wynosiło około 1,07, 
+natomiast dla 10~000 i~100~000 elementów pozostawało na poziomie zbliżonym do 1. 
+Dla największego badanego zbioru, zawierającego 1~000~000 elementów, wartość ta wzrosła do około 1,63. 
+Oznacza to, że dla Bucket Sort konfiguracja obejmująca 32 jednostki wykonawcze stawała się korzystniejsza wraz ze wzrostem rozmiaru danych.
+
+Inną zależność zaobserwowano dla Merge Sort. 
+W całym analizowanym zakresie wartość przyspieszenia utrzymywała się poniżej 1 i~wynosiła około 0,86--0,89. 
+Zwiększenie rozmiaru danych do 1~000~000 elementów nie przełożyło się zatem na uzyskanie przewagi 
+wariantu równoległego nad wariantem sekwencyjnym przy 32 jednostkach wykonawczych.
+
+W przypadku Quick Sort przyspieszenie również pozostawało poniżej 1 dla wszystkich analizowanych rozmiarów danych. 
+Dla 1~000 elementów wynosiło około 0,90, natomiast dla 10~000 elementów zmniejszyło się do około 0,61. 
+Dla większych zbiorów jego wartość ponownie się zwiększyła, osiągając około 0,85 dla 100~000 oraz 0,87 dla 1~000~000 elementów.
+Mimo odnotowanego wzrostu wariant równoległy nie osiągnął przy 32 jednostkach wykonawczych przyspieszenia przekraczającego wartość 1.
+
+Sample Sort charakteryzował się wartościami przyspieszenia zbliżonymi do 1. 
+Dla 1~000 elementów wynosiło ono około 0,97, a dla 10~000 elementów około 0,98. 
+Przy 100~000 elementów wartość osiągnęła poziom bliski 1, natomiast dla 1~000~000 elementów wyniosła około 0,99. 
+Wzrost rozmiaru danych nie przyniósł zatem w tej konfiguracji wyraźnego zwiększenia przyspieszenia.
+
+Porównanie uzyskanych rezultatów wskazuje, że zwiększanie rozmiaru danych wejściowych w zróżnicowanym 
+stopniu oddziaływało na skalowalność badanych algorytmów. 
+Największe korzyści przy zastosowaniu 32 jednostek wykonawczych odnotowano dla Bucket Sort, 
+który dla największego zbioru osiągnął przyspieszenie przekraczające 1. 
+W przypadku pozostałych algorytmów nawet zwiększenie rozmiaru danych do 1~000~000 elementów nie umożliwiło 
+uzyskania przewagi wariantu równoległego nad sekwencyjnym.
+
+Zbliżone zależności zaobserwowano również dla zbioru \texttt{random\_float}. 
+Wyniki uzyskane dla danych zmiennoprzecinkowych potwierdziły, że wpływ rozmiaru danych na skalowalność zależał od analizowanego algorytmu, 
+a zwiększenie liczby przetwarzanych elementów nie gwarantowało poprawy przyspieszenia we wszystkich implementacjach.
+
+Uzyskane wyniki wskazują na zróżnicowaną skalowalność badanych implementacji. 
+Wraz ze zwiększaniem liczby jednostek wykonawczych we wszystkich algorytmach odnotowywano spadek efektywności, 
+jednak tempo tego spadku oraz zmiany uzyskiwanego przyspieszenia różniły się pomiędzy poszczególnymi algorytmami.
+
+Najkorzystniejszą skalowalność w zakresie większej liczby jednostek wykonawczych wykazywał Bucket Sort, 
+który jako jedyny przy 16 oraz 32 jednostkach zachował przyspieszenie większe od 1. 
+Pozostałe algorytmy osiągały najwyższe wartości przyspieszenia przy mniejszej
+liczbie jednostek, po czym dalsze zwiększanie poziomu równoległości prowadziło do spadku uzyskiwanych wartości.
+
+Analiza wpływu rozmiaru danych pokazała ponadto, że zwiększanie liczby przetwarzanych elementów 
+nie zapewniało jednakowej poprawy skalowalności wszystkich algorytmów.
+Najbardziej wyraźna korzyść dla największego analizowanego zbioru wystąpiła w przypadku Bucket Sort, 
+natomiast dla pozostałych implementacji zwiększenie rozmiaru danych nie okazało się wystarczające do 
+efektywnego wykorzystania konfiguracji obejmującej 32 jednostki wykonawcze.
