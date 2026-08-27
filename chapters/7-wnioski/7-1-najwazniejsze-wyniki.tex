@@ -1,0 +1,49 @@
+\section{Najważniejsze wyniki przeprowadzonych badań}
+\label{sec:NajwazniejszeWyniki}
+
+Wyniki przeprowadzonych badań wskazują, że wykorzystanie obliczeń równoległych pozwalało na skrócenie czasu sortowania,
+jednak uzyskiwane korzyści różniły się w zależności od badanego algorytmu, liczby jednostek wykonawczych oraz charakterystyki danych wejściowych. 
+
+Spośród badanych algorytmów najkorzystniejsze wyniki czasowe uzyskał Bucket Sort. 
+Dla zbioru \texttt{random\_int} obejmującego 1~000~000 elementów najlepszy czas wyniósł około 1,09~s przy zastosowaniu 16 jednostek wykonawczych.
+Algorytm ten jako jedyny uzyskiwał coraz krótszy czas wykonania przy zwiększaniu liczby jednostek od 2 do 16, 
+natomiast przejście do 32 jednostek nie przyniosło już dalszej poprawy.
+
+Pozostałe algorytmy uzyskały najkorzystniejsze rezultaty przy mniejszej liczbie jednostek wykonawczych. 
+Quick Sort osiągnął najlepszy wynik dla 2 jednostek, Merge Sort dla 4, natomiast Sample Sort dla 8.
+Dalszy wzrost poziomu równoległości nie powodował skrócenia czasu wykonania, a~dla części analizowanych konfiguracji skutkował jego wydłużeniem.
+Wskazuje to, że optymalny poziom równoległości różnił się w zależności od sposobu implementacji poszczególnych algorytmów.
+
+Różnice pomiędzy badanymi implementacjami były zauważalne także pod względem osiągniętego przyspieszenia. 
+Najwyższą wartość spośród wszystkich algorytmów uzyskał Sample Sort, dla którego przy 8 jednostkach wykonawczych wyniosła ona około 2,23. 
+Bucket Sort charakteryzował się natomiast najbardziej równomiernym wzrostem przyspieszenia wraz ze wzrostem liczby jednostek wykonawczych 
+i~jako jedyny utrzymał wartość przyspieszenia powyżej 1 również dla konfiguracji obejmujących 16 oraz 32 jednostki.
+
+Wraz ze wzrostem liczby jednostek wykonawczych dla wszystkich analizowanych algorytmów odnotowano spadek efektywności. 
+Wskazuje to, że zwiększanie liczby wykorzystywanych jednostek nie przekładało się na proporcjonalny przyrost przyspieszenia. 
+Zjawisko to było szczególnie widoczne dla konfiguracji wykorzystujących 16 oraz 32 jednostki wykonawcze.
+
+Analiza wykorzystania zasobów również wskazała na różnice pomiędzy poszczególnymi implementacjami.
+Bucket Sort zwiększał obciążenie procesora wraz ze wzrostem liczby jednostek wykonawczych, a jednocześnie rosło jego zapotrzebowanie na pamięć RAM. 
+Dla pozostałych algorytmów wzrost liczby jednostek nie przekładał się w każdym przypadku na większe obciążenie CPU.
+Wyniki pokazały również, że większe zbiory danych pozwalały na lepsze wykorzystanie 
+wielu jednostek wykonawczych niż zbiory o niewielkiej liczbie elementów.
+
+Przeprowadzone eksperymenty pokazały, że charakterystyka danych wejściowych ma wpływ na badane algorytmy w różnym stopniu. 
+Największe różnice w czasie wykonania pomiędzy analizowanymi rodzajami danych odnotowano dla Quick Sort.
+Bucket Sort jak i~Sample Sort osiągały natomiast bardziej zbliżone wyniki dla analizowanych wariantów danych.
+W przypadku Merge Sort wzrost stopnia częściowego uporządkowania wiązał się z niewielkim skracaniem czasu wykonania.
+
+Zestawienie wyników dla danych całkowitych i~zmiennoprzecinkowych nie wykazało 
+jednoznacznej przewagi jednego z tych typów dla wszystkich analizowanych algorytmów. 
+Także obecność duplikatów nie wpływała w jednakowy sposób na czas wykonania poszczególnych algorytmów. 
+Pokazuje to, że znaczenie charakterystyki danych wejściowych różniło się przede wszystkim w zależności od zastosowanej implementacji.
+
+--------------  Zobaczy sie -------------- 
+
+Podsumowując główne wyniki przeprowadzonych eksperymentów, nie stwierdzono jednej konfiguracji równoległości, 
+która byłaby najkorzystniejsza dla wszystkich badanych algorytmów. 
+Otrzymane wyniki wskazują, że skuteczne wykorzystanie możliwości procesora wielordzeniowego wymaga odpowiedniego 
+dostosowania poziomu równoległości do specyfiki danego algorytmu oraz rozmiaru przetwarzanych danych.
+
+--------------  Zobaczy sie -------------- 

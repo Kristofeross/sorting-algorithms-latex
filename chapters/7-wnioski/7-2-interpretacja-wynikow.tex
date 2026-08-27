@@ -1,0 +1,73 @@
+\section{Interpretacja uzyskanych wyników}
+\label{sec:InterpretacjaWynikow}
+
+Z uzyskanych wyników wynika, że różnice wydajnościowe między algorytmami były spowodowane zarówno z ich charakterystyki obliczeniowej, 
+jak i przyjętym sposobem implementacji obliczeń równoległych.
+
+Na obserwowane rezultaty wpływały między innymi sposób podziału danych, liczba tworzonych procesów, 
+moment przejścia do wykonania sekwencyjnego, a także dodatkowy narzut związany z tworzeniem i~synchronizacją procesów.
+Wpływ tych czynników różnił się pomiędzy poszczególnymi algorytmami, co było widoczne w uzyskanych czasach wykonania, 
+wartościach przyspieszenia i~efektywności oraz wykorzystaniu zasobów.
+
+\subsection*{Wpływ sposobu organizacji obliczeń równoległych}
+
+Istotnym czynnikiem wpływającym na uzyskane wyniki był sposób sterowania
+poziomem równoległości. W przypadku Quick Sort oraz Merge Sort maksymalną
+głębokość równoległego podziału określano zgodnie z zależnością
+
+\[
+    d_{\max} = \lfloor \log_2(p) \rfloor,
+\]
+
+gdzie $p$ oznacza liczbę jednostek wykonawczych. 
+Dodatkowo wprowadzono progi minimalnego rozmiaru fragmentu danych, po których osiągnięciu dalsze przetwarzanie realizowano sekwencyjnie. 
+W Bucket Sort oraz Sample Sort analogiczne progi określały zasadność utworzenia procesu dla danego fragmentu danych.
+
+Rozwiązania te zmniejszały narzut wynikający z równoległego wykonywania niewielkich zadań, 
+jednocześnie oddziałując na rzeczywisty poziom równoległości.
+Przyjęte wartości progów pozostawały stałe dla poszczególnych konfiguracji liczby jednostek wykonawczych, 
+w związku z czym nie zapewniały jednakowo korzystnego podziału pracy dla każdego rozmiaru i rodzaju danych. 
+Mogło to przyczyniać się do spadków wykorzystania CPU, przyspieszenia i efektywności obserwowanych w części analizowanych konfiguracji.
+
+W przypadku Quick Sort partycjonowanie mogło prowadzić do powstawania fragmentów o~różnych rozmiarach, 
+a~tym samym do nierównomiernego rozłożenia pracy pomiędzy procesami. 
+Dodatkowo możliwość tworzenia kolejnych procesów ograniczały maksymalna głębokość podziału oraz przyjęty próg minimalnego rozmiaru fragmentu.
+
+Może to częściowo tłumaczyć, dlaczego dla zbioru \texttt{random\_int} najkrótszy czas uzyskano przy 2 jednostkach wykonawczych, 
+natomiast dalsze zwiększanie ich liczby nie przynosiło poprawy. 
+Towarzyszyły temu również spadek efektywności oraz brak dalszego wzrostu wykorzystania CPU.
+
+W przypadku Merge Sort podział danych miał bardziej regularny charakter, ponieważ na kolejnych 
+poziomach przetwarzany zakres dzielono na dwie części. 
+Po zakończeniu sortowania fragmentów konieczne było jednak oczekiwanie na procesy potomne oraz scalanie uzyskanych części. 
+Wraz ze wzrostem liczby procesów wzrastało więc znaczenie kosztów ich tworzenia, synchronizacji oraz operacji scalania.
+
+Może to częściowo tłumaczyć, dlaczego najlepszy czas uzyskano przy 4 jednostkach wykonawczych, 
+natomiast zastosowanie 16 i~32 jednostek prowadziło do pogorszenia wyników. Towarzyszyło temu również niskie 
+wykorzystanie CPU w~stosunku do liczby dostępnych jednostek wykonawczych.
+
+W przypadku Bucket Sort dane przydzielano do kubełków, które następnie grupowano i~przekazywano dostępnym procesom. 
+Przyjęte progi decydowały o~wykorzystaniu wykonania równoległego oraz utworzeniu oddzielnego procesu dla danej grupy. 
+Pozwalało to na przetwarzanie mniejszych zadań bez ponoszenia dodatkowych kosztów związanych z~wieloprocesowością.
+
+Taki sposób organizacji obliczeń odpowiada korzystniejszemu zachowaniu Bucket Sort przy zwiększaniu liczby jednostek wykonawczych. 
+Dla zbioru \texttt{random\_int} czas wykonania ulegał zmniejszeniu aż do konfiguracji obejmującej 16 jednostek, 
+a wraz ze wzrostem ich liczby odnotowywano również zwiększanie średniego wykorzystania CPU. 
+Przy 32 jednostkach dalsza poprawa czasu nie nastąpiła, mimo jeszcze większego obciążenia procesora.
+
+Sample Sort wykorzystywał wieloetapową organizację obliczeń, obejmującą równoległe sortowanie fragmentów, 
+wyznaczanie elementów podziałowych, redystrybucję danych oraz sortowanie utworzonych grup. 
+Wiązało się to z~kilkoma etapami tworzenia i~synchronizacji procesów oraz dodatkową pracą związaną z podziałem danych.
+
+Może to częściowo tłumaczyć poprawę wyników do 8 jednostek wykonawczych
+oraz brak dalszych korzyści dla 16 i~32 jednostek. 
+Przy większej liczbie jednostek ulegała zmniejszeniu ilość danych przypadająca na pojedyncze zadanie, 
+podczas gdy koszty organizacji kolejnych etapów pozostawały obecne.
+
+Porównanie analizowanych implementacji wskazuje, że na uzyskane rezultaty oddziaływały przede wszystkim sposób podziału danych, 
+granularność zadań oraz liczba etapów wymagających synchronizacji procesów. 
+Różnice w organizacji obliczeń mogą częściowo tłumaczyć, 
+dlaczego poszczególne algorytmy osiągały najlepsze wyniki przy różnej liczbie jednostek wykonawczych.
+
+\subsection*{Wpływ narzutu wieloprocesowości}
+
