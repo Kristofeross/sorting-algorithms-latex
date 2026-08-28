@@ -1,2 +1,43 @@
 \section{Ograniczenia przeprowadzonych badań}
 \label{sec:OgraniczeniaBadan}
+
+Przeprowadzone badania umożliwiły porównanie działania wybranych algorytmów 
+sortowania równoległego w~określonych warunkach sprzętowych i~programowych. 
+Otrzymane rezultaty należy jednak rozpatrywać z~uwzględnieniem ograniczeń związanych z~przyjętą metodyką badań.
+
+Pierwszym ograniczeniem było zastosowanie jednego środowiska sprzętowego. 
+Wszystkie eksperymenty przeprowadzono na tej samej platformie wyposażonej w~procesor Intel Core i9-9980XE posiadający
+18 rdzeni fizycznych i~36 wątków logicznych oraz 64~GB pamięci RAM.
+Oznacza to, że uzyskane rezultaty odzwierciedlają zachowanie badanych implementacji na konkretnej konfiguracji sprzętowej. 
+W przypadku innych procesorów, cechujących się inną liczbą rdzeni, organizacją pamięci podręcznej lub przepustowością pamięci, 
+relacje pomiędzy analizowanymi wariantami mogłyby wyglądać inaczej.
+
+Badania przeprowadzono również w~jednym środowisku systemowym.
+Wykorzystano system Windows, w~którym moduł \texttt{multiprocessing} uruchamia procesy z~wykorzystaniem mechanizmu \texttt{spawn}.
+Uzyskane wyniki uwzględniają zatem narzut właściwy dla tego sposobu uruchamiania procesów i~nie należy ich bezpośrednio porównywać 
+z~rezultatami możliwymi do uzyskania w~innych systemach operacyjnych lub przy zastosowaniu innych metod tworzenia procesów.
+
+Kolejnym ograniczeniem był zakres badanych rozmiarów danych.
+W badaniach wykorzystano cztery rozmiary zbiorów danych: od 1~000 do 1~000~000 elementów.
+Z kolei warianty równoległe badano dla 2, 4, 8, 16 oraz 32 jednostek wykonawczych.
+Dla części algorytmów największy badany zbiór mógł być nadal niewystarczający, aby w~pełni wykorzystać większą liczbę jednostek wykonawczych.
+Natomiast w~przypadku najmniejszych zbiorów bardzo krótki czas wykonania ograniczał liczbę zarejestrowanych próbek wykorzystania CPU. 
+W~niektórych pomiarach skutkowało to wartością 0\%,, co nie oznacza jednak, że procesor nie był w~tym czasie wykorzystywany.
+Z~tego względu wyniki uzyskane dla skrajnych rozmiarów danych należy interpretować z~uwzględnieniem tych ograniczeń.
+
+Na otrzymane rezultaty wpływ miały również zastosowane progi przejścia do wykonania sekwencyjnego.
+Wartości progów zostały ustalone przed przeprowadzeniem końcowej serii eksperymentów 
+i~nie były później modyfikowane na podstawie uzyskiwanych rezultatów. 
+Umożliwiło to zachowanie jednakowych warunków pomiarowych, jednak uzyskane wyniki pokazują, 
+że przyjęte progi nie były jednakowo korzystne dla wszystkich kombinacji rozmiaru danych i~liczby jednostek wykonawczych. 
+W~niektórych konfiguracjach ograniczały one faktyczny stopień równoległości, co mogło przekładać się na osiągane przyspieszenie i~efektywność.
+
+% Pewnym ograniczeniem była również liczba powtórzeń eksperymentów.
+% Dla każdej konfiguracji przeprowadzono jedno uruchomienie rozgrzewkowe, 
+% którego rezultatów nie uwzględniono w~statystykach, a~następnie wykonano 10 właściwych powtórzeń. 
+% Takie podejście zmniejszało znaczenie pojedynczych odchyleń w~czasie wykonania, 
+% natomiast zastosowanie większej liczby powtórzeń mogłoby zapewnić bardziej stabilne wartości średniej, 
+% mediany i~odchylenia standardowego.
+
+Przedstawione ograniczenia określają zakres, w~jakim można interpretować i~uogólniać uzyskane wyniki. 
+Rezultaty odnoszą się przede wszystkim do badanych implementacji oraz przyjętych warunków przeprowadzania eksperymentów.

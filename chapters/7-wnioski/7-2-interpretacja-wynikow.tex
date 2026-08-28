@@ -1,11 +1,11 @@
 \section{Interpretacja uzyskanych wyników}
 \label{sec:InterpretacjaWynikow}
 
-Z uzyskanych wyników wynika, że różnice wydajnościowe między algorytmami były spowodowane zarówno z ich charakterystyki obliczeniowej, 
+Z~uzyskanych wyników wynika, że różnice wydajnościowe między algorytmami były spowodowane zarówno z~ich charakterystyki obliczeniowej, 
 jak i przyjętym sposobem implementacji obliczeń równoległych.
 
 Na obserwowane rezultaty wpływały między innymi sposób podziału danych, liczba tworzonych procesów, 
-moment przejścia do wykonania sekwencyjnego, a także dodatkowy narzut związany z tworzeniem i~synchronizacją procesów.
+moment przejścia do wykonania sekwencyjnego, a także dodatkowy narzut związany z~tworzeniem i~synchronizacją procesów.
 Wpływ tych czynników różnił się pomiędzy poszczególnymi algorytmami, co było widoczne w uzyskanych czasach wykonania, 
 wartościach przyspieszenia i~efektywności oraz wykorzystaniu zasobów.
 
@@ -13,7 +13,7 @@ wartościach przyspieszenia i~efektywności oraz wykorzystaniu zasobów.
 
 Istotnym czynnikiem wpływającym na uzyskane wyniki był sposób sterowania
 poziomem równoległości. W przypadku Quick Sort oraz Merge Sort maksymalną
-głębokość równoległego podziału określano zgodnie z zależnością
+głębokość równoległego podziału określano zgodnie z~zależnością
 
 \[
     d_{\max} = \lfloor \log_2(p) \rfloor,
@@ -23,10 +23,10 @@ gdzie $p$ oznacza liczbę jednostek wykonawczych.
 Dodatkowo wprowadzono progi minimalnego rozmiaru fragmentu danych, po których osiągnięciu dalsze przetwarzanie realizowano sekwencyjnie. 
 W Bucket Sort oraz Sample Sort analogiczne progi określały zasadność utworzenia procesu dla danego fragmentu danych.
 
-Rozwiązania te zmniejszały narzut wynikający z równoległego wykonywania niewielkich zadań, 
+Rozwiązania te zmniejszały narzut wynikający z~równoległego wykonywania niewielkich zadań, 
 jednocześnie oddziałując na rzeczywisty poziom równoległości.
 Przyjęte wartości progów pozostawały stałe dla poszczególnych konfiguracji liczby jednostek wykonawczych, 
-w związku z czym nie zapewniały jednakowo korzystnego podziału pracy dla każdego rozmiaru i rodzaju danych. 
+w związku z~czym nie zapewniały jednakowo korzystnego podziału pracy dla każdego rozmiaru i rodzaju danych. 
 Mogło to przyczyniać się do spadków wykorzystania CPU, przyspieszenia i efektywności obserwowanych w części analizowanych konfiguracji.
 
 W przypadku Quick Sort partycjonowanie mogło prowadzić do powstawania fragmentów o~różnych rozmiarach, 
@@ -57,17 +57,55 @@ Przy 32 jednostkach dalsza poprawa czasu nie nastąpiła, mimo jeszcze większeg
 
 Sample Sort wykorzystywał wieloetapową organizację obliczeń, obejmującą równoległe sortowanie fragmentów, 
 wyznaczanie elementów podziałowych, redystrybucję danych oraz sortowanie utworzonych grup. 
-Wiązało się to z~kilkoma etapami tworzenia i~synchronizacji procesów oraz dodatkową pracą związaną z podziałem danych.
+Wiązało się to z~kilkoma etapami tworzenia i~synchronizacji procesów oraz dodatkową pracą związaną z~podziałem danych.
 
 Może to częściowo tłumaczyć poprawę wyników do 8 jednostek wykonawczych
 oraz brak dalszych korzyści dla 16 i~32 jednostek. 
 Przy większej liczbie jednostek ulegała zmniejszeniu ilość danych przypadająca na pojedyncze zadanie, 
 podczas gdy koszty organizacji kolejnych etapów pozostawały obecne.
 
-Porównanie analizowanych implementacji wskazuje, że na uzyskane rezultaty oddziaływały przede wszystkim sposób podziału danych, 
-granularność zadań oraz liczba etapów wymagających synchronizacji procesów. 
-Różnice w organizacji obliczeń mogą częściowo tłumaczyć, 
-dlaczego poszczególne algorytmy osiągały najlepsze wyniki przy różnej liczbie jednostek wykonawczych.
-
 \subsection*{Wpływ narzutu wieloprocesowości}
 
+Na uzyskane wyniki wpływał również narzut związany z~wykorzystaniem wieloprocesowości. 
+Badane warianty równoległe zaimplementowano z~wykorzystaniem modułu \texttt{multiprocessing}, tworząc procesy klasą \texttt{Process}. 
+Współdzielenie danych realizowano poprzez mechanizm \texttt{shared\_memory}.
+
+Tworzenie procesów i~kontrolowanie ich wykonania wiązało się z~dodatkowym narzutem, które nie występowały w~wariantach sekwencyjnych. 
+Obejmowały one między innymi uruchamianie procesów, oczekiwanie na ich zakończenie oraz operacje związane z~obsługą pamięci współdzielonej.
+Ponadto w~części implementacji konieczne było kopiowanie fragmentów danych do struktur 
+lokalnych na potrzeby dalszego przetwarzania, co stanowiło dodatkowy element wykonywanych operacji.
+
+Znaczenie tego narzutu rosło wraz ze zmniejszaniem ilości pracy przypadającej na pojedynczy proces. 
+Może to częściowo tłumaczyć niewielkie korzyści z~równoległości dla małych zbiorów danych oraz 
+spadek efektywności obserwowany przy większej liczbie jednostek wykonawczych, gdy przetwarzane fragmenty stawały się mniejsze.
+
+Dodatkowe znaczenie miało środowisko przeprowadzania eksperymentów. Badania wykonano w~systemie Windows, 
+gdzie moduł \texttt{multiprocessing} wykorzystuje metodę \texttt{spawn} do uruchamiania nowych procesów. 
+Metoda ta prowadzi do uruchomienia odrębnego procesu interpretera Pythona, 
+co wiąże się z~dodatkowym narzutem inicjalizacji przed rozpoczęciem właściwych obliczeń.
+W opracowanych implementacjach nie stosowano stałej puli procesów.
+Procesy tworzono w~momentach, w~których poszczególne etapy algorytmów wymagały wykonania zadań równoległych. 
+Koszty ich uruchamiania i synchronizacji mogły zatem ograniczać korzyści z~równoległości, 
+szczególnie przy niewielkiej ilości pracy przypadającej na pojedynczy proces.
+
+Dodatkowych informacji na temat przebiegu obliczeń dostarczyło profilowanie przeprowadzone z~wykorzystaniem narzędzia \texttt{py-spy}.
+Na wygenerowanych wykresach płomieni widoczne były między innymi stosy wywołań związane z~mechanizmem \texttt{multiprocessing}, 
+w tym funkcje \texttt{spawn\_main} oraz \texttt{\_bootstrap}, a także funkcje odpowiadające właściwym operacjom analizowanych algorytmów.
+Przykładowy wykres dla równoległej implementacji Merge Sort przedstawiono na rysunku~\ref{fig:merge-sort-flamegraph}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]
+    {images/chapter7/Merge_Sort_-_Parallel.png}
+    \caption{Wykres płomieni dla równoległej implementacji Merge Sort uzyskany za pomocą narzędzia \texttt{py-spy}}
+    \label{fig:merge-sort-flamegraph}
+\end{figure}
+
+Obecność funkcji związanych z~uruchamianiem procesów potomnych na wykresie odpowiada realizacji obliczeń z~użyciem modułu \texttt{multiprocessing}.
+Samego udziału funkcji \texttt{spawn\_main} nie należy jednak wiązać bezpośrednio z~czasem przeznaczonym wyłącznie na utworzenie procesu, 
+ponieważ jest ona częścią stosu wywołań procesu potomnego, w~obrębie którego realizowane są również kolejne operacje algorytmu.
+
+Uzyskane wyniki należy zatem interpretować jako rezultat zarówno właściwości poszczególnych algorytmów, 
+jak i~przyjętego sposobu realizacji obliczeń równoległych. 
+Istotne znaczenie miały sposób podziału danych, wielkość wykonywanych zadań, 
+zastosowane progi przejścia do wariantu sekwencyjnego oraz narzut związany z~tworzeniem i~synchronizacją procesów.
