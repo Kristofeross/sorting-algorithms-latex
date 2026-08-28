@@ -2,5 +2,27 @@
 \chapter*{Podsumowanie}
 \addcontentsline{toc}{chapter}{Podsumowanie}
 
-Podsumowanie wyników, najważniejsze wnioski, ocena czy cele pracy zostały osiągnięte, 
-ograniczenia przeprowadzonych badań oraz możliwe kierunki dalszego rozwoju i optymalizacji zaimplementowanych algorytmów.
+Celem niniejszej pracy było przeprowadzenie analizy wydajności i~efektywności wybranych algorytmów sortowania równoległego na procesorach wielordzeniowych. 
+W~języku Python zaimplementowano Quick Sort, Merge Sort, Bucket Sort oraz Sample Sort w~wariantach sekwencyjnych i~równoległych. 
+Do realizacji równoległości wykorzystano moduł \texttt{multiprocessing} oraz pamięć współdzieloną.
+Implementacje poddano badaniom dla zróżnicowanych rozmiarów i~charakterystyk danych wejściowych oraz różnej liczby jednostek wykonawczych.
+
+Przeprowadzone eksperymenty umożliwiły porównanie algorytmów pod względem czasu wykonania, 
+wykorzystania CPU i~pamięci RAM, przyspieszenia oraz efektywności. 
+Uzyskane wyniki wykazały, że obliczenia równoległe mogą skracać czas sortowania, 
+jednak osiągane korzyści zależały od algorytmu i~liczby wykorzystywanych jednostek wykonawczych.
+Nie zaobserwowano jednej konfiguracji, która byłaby najkorzystniejsza dla wszystkich badanych implementacji.
+
+Spośród badanych algorytmów najkrótsze czasy wykonania osiągnał Bucket Sort, poprawiając rezultaty do 16 jednostek wykonawczych.
+Najwyższe przyspieszenie uzyskano natomiast dla Sample Sort przy 8 jednostkach.
+Quick Sort i~Merge Sort osiągały najlepsze wyniki przy niższym poziomie równoległości. 
+Dalsze zwiększanie liczby jednostek nie zawsze skracało czas wykonania, a~jednocześnie odnotowywano spadek efektywności.
+
+Na uzyskane rezultaty oddziaływały między innymi sposób podziału danych, wielkość zadań, 
+zastosowane progi przejścia do wykonania sekwencyjnego oraz narzut związany z~tworzeniem i~synchronizacją procesów.
+Większy rozmiar danych umożliwiał lepsze wykorzystanie równoległości, 
+natomiast wpływ ich charakterystyki był różny dla poszczególnych algorytmów.
+
+Wyniki przeprowadzonych badań pozwalają stwierdzić, że założony cel pracy został zrealizowany.
+Uzyskane rezultaty pokazują, że samo zwiększanie liczby jednostek wykonawczych nie gwarantuje poprawy wydajności, 
+a~efektywne wykorzystanie równoległości wymaga dopasowania jej poziomu zarówno do konkretnego algorytmu, jak i~do rozmiaru przetwarzanych danych.
