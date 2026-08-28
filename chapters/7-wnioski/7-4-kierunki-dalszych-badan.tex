@@ -1,2 +1,34 @@
 \section{Kierunki dalszych badań}
 \label{sec:DalszeBadania}
+
+Uzyskane wyniki oraz wskazane ograniczenia wyznaczają kilka możliwych kierunków dalszego rozwoju i~analizy zaimplementowanych rozwiązań.
+
+Jednym z~nich jest przeprowadzenie eksperymentów w~innych środowiskach sprzętowych i~systemowych. 
+W~szczególności zasadne byłoby powtórzenie badań w~systemie Linux, w~którym możliwe jest wykorzystanie innych mechanizmów uruchamiania procesów, 
+charakteryzujących się mniejszym narzutem niż zastosowany w~badaniach mechanizm \texttt{spawn}.
+Pozwoliłoby to ocenić, w~jakim stopniu narzut wynikający z~tworzenia procesów 
+oddziaływał na uzyskane czasy wykonania oraz efektywność przetwarzania równoległego.
+Przeprowadzenie badań na procesorach różniących się liczbą rdzeni oraz architekturą pozwoliłoby również określić, 
+w~jakim zakresie otrzymane wyniki są zależne od wykorzystywanej platformy sprzętowej.
+
+Kolejnym obszarem dalszych badań może być wykorzystanie stałej puli procesów, zwłaszcza w~algorytmach, 
+w~których procesy tworzone są dynamicznie w~trakcie kolejnych podziałów danych, takich jak Quick Sort oraz Merge Sort. 
+Zastosowanie mechanizmu \texttt{ProcessPoolExecutor} lub \texttt{Pool} umożliwiłoby ustalenie stałej liczby procesów
+roboczych i~przydzielanie im kolejnych zadań obliczeniowych.
+Takie rozwiązanie pozwoliłoby na dokładniejszą kontrolę faktycznego poziomu równoległości 
+oraz zmniejszenie potrzeby tworzenia nowych procesów w~kolejnych etapach przetwarzania.
+W~przypadku Bucket Sort i~Sample Sort liczba procesów była już silniej uzależniona od 
+przyjętego sposobu podziału pracy oraz liczby jednostek wykonawczych. 
+Zastosowanie wspólnej puli procesów mogłoby jednak pozwolić na porównanie odmiennych sposobów organizacji i~przydzielania zadań równoległych.
+
+Dalszej analizy wymaga również sposób doboru progów przejścia do wykonania sekwencyjnego. 
+W~przeprowadzonych badaniach stosowano ustalone wartości progowe, które nie były jednakowo korzystne dla wszystkich konfiguracji. 
+Dalsze badania mogłyby uwzględniać dokładniejsze dobranie wartości progowych w~zależności od rozmiaru danych oraz liczby jednostek wykonawczych.
+
+Ważnym rozszerzeniem byłoby również przeprowadzenie eksperymentów dla zbiorów przekraczających 1~000~000 elementów. 
+Umożliwiłoby to ocenę, czy zwiększenie ilości pracy przypadającej na pojedynczy proces 
+pozwala na lepsze wykorzystanie 16 i~32 jednostek wykonawczych.
+Pozwoliłoby to również dokładniejszą ocenę skalowalności implementacji przy większych rozmiarach danych.
+
+Uwzględnienie wskazanych kierunków pozwoliłoby dokładniej zbadać wpływ środowiska wykonawczego i~zastosowanych 
+rozwiązań implementacyjnych na wydajność algorytmów oraz określić możliwości dalszego zwiększania efektywności wariantów równoległych.
