@@ -87,7 +87,7 @@ Takie rozwiązanie ogranicza narzut związany z tworzeniem zbyt dużej liczby pr
 Dla algorytmów opartych na kubełkach czyli Parallel Bucket Sort oraz Parallel Sample Sort, zastosowano model, 
 w którym liczba procesów jest określana na podstawie liczby jednostek wykonawczych wykorzystywanych w danym eksperymencie. 
 Dane są najpierw rozdzielane do kubełków, a~następnie grupy kubełków są przydzielane poszczególnym procesom. 
-Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w słownikach \texttt{PARALLEL\_SIZE\_CUTOFF} 
+Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w \texttt{PARALLEL\_SIZE\_CUTOFF} 
 oraz \texttt{GROUP\_SIZE\_CUTOFF}, poniżej których algorytm przełącza się na wariant sekwencyjny.
 
 \subsection*{Parallel Quick Sort}

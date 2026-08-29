@@ -44,10 +44,12 @@ Wykorzystano dwanaście wariantów zbiorów wejściowych, obejmujących:
 Testy równoległe wykonano dla dostępnych konfiguracji liczby jednostek wykonawczych udostępnianych przez środowisko sprzętowe. 
 W przypadku algorytmów Quick Sort oraz Merge Sort liczba procesów była zależna od parametru głębokości równoległości:
 \[
-\textit{max\_depth} = \log_2(\textit{cores}).
-% \textit{max\_depth} = \left\lfloor \log_2(p) \right\rfloor.
+% \textit{max\_depth} = \log_2(\textit{cores}), 
+\textit{max\_depth} = \left\lfloor \log_2(p) \right\rfloor, 
 \]
-Dla Bucket Sort oraz Sample Sort liczbę procesów ustawiano jako liczbę wykorzystanych jednostek wykonawczych.
+
+gdzie p oznacza liczb˛e jednostek wykonawczych. W przypadku Bucket Sort oraz Sample Sort 
+liczbę procesów ustawiano jako równą liczbie wykorzystanych jednostek wykonawczych.
 
 \subsection*{Organizacja eksperymentów}
 
