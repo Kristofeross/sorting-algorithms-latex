@@ -2,6 +2,9 @@
 \chapter{Środowisko badawcze i implementacja}
 \label{cha:SrodowiskoImplementacja}
 
+W niniejszym rozdziale zaprezentowano środowisko sprzętowe i~programowe wykorzystane do~przeprowadzenia eksperymentów. 
+Omówiono zastosowane technologie, sposób implementacji analizowanych algorytmów oraz charakterystykę przygotowanych danych testowych.
+
 \section{Opis środowiska}
 \label{sec:Srodowisko}
 
@@ -22,29 +25,29 @@ Wszystkie eksperymenty zostały przeprowadzone na komputerze o następującej ko
 Procesor wyposażony w 18 rdzeni fizycznych i 36 procesorów logicznych pozwala na analizę zmian wydajności wraz ze wzrostem 
 liczby wykorzystywanych jednostek wykonawczych.
 
-Dane dotyczące sprzętu i oprogramowania były automatycznie zebrane i zapisywane w bazie danych SQLite przed przeprowadzaniem eksperymentów.
+Dane dotyczące sprzętu i~oprogramowania zostały automatycznie zebrane i~zapisywane w bazie danych SQLite przed rozpoczęciem eksperymentów.
 
 \section{Wybór języka i bibliotek}
 \label{sec:JezykBiblioteki}
 
-Do~implementacji algorytmów sortowania równoległego, genrowania danych, przeprowadzenia eksperymentów oraz wizualizacji wyników wybrano 
-język programowania Python w wersji 3.11.7~\cite{bib:Python}. Decyzja ta wynikała z kilku powodów. Python jest jednym z najpoularnijeszych 
+Do~implementacji algorytmów sortowania równoległego, generowania danych, przeprowadzenia eksperymentów oraz wizualizacji wyników wybrano 
+język programowania Python w wersji 3.14.7~\cite{bib:Python}. Decyzja ta wynikała z~kilku powodów. Python jest jednym z~najpopularniejszych 
 języków, charakteryzuje się przejrzystą i~elegancką składnią, co ułatwia tworzenie, analizę i~utrzymanie kodu. 
 Posiada bogatą bibliotekę standardową oraz rozbudowany zbiór dostępnych bibliotek, pakietów i~narzędzi programistycznych rozszerzających 
-możliwości języka, które znacząco przyspieszają rozwój oprogramowania. Dodatkowo język ten jest w pełni przenośny między systemami 
-operacyjnymi tj. Windows, Linux, macOS, co ma znaczenie przy planowaniu ewentualnych dalszych testów na innych platformach.
+możliwości języka, które znacząco przyspieszają rozwój oprogramowania. Dodatkowo język ten jest w~pełni przenośny między systemami 
+operacyjnymi, takimi jak Windows, Linux, macOS, co ma znaczenie przy planowaniu ewentualnych dalszych testów na innych platformach.
 
 Niezwykle istotną rolę w projekcie odgrywa biblioteka \texttt{multiprocessing}~\cite{bib:Multiprocessing}, stanowiąca część standardowej 
 biblioteki Pythona. Pakiet ten przy użyciu interfejsu programistycznego podobnego do~pythonowego modułu \texttt{threading} umożliwia 
 tworzenie procesów oraz realizację obliczeń równoległych z pominięciem ograniczeń wynikających z Global Interpreter Lock (GIL). 
-Dzięki temu możliwe jest efektywne wykorzystanie wielu rdzeni~procesora. W ramach tej biblioteki wykorzystano również 
+Dzięki temu możliwe jest efektywne wykorzystanie wielu rdzeni procesora. W ramach tej biblioteki wykorzystano również 
 moduł \texttt{multiprocessing.shared\_memory}~\cite{bib:SharedMemory}, który pozwala na bezpośredni dostęp wielu procesów do~wspólnego 
 obszaru pamięci. Mechanizm ten eliminuje konieczność serializacji oraz przesyłania dużych struktur danych między procesami, 
 ograniczając związany z tym narzut, co ma szczególne znaczenie podczas sortowania dużych zbiorów danych.
 
-Biblioteka \texttt{NumPy}~\cite{bib:NumPy} obsługująca dane numeryczne i~szybkie operacje na tablicach, została wykorzystana w 
-optymalizacji algorytmów Parallel Bucket Sort oraz Parallel Samplesort. Posłużyła w nich do~efektywnego rozdzielania elementów do~kubełków, 
-co znacznie przyśpieszyło etap dystrybucji danych. Ponadto \texttt{NumPy} wykorzystano w module analizy złożoności obliczeniowej oraz 
+Biblioteka \texttt{NumPy}~\cite{bib:NumPy} obsługująca dane numeryczne i~szybkie operacje na tablicach, została wykorzystana w~optymalizacji 
+algorytmów Parallel Bucket Sort oraz Parallel Samplesort. Posłużyła w nich do~efektywnego rozdzielania elementów do~kubełków, 
+co znacznie usprawniło etap dystrybucji danych. Ponadto \texttt{NumPy} wykorzystano w module analizy złożoności obliczeniowej oraz 
 przy generowaniu wykresów i~rankingów. 
 
 Wyniki eksperymentów były przechowywane i~przetwarzane z użyciem biblioteki \texttt{pandas}~\cite{bib:Pandas}, która oferuje wygodne 
@@ -58,17 +61,17 @@ Całość kodu źródłowego została opracowana w środowisku programistycznym 
 które zapewnia wsparcie dla języka Python, debugowanie oraz wygodne zarządzanie projektem.
 
 Do przechowywania wygenerowanych danych testowych oraz wyników eksperymentów wykorzystano bazę danych SQLite~\cite{bib:SQLite}. 
-Jest to wbudowany silnik bazodanowy, który nie wymaga osobnego serwera ponieważ odczytuje i~zapisuje dane bezpośrednio do plików dyskowych. 
+Jest to wbudowany silnik bazodanowy, który nie wymaga osobnego serwera, ponieważ odczytuje i~zapisuje dane bezpośrednio do plików dyskowych. 
 Rozwiązanie to upraszcza zarządzanie danymi i~zapewnia łatwą przenośność między środowiskami.
 
-Wybór powyższego zestawu technologii umożliwia na spójną implementację algorytmów, precyzyjny pomiar ich charakterystyk wydajnościowych 
+Wybór powyższego zestawu technologii umożliwia spójną implementację algorytmów, precyzyjny pomiar ich charakterystyk wydajnościowych 
 oraz wygodną analizę i~prezentację wyników badań.
 
 \section{Implementacja wybranych algorytmów}
 \label{sec:ImplementacjaAlgorytmow}
 
 Wszystkie algorytmy zaimplementowano w języku Python z wykorzystaniem mechanizmu wieloprocesowego oraz pamięci współdzielonej. 
-Każdy algorytm występuje w dwóch wariantach: sekwencyjnym, który stanowi punkt odniesienia oraz równoległym. 
+Każdy algorytm występuje w dwóch wariantach: sekwencyjnym, który stanowi punkt odniesienia, oraz równoległym. 
 Wspólną cechą implementacji równoległych jest przechowywanie sortowanych danych w bloku pamięci współdzielonej, 
 mapowanym na tablicę typów \texttt{ctypes} (\texttt{c\_longlong} dla liczb całkowitych oraz \texttt{c\_double} dla liczb zmiennoprzecinkowych). 
 Dzięki temu procesy potomne mogą odczytywać i modyfikować te same dane bez konieczności ich kopiowania oraz przesyłania pomiędzy procesami.
@@ -77,17 +80,17 @@ Dzięki temu procesy potomne mogą odczytywać i modyfikować te same dane bez k
 
 Przy algorytmach opartych na strategii ``dziel i zwyciężaj'' czyli Parallel Quicksort oraz Parallel Merge Sort, 
 zastosowano rekurencyjne tworzenie procesów z ograniczeniem głębokości równoległości za pomocą parametru \texttt{max\_depth}. 
-Dodatkowo wprowadzono progi minimalnego rozmiaru podproblemu zawarte w słowniku\\ \texttt{PARALLEL\_CUTOFF}, 
+Dodatkowo wprowadzono progi minimalnego rozmiaru fragmentu danych zawarte w słowniku\\ \texttt{PARALLEL\_CUTOFF}, 
 poniżej których dalsze tworzenie procesów jest nieopłacalne i~następuje przejście do sortowania sekwencyjnego. 
 Takie rozwiązanie ogranicza narzut związany z tworzeniem zbyt dużej liczby procesów przy małych fragmentach danych.
 
 Dla algorytmów opartych na kubełkach czyli Parallel Bucket Sort oraz Parallel Samplesort, zastosowano model, 
-w którym liczba procesów jest określana na podstawie liczby rdzeni wykorzystywanych w danym eksperymencie. 
+w którym liczba procesów jest określana na podstawie liczby jednostek wykonawczych wykorzystywanych w danym eksperymencie. 
 Dane są najpierw rozdzielane do kubełków, a~następnie grupy kubełków są przydzielane poszczególnym procesom. 
 Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w słownikach \texttt{PARALLEL\_SIZE\_CUTOFF} 
 oraz \texttt{GROUP\_SIZE\_CUTOFF}, poniżej których algorytm przełącza się na wariant sekwencyjny.
 
-\subsection*{Parallel Quicksort}
+\subsection*{Parallel Quick Sort}
 
 Wariant sekwencyjny realizuje klasyczny Quicksort z wyborem pivota jako elementu środkowego.
 
@@ -95,7 +98,7 @@ Wariant sekwencyjny realizuje klasyczny Quicksort z wyborem pivota jako elementu
   language=Python, caption={Funkcja partycjonowania w Quicksort}, label={lst:qs-partition}
 ]{listings/chapter4/quicksort_partition.py}
 
-W wersji równoległej po wykonaniu partycji lewa i prawa część tablicy mogą być sortowane niezależnie przez osobne procesy. 
+W wersji równoległej po wykonaniu partycjonowania lewa i prawa część tablicy mogą być sortowane niezależnie przez osobne procesy. 
 Każdy proces dołącza się do~istniejącego bloku pamięci współdzielonej, sortuje przypisany dla siebie zakres, a~następnie kończy działanie. 
 Gdy rozmiar zakresu spada poniżej ustalonego progu lub osiągnięta zostaje maksymalna głębokość równoległości, 
 dalsze sortowanie odbywa się sekwencyjnie.
@@ -129,7 +132,7 @@ sortuje każdy kubełek z wykorzystaniem zaimplementowanego algorytmu Merge Sort
   language=Python, caption={Rozdzielanie elementów do kubełków w Bucket Sort}, label={lst:bs-distribute}
 ]{listings/chapter4/bucketsort_distribute.py}
 
-W wersji równoległej liczba utworzonych kubełków jest wyliczana na podstawie rozmiaru danych oraz liczby wykorzystywanych rdzeni. 
+W wersji równoległej liczba utworzonych kubełków jest wyliczana na podstawie rozmiaru danych oraz liczby jednostek wykonawczych. 
 Po utworzeniu kubełków ich zawartość jest łączona w jedną tablicę, która umieszczana zostaje w pamięci współdzielonej, 
 a zakresy poszczególnych kubełków są grupowane i przydzielane procesom. Procesy sortują przypisane im grupy kubełków niezależnie. 
 Dla małych grup sortowanie wykonywane jest sekwencyjnie, co ogranicza narzut związany z~tworzeniem procesów.
@@ -150,7 +153,7 @@ rozdzielenie elementów do kubełków według wyznaczonych wartości oraz ostate
 
 W wersji równoległej etapy te realizowane są z wykorzystaniem wielu procesów. 
 Na początku procesy równolegle sortują lokalne fragmenty danych i zbierają próbki. 
-Na podstawie próbek wyznaczane są wartości rodzielające, po czym dane elementy są rozdzielane do kubełków. 
+Na podstawie próbek wyznaczane są wartości rozdzielające, po czym dane elementy są rozdzielane do odpowiednich kubełków. 
 Na końcu grupy kubełków są ponownie sortowane równolegle. 
 W przypadku niewielkich grup danych stosowany jest wariant sekwencyjny, co ogranicza koszt związany z tworzeniem procesów.
 Do dystrybucji elementów wykorzystano operacje wektorowe biblioteki \texttt{NumPy}.
@@ -169,19 +172,19 @@ tak aby możliwe było ocenienie zachowania algorytmów w różnych scenariuszac
 
 Testy przeprowadzono dla dwóch typów wartości:
 \begin{itemize}
-    \item liczb całkowitych - \texttt{int}
-    \item liczb zmiennoprzecinkowych - \texttt{float}
+    \item liczb całkowitych -- \texttt{int}
+    \item liczb zmiennoprzecinkowych -- \texttt{float}
 \end{itemize}
 
 Dla każdego typu wygenerowano zbiory o następujących rozmiarach:
 \begin{itemize}
-    \item 1 000 elementów
-    \item 10 000 elementów
-    \item 100 000 elementów
-    \item 1000 000 elementów
+    \item 1~000 elementów
+    \item 10~000 elementów
+    \item 100~000 elementów
+    \item 1~000~000 elementów
 \end{itemize}
 
-Wygenerowane wartości znajdują się w zakresie od 0 do 1000 000.
+Wygenerowane wartości znajdują się w zakresie od 0 do 1~000~000.
 
 \subsection*{Charakterystyka zbiorów}
 
@@ -191,7 +194,7 @@ Przygotowano trzy główne kategorie danych:
     \item \textbf{Dane losowe} -- elementy generowane w sposób całkowicie losowy     z użyciem generatora liczb pseudolosowych.
     
     \item \textbf{Dane z duplikatami} -- zbiory, w których około 40\% elementów stanowią powtórzenia. 
-    Najpierw wygenerowano 60\% unikalnych wartości zbioru o danym rozmairze, 
+    Najpierw wygenerowano 60\% unikalnych wartości zbioru o~danym rozmiarze, 
     a następnie na ich podstawie dodano brakującą część poprzez losowe powtórzenia.
     
     \item \textbf{Dane częściowo posortowane} -- zbiory zawierające odpowiednio 20\%, 40\%, 60\% oraz 80\% elementów uporządkowanych. 
@@ -209,7 +212,7 @@ Do testów przygotowano dwanaście wariantów zbiorów (2 typy danych X 6 charak
 Wszystkie dane testowe zapisano w bazie danych SQLite. Każdy wariant przechowywany był w osobnej tabeli o strukturze:
 
 \begin{itemize}
-    \item \texttt{id} -- unikalny identyfikator rekordu,
+    \item \texttt{id} -- unikalny identyfikator rekordu
     \item \texttt{value} -- wartość elementu \texttt{INTEGER} lub \texttt{REAL}
-    \item \texttt{set\_size} -- rozmiar zbioru, do którego należy dany element, ograniczony do wartości 1000, 10 000, 100 000, 1000 000
+    \item \texttt{set\_size} -- rozmiar zbioru, do którego należy dany element, ograniczony do wartości 1~000, 10~000, 100~000, 1~000~000
 \end{itemize}

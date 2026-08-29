@@ -2,6 +2,10 @@
 \chapter{Metodyka badań}
 \label{cha:MetodykaBadan}
 
+W~niniejszym rozdziale omówiono metodykę realizacji badań. 
+Przedstawiono scenariusze testowe, zastosowane konfiguracje eksperymentalne, 
+parametry pomiarowe oraz narzędzia służące do rejestrowania czasu wykonania, obciążenia procesora i~wykorzystania pamięci RAM.
+
 \section{Scenariusze testowe}
 \label{sec:ScenariuszeTestowe}
 
@@ -17,15 +21,15 @@ W badaniach uwzględniono cztery algorytmy:
     \item Sample Sort
 \end{itemize}
 
-Dla każdego algorytmu wykonano pomiary jego wariantu sekwencyjnego oraz wersję równoległą. 
+Dla każdego algorytmu wykonano pomiary jego wariantu sekwencyjnego oraz wariantu równoległego. 
 Wariant sekwencyjny stanowił punkt odniesienia i był zawsze uruchamiany na jednym rdzeniu.
 
 Testy przeprowadzono dla następujących rozmiarów danych zarówno dla liczb całkowitych, jak i zmiennoprzecinkowych:
 \begin{itemize}
-    \item 1 000 elemntów
-    \item 10 000 elemntów
-    \item 100 000 elemntów
-    \item 1000 000 elementów
+    \item 1~000 elemntów
+    \item 10~000 elemntów
+    \item 100~000 elemntów
+    \item 1~000~000 elementów
 \end{itemize}
 
 Wykorzystano dwanaście wariantów zbiorów wejściowych, obejmujących:
@@ -41,6 +45,7 @@ Testy równoległe wykonano dla dostępnych konfiguracji liczby jednostek wykona
 W przypadku algorytmów Quick Sort oraz Merge Sort liczba procesów była zależna od parametru głębokości równoległości:
 \[
 \textit{max\_depth} = \log_2(\textit{cores}).
+% \textit{max\_depth} = \left\lfloor \log_2(p) \right\rfloor.
 \]
 Dla Bucket Sort oraz Samplesort liczbę procesów ustawiano jako liczbę wykorzystanych jednostek wykonawczych.
 
@@ -53,12 +58,12 @@ którego wynik nie był uwzględniany w obliczeniach. Miało ono na celu przygot
 zprofilowanie uruchomionego algorytmu, dzięki czemu narzut pracy profilera nie wpływał na wyniki.
 
 Przeprowadzone testy pozwoliły uzyskać zróżnicowany zestaw wyników, które umożliwiają analizę wpływu rozmiaru danych, 
-liczby wykorzystywanych rdzeni oraz charakterystyki zbioru wejściowego na czas sortowania, zużycie pamięci oraz efektywność zrównoleglenia.
+liczby wykorzystywanych jednostek wykonawczych oraz charakterystyki zbioru wejściowego na czas sortowania, zużycie pamięci oraz efektywność zrównoleglenia.
 
 \section{Wariant sekwencyjny jako punkt odniesienia}
 \label{sec:WariantSekwencyjny}
 
-Każdy z badanych algorytmów, oprócz wersji równoległej posiada również swój wariant sekwencyjny. 
+Każdy z~badanych algorytmów, oprócz wersji równoległej, posiada również swój wariant sekwencyjny. 
 Stanowił on punkt odniesienia dla przeprowadzanych po nim testów wersji równoległej, 
 umożliwiając określenie, jak wariant równoległy wypada na tle odpowiadającego mu wariantu sekwencyjnego.
 
@@ -68,14 +73,15 @@ Uzyskane wyniki z wersji sekwencyjnej wykorzystywano następnie do wyznaczenia m
     \item efektywności (\textit{efficiency})
 \end{itemize}
 
-Wariant sekwencyjny jest wykonywany na pojedynczym rdzeniu, z wykorzystaniem identycznych danych wejściowych oraz tych samych 
+Wariant sekwencyjny jest wykonywany na pojedynczej jednostce wykonawczej, z wykorzystaniem identycznych danych wejściowych oraz tych samych 
 metod pomiaru czasu sortowania, zużycia pamięci RAM i obciążenia procesora co w odpowiadającym mu wariancie równoległym. 
-Jednakowe warunki umożliwiają skupienie analizy na rzeczywistych różnicach pomiędzy wariantami i uzyskanymi przez nich wynikami.
+Jednakowe warunki umożliwiają skupienie analizy na rzeczywistych różnicach pomiędzy wariantem sekwencyjnym i~równoległym oraz uzyskiwanymi 
+przez nie wynikami.
 
 \section{Parametry pomiarów}
 \label{sec:ParametryPomiarow}
 
-Podczas każdego eksperymentu zbierane są wyniki pozwalające na późniejszą analizę wydajności oraz efektywności algorytmów 
+Podczas każdego eksperymentu zbierano wyniki pozwalające na późniejszą analizę wydajności i~efektywności algorytmów 
 oraz wykorzystania zasobów sprzętowych.
 
 Podstawowym parametrem jest czas wykonania algorytmu, mierzony z wysoką rozdzielczością za pomocą funkcji \texttt{time.perf\_counter}. 
@@ -104,10 +110,10 @@ wyznaczano metryki efektywności zrównoleglenia:
     \[
     E_p = \frac{S_p}{p} = \frac{T_1}{p \cdot T_p},
     \]
-    gdzie $p$ oznacza liczbę wykorzystanych rdzeni.
+    gdzie $p$ oznacza liczbę jednostek wykonawczych.
 \end{itemize}
 
-Wartości \textit{speedup} oraz \textit{efficiency} dla wariantu sekwenyjnego są pomijane
+Wartości \textit{speedup} oraz \textit{efficiency} dla wariantu sekwencyjnego są pomijane.
 
 Wszystkie uzyskane wyniki zapisywano w bazie danych SQLite, 
 co umożliwiło ich bezpieczne przechowywanie oraz wykorzystanie w dalszych etapach badań.
@@ -122,7 +128,7 @@ precyzyjne rejestrowanie czasu wykonania oraz monitorowanie wykorzystania zasob�
 
 Czas wykonania mierzono za pomocą funkcji \texttt{time.perf\_counter} z biblioteki standardowej Pythona~\cite{bib:PerfCounter}. 
 Zapewnia ona dostęp do zegara o wysokiej rozdzielczości, przeznaczonego do pomiaru krótkich przedziałów czasu. 
-Czas wykonania wyznaczany jest jako różnica wartości licznika zarejestrowanych przed rozpoczęciem i po zakończeniu
+Czas wykonania wyznaczano jako różnica wartości licznika zarejestrowanych przed rozpoczęciem i po zakończeniu
 badanego fragmentu kodu. Dzięki wysokiej rozdzielczości funkcja dobrze nadaje się do przeprowadzania pomiarów wydajnościowych. 
 W implementacji CPython wykorzystywany zegar jest monotoniczny, dzięki czemu jego wartość nie może cofać się w czasie.
 
@@ -131,8 +137,8 @@ W implementacji CPython wykorzystywany zegar jest monotoniczny, dzięki czemu je
 Zużycie procesora oraz pamięci operacyjnej monitorowano z wykorzystaniem biblioteki \texttt{psutil}~\cite{bib:Psutil}. 
 Pomiary realizowano w osobnym wątku, który w ustalonych odstępach czasu zapisanych w \texttt{sample\_interval} 
 odczytywał informacje o wykorzystanych zasobach.
-Dla zbiorów danych o rozmiarze nieprzekraczającym 10~000 odstęp wynosił 0,01 sekundy, natomaist dla pozostałcyh zbiorów 0,05 sekundy.
-Podczas każdego pomiaru odczytano:
+Dla zbiorów danych o rozmiarze nieprzekraczającym 10~000 odstęp wynosił 0,01 sekundy, natomiast dla pozostałych zbiorów 0,05 sekundy.
+Podczas każdego pomiaru odczytywano:
 \begin{itemize}
     \item łączne obciążenie CPU procesu głównego oraz procesów potomnych
     \item zużycie pamięci RAM na podstawie wartości RSS
@@ -149,17 +155,17 @@ Do analizy szczegółowej wydajności wykorzystano dwa narzędzia:
     umożliwiający pomiar liczby wywołań oraz czasu wykonania poszczególnych funkcji
     
     \item \texttt{py-spy}~\cite{bib:PySpy} -- zewnętrzny profiler próbkujący umożliwiający analizę 
-    działania procesu głównego i podprocesów oraz generowanie typu \textit{flamegraph}
+    działania procesu głównego i podprocesów oraz generowanie wykresów typu \textit{flamegraph}
 \end{itemize}
 
 Profilowanie nie wpływało na wartości raportowane w głównych wynikach, ponieważ pierwsze uruchomienie, 
-na którym działały profilery było pomijane przy obliczaniu statystyk.
+na którym działały profilery, było pomijane przy obliczaniu statystyk.
 
 \subsection*{Organizacja pomiaru}
 
-Każdy pojedynczy przebieg algorytmu uruchamiano w osobnym procesie roboczym, co zapewniało izolajcę pomiaru oraz 
-zapewniało zabezpieczenie testów w przypadku awarii lub zawieszeniu badanego algorytmu.
+Każdy pojedynczy przebieg algorytmu uruchamiano w osobnym procesie roboczym, co zapewniało izolację pomiaru oraz 
+umożliwiało zabezpieczenie testów w~przypadku awarii lub zawieszeniu badanego algorytmu.
 Wprowadzono limit czasowy ustawiony na 15 minut, po przekroczeniu którego proces był przerywany, a dany test otrzymywał status \texttt{TIMEOUT}.
 
 Zebrane próbki CPU i RAM agregowano do wartości średnich oraz maksymalnych, 
-a następnie wraz z metrykami czasu, \textit{speedup} i \textit{efficiency} zapisano w bazie danych.
+a następnie wraz z~wynikami pomiaru czasu oraz wartościami \textit{speedup} i~\textit{efficiency}
