@@ -2,6 +2,10 @@
 \chapter{Wprowadzenie teoretyczne}
 \label{cha:RozdzialWprowadzajacy}
 
+W~niniejszym rozdziale przedstawiono podstawowe zagadnienia teoretyczne związane z~sortowaniem 
+równoległym oraz architekturą procesorów wielordzeniowych. 
+Omówiono również podstawowe miary wydajności i~efektywności obliczeń równoległych, a także zagadnienie skalowalności algorytmów.
+
 %--------------------------------------
 % początek: wskazówka
 %--------------------------------------
@@ -25,8 +29,7 @@ w~ciąg uporządkowany monotonicznie rosnąco lub malejąco. Algorytmy sortowani
 Algorytmy porównujące ustalają kolejność elementów na podstawie wykonywanych między nimi porównań.
 Dolne ograniczenie złożoności sekwencyjnej dla tej klasy algorytmów wynosi $\Omega(n \log n)$.
 Algorytmy nieporównujące wykorzystują natomiast dodatkowe właściwości danych, takie jak ich reprezentacja
-lub rozkład wartości, dzięki czemu w~określonych warunkach mogą osiągać złożoność liniową
-~\cite{bib:Grama,bib:CLRS4}.
+lub rozkład wartości, dzięki czemu w~określonych warunkach mogą osiągać złożoność liniową~\cite{bib:Grama,bib:CLRS4}.
 
 Równoległe sortowanie polega na rozłożeniu danych oraz operacji potrzebnych do ich uporządkowania pomiędzy wiele
 jednostek wykonawczych. Typowym podejściem jest podział zbioru wejściowego na fragmenty, ich równoległe przetwarzanie,
@@ -42,7 +45,7 @@ pozostałe nadal wykonują obliczenia~\cite{bib:Grama,bib:Jaja}.
 
 \begin{figure}[htbp]
     \centering \includegraphics[width=0.80\textwidth]{images/chapter2/parallelSortingGeneral.png}
-    \caption{Ogólny schemat podziału pracy w sortowaniu równoległym.}
+    \caption{Ogólny schemat podziału pracy w~sortowaniu równoległym.}
     \label{fig:parallel-sorting-general}
     {\small Źródło: opracowanie własne.}
 \end{figure}
@@ -50,10 +53,10 @@ pozostałe nadal wykonują obliczenia~\cite{bib:Grama,bib:Jaja}.
 \section{Charakterystyka procesorów wielordzeniowych}
 \label{sec:ProcesoryWielordzeniowe}
 
-Rozwój współczesnych architektur procesorów jest związany między innymi z ograniczeniami dalszego zwiększania wydajności 
+Rozwój współczesnych architektur procesorów jest związany między innymi z~ograniczeniami dalszego zwiększania wydajności 
 pojedynczego strumienia instrukcji. Możliwości wykorzystania równoległości na poziomie instrukcji 
 (ang. \textit{instruction-level parallelism}, ILP) są ograniczone, ponieważ pojedynczy wątek nie zawsze jest w stanie 
-w pełni wykorzystać dostępne zasoby wykonawcze procesora. Jednym ze sposobów zwiększenia stopnia wykorzystania tych zasobów 
+w~pełni wykorzystać dostępne zasoby wykonawcze procesora. Jednym ze sposobów zwiększenia stopnia wykorzystania tych zasobów 
 jest wykorzystanie równoległości na poziomie wątków (ang. \textit{thread-level parallelism}, TLP)~\cite{bib:Hennessy}.
 
 Procesory wielordzeniowe zawierają wiele jednostek obliczeniowych zdolnych do równoczesnego wykonywania różnych zadań. 
@@ -66,14 +69,14 @@ w której jeden rdzeń fizyczny udostępnia dwa konteksty wykonawcze, widoczne p
 Procesory logiczne nie są jednak odpowiednikami dodatkowych niezależnych rdzeni fizycznych, ponieważ współdzielą część zasobów wykonawczych 
 jednego rdzenia. Technologia SMT pozwala lepiej wykorzystać zasoby procesora w sytuacji, gdy pojedynczy wątek nie jest w stanie 
 w pełni wykorzystać dostępnych jednostek wykonawczych. Uzyskiwany wzrost wydajności zależy jednak od charakterystyki obciążenia 
-i nie musi być proporcjonalny do liczby obsługiwanych wątków sprzętowych~\cite{bib:Hennessy}.
+i~nie musi być proporcjonalny do liczby obsługiwanych wątków sprzętowych~\cite{bib:Hennessy}.
 
-W systemach z pamięcią współdzieloną wiele jednostek wykonawczych korzysta ze wspólnej fizycznej pamięci operacyjnej. 
+W systemach z~pamięcią współdzieloną wiele jednostek wykonawczych korzysta ze wspólnej fizycznej pamięci operacyjnej. 
 Dane współdzielone mogą być wykorzystywane do komunikacji pomiędzy jednostkami poprzez operacje odczytu i zapisu w tej samej przestrzeni pamięci. 
 Wykorzystanie pamięci współdzielonej wiąże się jednak z dodatkowymi wymaganiami związanymi z~organizacją hierarchii pamięci 
 oraz~utrzymaniem spójnego widoku danych przechowywanych w pamięciach podręcznych poszczególnych rdzeni~\cite{bib:Hennessy,bib:Grama}.
 
-Istotnym problemem w architekturach z pamięcią współdzieloną jest spójność pamięci podręcznych 
+Istotnym problemem w~architekturach z pamięcią współdzieloną jest spójność pamięci podręcznych 
 (ang. \textit{cache coherence}). Te same dane mogą znajdować się jednocześnie w pamięciach podręcznych kilku rdzeni, 
 dlatego zmiana wartości przez jedną jednostkę wykonawczą musi zostać odpowiednio uwzględniona przez pozostałe. 
 Mechanizmy utrzymywania spójności mogą generować dodatkowy ruch pomiędzy pamięciami podręcznymi oraz wpływać na wydajność programów równoległych
@@ -81,7 +84,7 @@ Mechanizmy utrzymywania spójności mogą generować dodatkowy ruch pomiędzy pa
 
 Wydajność procesora wielordzeniowego zależy nie tylko od liczby dostępnych rdzeni, lecz również od organizacji systemu pamięci. 
 Do ważnych parametrów należą opóźnienie dostępu do pamięci (ang. \textit{latency}) oraz~jej przepustowość (ang. \textit{bandwidth}). 
-W przypadku aplikacji intensywnie korzystających z pamięci ograniczeniem wydajności może być szybkość dostarczania danych 
+W~przypadku aplikacji intensywnie korzystających z pamięci ograniczeniem wydajności może być szybkość dostarczania danych 
 do jednostek wykonawczych, a nie sama moc obliczeniowa procesora~\cite{bib:Grama}.
 
 Zwiększenie liczby rdzeni zwiększa dostępny poziom równoległości sprzętowej, jednak rzeczywisty wzrost wydajności 
@@ -93,12 +96,12 @@ Większa liczba rdzeni nie musi więc prowadzić do proporcjonalnego skrócenia 
 
 Podstawowymi metrykami wykorzystywanymi do oceny algorytmów równoległych są czas wykonania,
 przyspieszenie (ang. \textit{speedup}) oraz efektywność (ang. \textit{efficiency}).
-Umożliwiają one określenie, w~jakim stopniu zastosowanie wielu jednostek wykonawczych wpływa na czas rozwiązania
-problemu oraz~jak skutecznie wykorzystywane są dostępne zasoby obliczeniowe.
+Umożliwiają one określenie, w~jakim stopniu zastosowanie wielu jednostek wykonawczych wpływa na czas wykonania
+zadania oraz jak skutecznie wykorzystywane są dostępne zasoby obliczeniowe.
 
-Niech $T^*(n)$ oznacza czas wykonania najlepszego znanego algorytmu sekwencyjnego dla problemu
-o rozmiarze $n$, natomiast $T_p(n)$ oznacza czas wykonania algorytmu równoległego przy wykorzystaniu
-$p$ jednostek wykonawczych. Przyspieszenie definiuje się jako:
+Niech $T^*(n)$ oznacza czas wykonania wariantu sekwencyjnego algorytmu sekwencyjnego dla danych o~rozmiarze $n$, 
+natomiast $T_p(n)$ oznacza czas wykonania wariantu równoległego przy wykorzystaniu $p$ jednostek wykonawczych. 
+Przyspieszenie definiuje się jako:
 
 \[
 S_p(n) = \frac{T^*(n)}{T_p(n)}.
@@ -116,7 +119,7 @@ jako stosunek uzyskanego przyspieszenia do ich liczby:
 E_p(n) = \frac{S_p(n)}{p}.
 \]
 
-Przy zastosowaniu czasu wariantu sekwencyjnego jako punktu odniesienia zależność tę można zapisać w postaci:
+Po uwzględnieniu definicji przyspieszenia zależność tę można zapisać również w~postaci:
 
 \[
 E_p(n) = \frac{T_1(n)}{p \cdot T_p(n)}.
@@ -169,12 +172,12 @@ przedstawiająca zależność między wzrostem liczby jednostek wykonawczych $p$
 niezbędnym do zachowania stałego poziomu efektywności.
 Im wolniej musi rosnąć rozmiar zadania obliczeniowego wraz ze wzrostem $p$, tym lepszą skalowalnością charakteryzuje się dany system równoległy. 
 Niższe tempo wzrostu funkcji \textit{isoefficiency} oznacza więc możliwość efektywnego wykorzystania 
-większej liczby jednostek wykonawczych przy stosunkowo niewielkiej zmianie rozmiaru zadania obliczeniowego.~\cite{bib:Grama}.
+większej liczby jednostek wykonawczych przy stosunkowo niewielkiej zmianie rozmiaru zadania obliczeniowego~\cite{bib:Grama}.
 
 Dolną granicą funkcji \textit{isoefficiency} jest wzrost liniowy względem liczby jednostek wykonawczych. 
 Idealnie skalowalny system charakteryzuje się zatem funkcją \textit{isoefficiency} rzędu $\Theta(p)$, co oznacza, 
 że dla zachowania stałej efektywności wystarczający jest liniowy wzrost rozmiaru danych wejściowych 
 wraz ze wzrostem liczby jednostek wykonawczych~\cite{bib:Grama}.
 
-Analiza skalowalności umożliwia ocenę, w jaki sposób system równoległy zachowuje się przy 
+Analiza skalowalności umożliwia ocenę, w~jaki sposób system równoległy zachowuje się przy 
 zwiększaniu liczby jednostek wykonawczych oraz rozmiaru przetwarzanych danych.

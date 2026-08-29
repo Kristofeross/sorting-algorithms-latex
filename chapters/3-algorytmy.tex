@@ -2,37 +2,38 @@
 \chapter{Opis wybranych algorytmów sortowania równoległego}
 \label{cha:WybraneAlgorytmy}
 
-W niniejszym rozdziale przedstawiono wybrane algorytmy sortowania równoległego wykorzystane w dalszej części pracy. 
-Dla każdego z nich omówiono zasadę działania, sposób podziału i łączenia danych, złożoność obliczeniową 
-oraz najważniejsze ograniczenia związane z realizacją równoległą.
+W~niniejszym rozdziale przedstawiono wybrane algorytmy sortowania równoległego wykorzystane w~dalszej części pracy. 
+Dla każdego z~nich omówiono zasadę działania, sposób podziału i~łączenia danych, złożoność obliczeniową 
+oraz najważniejsze ograniczenia związane z~realizacją równoległą.
 
-\section{Parallel Quicksort}
+\section{Parallel Quick Sort}
 \label{sec:ParallelQuicksort}
 
-Quicksort należy do rodziny algorytmów opartych na strategii ``dziel i zwyciężaj'' (ang. \textit{divide-and-conquer})~\cite{bib:CLRS}. 
+Quick Sort należy do rodziny algorytmów opartych na strategii ``dziel i zwyciężaj'' (ang. \textit{divide-and-conquer})~\cite{bib:CLRS}. 
 W kroku podziału wybierany jest element rozdzielający (ang. \textit{pivot}), który dzieli wejściowy ciąg $A[p \ldots r]$ na dwa podciągi. 
-Po zakończeniu partycjonowania pivot trafia na pozycję $A[q]$, przy czym wszystkie elementy w podciągu $A[p \ldots q-1]$ są mniejsze 
-lub równe $A[q]$, a wszystkie elementy w podciągu $A[q+1 \ldots r]$ są od niego większe. 
+Po zakończeniu partycjonowania pivot trafia na pozycję $A[q]$, przy czym wszystkie elementy w~podciągu $A[p \ldots q-1]$ są mniejsze 
+lub równe $A[q]$, a wszystkie elementy w~podciągu $A[q+1 \ldots r]$ są od niego większe. 
 Następnie oba podciągi są rekurencyjnie sortowane aż do uzyskania podciągów o długości 1~\cite{bib:Božidar2015}.
 
-Średnia złożoność obliczeniowa Quicksortu wynosi $O(n \log n)$, natomiast w przypadku pesymistycznym 
+Średnia złożoność obliczeniowa Quick Sortu wynosi $O(n \log n)$, natomiast w przypadku pesymistycznym 
 związanym z silnie niezrównoważonym podziałem może wzrosnąć do $O(n^2)$~\cite{bib:CLRS}.
 
 W wersji równoległej algorytm wykorzystuje fakt, że po wykonaniu partycjonowania powstałe podciągi mogą być sortowane niezależnie od siebie. 
-Dzięki temu możliwe jest równoległe przetwarzanie obu części tablicy przez osobne wątki. W praktycznych realizacjach poziom równoległości 
-może być ograniczany poprzez ustalenie maksymalnej głębokości równoległej rekurencji, co pozwala ograniczyć narzut związany z~tworzeniem 
-i~synchronizacją wątków. Po osiągnięciu założonej głębokości dalsze sortowanie odbywa się sekwencyjnie.
+Dzięki temu możliwe jest równoległe przetwarzanie obu części tablicy przez niezależne jednostki wykonawcze. 
+W~praktycznych realizacjach poziom równoległości może być ograniczany poprzez ustalenie maksymalnej głębokości równoległej rekurencji, 
+co pozwala ograniczyć narzut związany z~tworzeniem i~synchronizacją jednostek wykonawczych. 
+Po osiągnięciu założonej głębokości dalsze sortowanie odbywa się sekwencyjnie.
 
-Jednym z głównych wyzwań wersji równoległej Quicksortu pozostaje nierównomierny podział danych, który występuje w sytuacji, 
-gdy pivot jest źle dobrany. Problem ten, w połączeniu z narzutem związanym z tworzeniem i synchronizacją wątków, 
+Jednym z głównych wyzwań wersji równoległej Quick Sortu pozostaje nierównomierny podział danych, który występuje w sytuacji, 
+gdy pivot jest źle dobrany. Problem ten, w~połączeniu z~narzutem związanym z~tworzeniem i~synchronizacją jednostek wykonawczych, 
 może istotnie ograniczać skalowalność algorytmu~\cite{bib:Maus}. 
-Algorytm sprawdza się najlepiej przy danych zrównoważonych i dobrze dobranym pivocie,
-traci natomiast na efektywności m.in. gdy podziały stają się nierównomiernie.
+Algorytm sprawdza się najlepiej przy danych zrównoważonych i~dobrze dobranym pivocie,
+traci natomiast na efektywności m.in. wtedy, gdy podziały stają się nierównomiernie.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapter3/parallelQuicksort.png}
-    \caption{Schemat działania Quicksort.}
+    \caption{Schemat działania Quick Sort.}
     \label{fig:qs-partition}
     {\small Źródło: \url{https://medium.com/@lucky_rydar/parallel-quick-sort-on-c-a3526ba8b532}.}
 \end{figure}
@@ -49,9 +50,9 @@ o łącznej liczbie $n$ elementów może zostać wykonana w czasie $O(n)$.
 Jeżeli zastosowana procedura scalania jest stabilna, cały algorytm Merge Sort również zachowuje stabilność~\cite{bib:Božidar2015}.
 
 Złożoność czasowa Merge Sort wynosi $O(n \log n)$.
-W przeciwieństwie do Quicksortu jej rząd nie zależy od początkowego uporządkowania danych,
-ponieważ algorytm w kolejnych krokach dzieli problem na dwa podproblemy o zbliżonych rozmiarach
-i wykonuje liniową operację scalania~\cite{bib:CLRS4}.
+W przeciwieństwie do Quick Sortu jej rząd nie zależy od początkowego uporządkowania danych,
+ponieważ algorytm w kolejnych krokach dzieli dane na dwa fragmenty o zbliżonych rozmiarach
+i~wykonuje liniową operację scalania~\cite{bib:CLRS4}.
 
 W wersji równoległej wykorzystuje się niezależność dwóch podproblemów powstałych po podziale danych.
 Rekurencyjne sortowanie obu części może dzięki temu odbywać się równolegle.
@@ -63,9 +64,9 @@ Jednym z ograniczeń Parallel Merge Sort jest etap scalania.
 Wariant wykorzystujący równoległe sortowanie podciągów, lecz sekwencyjne scalanie, oferuje ograniczony poziom równoległości, 
 ponieważ sekwencyjna operacja scalania staje się wąskim gardłem algorytmu~\cite{bib:CLRS4}.
 Zastosowanie równoległego scalania pozwala zwiększyć dostępny poziom równoległości,
-jednak wiąże się z bardziej rozbudowanym sposobem łączenia posortowanych części.
-W praktycznych realizacjach dla odpowiednio małych podproblemów można również przejść
-do wykonania sekwencyjnego w celu ograniczenia narzutu związanego z równoległością~\cite{bib:CLRS4}.
+jednak wiąże się z~bardziej rozbudowanym sposobem łączenia posortowanych części.
+W~praktycznych realizacjach dla odpowiednio małych podproblemów można również przejść
+do wykonania sekwencyjnego w~celu ograniczenia narzutu związanego z~równoległością~\cite{bib:CLRS4}.
 
 \begin{figure}[htbp]
     \centering
@@ -90,8 +91,8 @@ Każdy kubełek może być następnie sortowany za pomocą innego algorytmu, na 
 a ostateczny wynik powstaje przez konkatenację kubełków w kolejności~\cite{bib:CLRS4}.
 
 W wersji równoległej możliwe jest zrównoleglenie zarówno etapu rozmieszczania elementów w kubełkach, 
-jak i sortowania ich zawartości. Dane wejściowe mogą zostać podzielone na części, które są przetwarzane równolegle 
-przez niezależne wątki. Po zakończeniu rozmieszczania elementów kubełki mogą zostać podzielone na grupy, 
+jak i~sortowania ich zawartości. Dane wejściowe mogą zostać podzielone na części, które są przetwarzane równolegle 
+przez niezależne jednostki wykonawcze. Po zakończeniu rozmieszczania elementów kubełki mogą zostać podzielone na grupy, 
 których sortowanie również odbywa się równolegle~\cite{bib:Hong}. 
 Po zakończeniu tej fazy posortowane kubełki są łączone w odpowiedniej kolejności w~jeden uporządkowany ciąg.
 
@@ -111,17 +112,17 @@ natomiast dla większych zbiorów możliwe jest uzyskanie lepszej wydajności~\c
     {\small Źródło: \url{https://guideofgreece.com/}.}
 \end{figure}
 
-\section{Parallel Samplesort}
+\section{Parallel Sample Sort}
 \label{sec:ParallelSamplesort}
 
-Samplesort jest algorytmem sortowania wykorzystującym podział danych na wiele mniejszych kubełków na podstawie odpowiednio dobranych 
+Sample Sort jest algorytmem sortowania wykorzystującym podział danych na wiele mniejszych kubełków na podstawie odpowiednio dobranych 
 elementów rozdzielających. Dla większych zbiorów danych z ciągu wejściowego wybierana jest próbka 
 (ang. \textit{sample}), która jest następnie sortowana. Na jej podstawie wyznaczane są elementy rozdzielające 
 (ang. \textit{splitters}), określające granice poszczególnych kubełków. Elementy wejściowe są przypisywane 
 do odpowiednich kubełków zgodnie z wartościami splitterów, po czym zawartość kubełków jest sortowana, 
 a wyniki są łączone w jeden uporządkowany ciąg~\cite{bib:Božidar2015,bib:Bingmann2013}.
 
-Samplesort można traktować jako uogólnienie Quicksortu wykorzystujące jednocześnie wiele elementów rozdzielających. 
+Sample Sort można traktować jako uogólnienie Quick Sortu wykorzystujące jednocześnie wiele elementów rozdzielających. 
 Zamiast pojedynczego pivota stosuje się $k-1$ splitterów, które umożliwiają podział danych na $k$ kubełków. 
 Splittery mogą być wyznaczane na podstawie posortowanej próbki poprzez wybór elementów rozmieszczonych w niej 
 w regularnych odstępach. Odpowiedni dobór próbki i splitterów pozwala uzyskać kubełki o zbliżonych rozmiarach, 
@@ -134,7 +135,7 @@ do podziału lokalnych danych na odpowiednie części. Powstałe części są pr
 odpowiedzialnym za ich dalsze przetwarzanie. Po zakończeniu tej fazy uporządkowane fragmenty tworzą wynikowy 
 posortowany ciąg~\cite{bib:ShiSchaeffer1992}.
 
-Istotną zaletą Samplesort jest możliwość wyznaczania granic podziału na podstawie informacji uzyskanych 
+Istotną zaletą Sample Sort jest możliwość wyznaczania granic podziału na podstawie informacji uzyskanych 
 z próbki danych. Odpowiednio dobrane elementy rozdzielające pozwalają ograniczyć różnice pomiędzy rozmiarami 
 powstających części, a tym samym sprzyjają równomiernemu rozłożeniu pracy pomiędzy jednostki 
 wykonawcze~\cite{bib:Bingmann2013,bib:ShiSchaeffer1992}. 
@@ -146,7 +147,7 @@ fragmentów danych dalsze sortowanie może być realizowane za pomocą algorytmu
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapter3/parallelSampleSort.png}
-    \caption{Schemat działania Samplesort.}
+    \caption{Schemat działania Sample Sort.}
     \label{fig:ss-samplesort}
     {\small Źródło: opracowanie własne na podstawie \cite{bib:ShiSchaeffer1992}.}
 \end{figure}
