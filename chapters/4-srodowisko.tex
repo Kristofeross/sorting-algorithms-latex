@@ -46,7 +46,7 @@ obszaru pamięci. Mechanizm ten eliminuje konieczność serializacji oraz przesy
 ograniczając związany z tym narzut, co ma szczególne znaczenie podczas sortowania dużych zbiorów danych.
 
 Biblioteka \texttt{NumPy}~\cite{bib:NumPy} obsługująca dane numeryczne i~szybkie operacje na tablicach, została wykorzystana w~optymalizacji 
-algorytmów Parallel Bucket Sort oraz Parallel Samplesort. Posłużyła w nich do~efektywnego rozdzielania elementów do~kubełków, 
+algorytmów Parallel Bucket Sort oraz Parallel Sample Sort. Posłużyła w nich do~efektywnego rozdzielania elementów do~kubełków, 
 co znacznie usprawniło etap dystrybucji danych. Ponadto \texttt{NumPy} wykorzystano w module analizy złożoności obliczeniowej oraz 
 przy generowaniu wykresów i~rankingów. 
 
@@ -78,13 +78,13 @@ Dzięki temu procesy potomne mogą odczytywać i modyfikować te same dane bez k
 
 \subsection*{Ogólna architektura rozwiązania}
 
-Przy algorytmach opartych na strategii ``dziel i zwyciężaj'' czyli Parallel Quicksort oraz Parallel Merge Sort, 
+Przy algorytmach opartych na strategii ``dziel i zwyciężaj'' czyli Parallel Quick Sort oraz Parallel Merge Sort, 
 zastosowano rekurencyjne tworzenie procesów z ograniczeniem głębokości równoległości za pomocą parametru \texttt{max\_depth}. 
 Dodatkowo wprowadzono progi minimalnego rozmiaru fragmentu danych zawarte w słowniku\\ \texttt{PARALLEL\_CUTOFF}, 
 poniżej których dalsze tworzenie procesów jest nieopłacalne i~następuje przejście do sortowania sekwencyjnego. 
 Takie rozwiązanie ogranicza narzut związany z tworzeniem zbyt dużej liczby procesów przy małych fragmentach danych.
 
-Dla algorytmów opartych na kubełkach czyli Parallel Bucket Sort oraz Parallel Samplesort, zastosowano model, 
+Dla algorytmów opartych na kubełkach czyli Parallel Bucket Sort oraz Parallel Sample Sort, zastosowano model, 
 w którym liczba procesów jest określana na podstawie liczby jednostek wykonawczych wykorzystywanych w danym eksperymencie. 
 Dane są najpierw rozdzielane do kubełków, a~następnie grupy kubełków są przydzielane poszczególnym procesom. 
 Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w słownikach \texttt{PARALLEL\_SIZE\_CUTOFF} 
@@ -92,10 +92,10 @@ oraz \texttt{GROUP\_SIZE\_CUTOFF}, poniżej których algorytm przełącza się n
 
 \subsection*{Parallel Quick Sort}
 
-Wariant sekwencyjny realizuje klasyczny Quicksort z wyborem pivota jako elementu środkowego.
+Wariant sekwencyjny realizuje klasyczny Quick Sort z wyborem pivota jako elementu środkowego.
 
 \lstinputlisting[
-  language=Python, caption={Funkcja partycjonowania w Quicksort}, label={lst:qs-partition}
+  language=Python, caption={Funkcja partycjonowania w Quick Sort}, label={lst:qs-partition}
 ]{listings/chapter4/quicksort_partition.py}
 
 W wersji równoległej po wykonaniu partycjonowania lewa i prawa część tablicy mogą być sortowane niezależnie przez osobne procesy. 
@@ -104,7 +104,7 @@ Gdy rozmiar zakresu spada poniżej ustalonego progu lub osiągnięta zostaje mak
 dalsze sortowanie odbywa się sekwencyjnie.
 
 \lstinputlisting[
-  language=Python, caption={Tworzenie procesów w Parallel Quicksort}, label={lst:qs-parallel-spawn}
+  language=Python, caption={Tworzenie procesów w Parallel Quick Sort}, label={lst:qs-parallel-spawn}
 ]{listings/chapter4/quicksort_parallel_spawn.py}
 
 \subsection*{Parallel Merge Sort}
@@ -142,13 +142,13 @@ Do efektywnego rozdzielania elementów wykorzystano operacje wektorowe bibliotek
   language=Python, caption={Przydzielanie grup kubełków procesom w Parallel Bucket Sort}, label={lst:bs-parallel-spawn}
 ]{listings/chapter4/bucketsort_parallel_spawn.py}
 
-\subsection*{Parallel Samplesort}
+\subsection*{Parallel Sample Sort}
 
 Wariant sekwencyjny działa w kilku etapach: podział danych na części, lokalne sortowanie, wybór próbek, wyznaczenie wartości rozdzielających, 
 rozdzielenie elementów do kubełków według wyznaczonych wartości oraz ostateczne sortowanie kubełków.
 
 \lstinputlisting[
-  language=Python, caption={Rozdzielanie elementów do kubełków na podstawie wartości rozdzielających w Samplesort}, label={lst:ss-distribute}
+  language=Python, caption={Rozdzielanie elementów do kubełków na podstawie wartości rozdzielających w Sample Sort}, label={lst:ss-distribute}
 ]{listings/chapter4/samplesort_distribute.py}
 
 W wersji równoległej etapy te realizowane są z wykorzystaniem wielu procesów. 
@@ -159,7 +159,7 @@ W przypadku niewielkich grup danych stosowany jest wariant sekwencyjny, co ogran
 Do dystrybucji elementów wykorzystano operacje wektorowe biblioteki \texttt{NumPy}.
 
 \lstinputlisting[
-  language=Python, caption={Równoległe sortowanie grup kubełków w Parallel Samplesort}, label={lst:ss-parallel-spawn}
+  language=Python, caption={Równoległe sortowanie grup kubełków w Parallel Sample Sort}, label={lst:ss-parallel-spawn}
 ]{listings/chapter4/samplesort_parallel_spawn.py}
 
 \section{Charakterystyka danych testowych}
