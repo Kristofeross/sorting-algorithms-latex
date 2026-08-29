@@ -6,7 +6,7 @@ W tym celu wykorzystano wartości przyspieszenia oraz efektywności uzyskane dla
 jednostek wykonawczych i~rozmiarów danych wejściowych.
 
 Analizę przeprowadzono w dwóch ujęciach. 
-W pierwszym przypadku analizowano zmiany przyspieszenia i~efektywności wynikające ze wzrostu liczby 
+W pierwszym przypadku oceniono zmiany przyspieszenia i~efektywności wynikające ze wzrostu liczby 
 jednostek wykonawczych przy niezmiennym rozmiarze danych. 
 W drugim natomiast oceniono, jak zwiększanie rozmiaru danych wejściowych wpływa na wyniki z zachowaniem tej samej liczby jednostek wykonawczych.
 
@@ -24,7 +24,7 @@ Wyniki zestawiono w tabeli~\ref{tab:scalability-speedup}.
 
 \input{tables/chapter6/scalability_speedup}
 
-Przebieg zmian przyspieszenia wraz ze wzrostem jednostek wykonawczych przedstawiono również na rysunku~\ref{fig:speedup-cores-random-int}.
+Przebieg zmian przyspieszenia wraz ze wzrostem liczby jednostek wykonawczych przedstawiono również na rysunku~\ref{fig:speedup-cores-random-int}.
 Linią przerywaną oznaczono przyspieszenie idealne, zakładające wzrost wartości przyspieszenia proporcjonalnie do liczby jednostek wykonawczych.
 
 \begin{figure}[htbp]
@@ -115,9 +115,11 @@ różnica pomiędzy uzyskanym a teoretycznym przyspieszeniem ulegała zwiększen
 
 \subsection*{Wpływ rozmiaru danych na skalowalność}
 
-Drugim analizowanym czynnikiem był wpływ rozmiaru danych wejściowych na skalowalność badanych algorytmów. 
-W tym celu porównano wartości przyspieszenia uzyskane przy niezmiennej liczbie 32 jednostek wykonawczych 
-dla zbiorów liczących 1~000, 10~000, 100~000 oraz 1~000~000 elementów.
+Drugim analizowanym czynnikiem był wpływ rozmiaru danych wejściowych na uzyskiwane przyspieszenie. 
+Analizę przeprowadzono dla konfiguracji obejmującej 32 jednostki wykonawcze, 
+porównując wyniki dla zbiorów liczących 1~000, 10~000, 100~000 oraz 1~000~000 elementów.
+Pozwoliło to ocenić, czy zwiększenie ilości przetwarzanych danych sprzyjało 
+wykorzystaniu najbardziej rozbudowanej spośród badanych konfiguracji równoległych.
 
 Zmiany wartości przyspieszenia w zależności od rozmiaru zbioru \texttt{random\_int} przedstawiono na rysunku~\ref{fig:speedup-size-random-int}.
 Linią przerywaną oznaczono poziom przyspieszenia równy 1, przy którym czas wykonania wariantu równoległego i~sekwencyjnego jest taki sam.

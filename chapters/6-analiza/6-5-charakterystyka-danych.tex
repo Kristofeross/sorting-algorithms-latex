@@ -12,8 +12,8 @@ Umożliwiło to zbadanie oddziaływania typu danych wejściowych przy utrzymaniu
 
 \input{tables/chapter6/dataset_impact}
 
-Analizę przeprowadzono w dwóch etapach. 
-Na początku porównano wyniki dla danych losowych i~zbiorów zawierających duplikaty, z uwzględnieniem danych całkowitych i~zmiennoprzecinkowych. 
+Analizę przeprowadzono w~dwóch etapach. 
+Na początku porównano wyniki dla danych losowych i~zbiorów zawierających duplikaty, z~uwzględnieniem danych całkowitych i~zmiennoprzecinkowych. 
 W dalszej kolejności przeanalizowano wpływ poziomu częściowego uporządkowania danych na czas wykonania badanych algorytmów.
 
 \subsection*{Wpływ typu danych i występowania duplikatów}
@@ -21,9 +21,9 @@ W dalszej kolejności przeanalizowano wpływ poziomu częściowego uporządkowan
 Porównanie danych losowych oraz zbiorów zawierających duplikaty pozwoliło ocenić wpływ typu wartości 
 i~występowania powtarzających się elementów na czas wykonania badanych algorytmów.
 
-Uzyskane rezultaty wskazują, że wpływ typu danych oraz obecności duplikatów był zróżnicowany w zależności od analizowanego algorytmu.
+Uzyskane rezultaty wskazują, że wpływ typu danych oraz obecności duplikatów był zróżnicowany w~zależności od analizowanego algorytmu.
 Dla Merge Sort, Bucket Sort i~Sample Sort różnice pomiędzy analizowanymi rodzajami danych były stosunkowo niewielkie. 
-Większe zmiany zaobserwowano natomiast w przypadku Quick Sort.
+Większe zmiany zaobserwowano natomiast w~przypadku Quick Sort.
 
 Zestawienie czasów wykonania dla poszczególnych rodzajów danych przedstawiono również na rysunku~\ref{fig:dataset-impact}.
 
@@ -47,7 +47,7 @@ na czas wykonania w analizowanej konfiguracji.
 Większe różnice wystąpiły dla Quick Sort. Dla losowych liczb całkowitych średni czas wykonania wyniósł około 2,56~s, 
 natomiast przy losowych liczbach zmiennoprzecinkowych było to już około 2,44~s. 
 W przypadku zbioru zawierającego duplikaty wartości całkowite czas obniżył się do około 2,33~s, 
-natomiast dla duplikatów zmiennoprzecinkowych zwiększył do około 2,70~s. 
+natomiast dla duplikatów zmiennoprzecinkowych zwiększył się do około 2,70~s. 
 Uzyskane wyniki pokazują, że Quick Sort charakteryzował się większą
 zmiennością czasu wykonania pomiędzy analizowanymi rodzajami danych niż pozostałe badane algorytmy.
 
@@ -68,7 +68,7 @@ poszczególnych algorytmów przedstawiono na rysunku~\ref{fig:sortedness-impact-
     \centering
     \includegraphics[width=0.95\textwidth]
     {images/chapter6/datasets/sortedness/sortedness_impact_int_1000000_8cores.png}
-    \caption{Wpływ stopnia częściowego uporządkowania danych całkowitych na średni czas wykonania badanych algorytmów dla 1~000~000 elementów
+    \caption{Wpływ stopnia częściowego uporządkowania danych całkowitych na średni czas wykonania badanych algorytmów dla 1~000~000 elementów 
     i~8 jednostek wykonawczych.}
     \label{fig:sortedness-impact-int}
 
@@ -137,5 +137,5 @@ Porównanie wyników dla danych całkowitych i~zmiennoprzecinkowych nie wykazał
 żadnego z tych typów dla wszystkich badanych algorytmów. 
 Również obecność duplikatów nie wpływała w taki sam sposób na czas wykonania we wszystkich analizowanych przypadkach.
 
-Największą zmienność wyników wynikającą ze zmiany charakterystyki zbioru zaobserwowano dla Quick Sort, natomiast Bucket Sort
+Największą zmienność czasu wykonania związaną ze zmiany charakterystyki zbioru zaobserwowano dla Quick Sort, natomiast Bucket Sort
 i~Sample Sort uzyskiwały bardziej zbliżone wyniki dla analizowanych wariantów danych.
