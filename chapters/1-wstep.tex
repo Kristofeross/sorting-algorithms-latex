@@ -25,12 +25,12 @@ Implementacja efektywnych algorytmów sortowania równoległego wiąże się z~s
 synchronizacja jednostek wykonawczych, zarządzanie dostępem do pamięci oraz ograniczanie narzutu wynikającego z~realizacji obliczeń równoległych.
 W~praktyce wiele istniejących rozwiązań albo pozostaje na poziomie teoretycznym, albo nie uwzględnia realnych ograniczeń sprzętowych 
 i~systemowych, takich jak koszt przełączania kontekstu, konflikty w~dostępie do pamięci czy nierównomierne obciążenie rdzeni.
-Z tego względu zwiększenie liczby jednostek wykonawczych nie musi prowadzić do proporcjonalnego skrócenia czasu wykonania 
+Z~tego względu zwiększenie liczby jednostek wykonawczych nie musi prowadzić do proporcjonalnego skrócenia czasu wykonania 
 algorytmu~\cite{bib:Grama}.
 
 W związku z~tym praktyczne zbadanie wydajności oraz efektywności wybranych algorytmów sortowania równoległego stanowi 
 istotne i~aktualne zagadnienie. W niniejszej pracy skoncentrowano się na implementacji i~porównaniu czterech popularnych 
-algorytmów: Parallel~Quicksort, Parallel~MergeSort, Parallel~BucketSort oraz Parallel~Samplesort. 
+algorytmów: Parallel~Quicksort, Parallel~Merge~Sort, Parallel~Bucket~Sort oraz Parallel~Samplesort. 
 Algorytmy zostały zrealizowane w~języku Python z~wykorzystaniem biblioteki \texttt{multiprocessing}, a~następnie poddane testom 
 pod kątem czasu wykonania, wykorzystania pamięci RAM, obciążenia procesora, skalowalności oraz wpływu charakterystyki danych wejściowych.
 
@@ -39,7 +39,7 @@ pod kątem czasu wykonania, wykorzystania pamięci RAM, obciążenia procesora, 
 
 Głównym celem niniejszej pracy magisterskiej jest przeprowadzenie szczegółowej analizy wydajności i~efektywności wybranych algorytmów 
 sortowania równoległego na współczesnych wielordzeniowych procesorach. Analizie podano cztery algorytmy: 
-Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort.
+Parallel Quicksort, Parallel Merge~Sort, Parallel Bucket~Sort oraz Parallel Samplesort.
 
 Realizacja głównego celu pracy opiera się na implementacji wybranych algorytmów w~języku Python z~wykorzystaniem 
 biblioteki \texttt{multiprocessing}, a~następnie przeprowadzeniu badań eksperymentalnych w~środowisku wielordzeniowym. 
@@ -57,7 +57,7 @@ Zakres pracy obejmuje:
 wydajności i~efektywności obliczeń równoległych oraz skalowalności algorytmów
 
 \item przedstawienie oraz~porównanie wybranych algorytmów sortowania równoległego: 
-Parallel Quicksort, Parallel MergeSort, Parallel BucketSort oraz Parallel Samplesort
+Parallel Quicksort, Parallel Merge~Sort, Parallel Bucket~Sort oraz Parallel Samplesort
 
 \item opracowanie założeń projektowych implementacji algorytmów w~środowisku wielordzeniowym
 z~wykorzystaniem biblioteki \texttt{multiprocessing} oraz pamięci współdzielonej

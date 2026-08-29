@@ -20,7 +20,7 @@ W badaniach uwzględniono cztery algorytmy:
 Dla każdego algorytmu wykonano pomiary jego wariantu sekwencyjnego oraz wersję równoległą. 
 Wariant sekwencyjny stanowił punkt odniesienia i był zawsze uruchamiany na jednym rdzeniu.
 
-Testy przeprowadzono dla następujących rozmiarów danych:
+Testy przeprowadzono dla następujących rozmiarów danych zarówno dla liczb całkowitych, jak i zmiennoprzecinkowych:
 \begin{itemize}
     \item 1 000 elemntów
     \item 10 000 elemntów
@@ -34,21 +34,20 @@ Wykorzystano dwanaście wariantów zbiorów wejściowych, obejmujących:
     \item dane z duplikatami
     \item dane częściowo posortowane (20\%, 40\%, 60\% oraz 80\% elementów uporządkowanych)
 \end{itemize}
-zarówno dla liczb całkowitych, jak i zmiennoprzecinkowych.
 
 \subsection*{Konfiguracja równoległości}
 
-Testy równoległe wykonano dla dostępnych konfiguracji liczby rdzeni udostępnianych przez środowisko sprzętowe. 
+Testy równoległe wykonano dla dostępnych konfiguracji liczby jednostek wykonawczych udostępnianych przez środowisko sprzętowe. 
 W przypadku algorytmów Quick Sort oraz Merge Sort liczba procesów była zależna od parametru głębokości równoległości:
 \[
 \textit{max\_depth} = \log_2(\textit{cores}).
 \]
-Dla Bucket Sort oraz Samplesort liczbę procesów ustawiano jako liczbę wykorzystanych rdzeni.
+Dla Bucket Sort oraz Samplesort liczbę procesów ustawiano jako liczbę wykorzystanych jednostek wykonawczych.
 
 \subsection*{Organizacja eksperymentów}
 
 Każdy pomiar wykonywano wielokrotnie, a do analizy przyjmowano wartości uśrednione. 
-Liczbę powtórzeń ustalono na 10/100 dla każdego wariantu eksperymentu, 
+Liczbę powtórzeń ustalono na 10 dla każdego wariantu eksperymentu, 
 aby uzyskać możliwie dokładną wartość średnią z przeprowadzonych pomiarów. Przed właściwymi pomiarami wykonano dodatkowe uruchomienie,
 którego wynik nie był uwzględniany w obliczeniach. Miało ono na celu przygotowanie środowiska do właściwych testów, jak również 
 zprofilowanie uruchomionego algorytmu, dzięki czemu narzut pracy profilera nie wpływał na wyniki.
@@ -121,7 +120,7 @@ precyzyjne rejestrowanie czasu wykonania oraz monitorowanie wykorzystania zasob�
 
 \subsection*{Pomiar czasu}
 
-% Czas wykonania mierzono za pomocą funkcji \texttt{time.perf\_counter}z biblioteki standardowej Pythona~\cite{bib\:PerfCounter}. 
+Czas wykonania mierzono za pomocą funkcji \texttt{time.perf\_counter} z biblioteki standardowej Pythona~\cite{bib:PerfCounter}. 
 Zapewnia ona dostęp do zegara o wysokiej rozdzielczości, przeznaczonego do pomiaru krótkich przedziałów czasu. 
 Czas wykonania wyznaczany jest jako różnica wartości licznika zarejestrowanych przed rozpoczęciem i po zakończeniu
 badanego fragmentu kodu. Dzięki wysokiej rozdzielczości funkcja dobrze nadaje się do przeprowadzania pomiarów wydajnościowych. 
@@ -164,10 +163,3 @@ Wprowadzono limit czasowy ustawiony na 15 minut, po przekroczeniu którego proce
 
 Zebrane próbki CPU i RAM agregowano do wartości średnich oraz maksymalnych, 
 a następnie wraz z metrykami czasu, \textit{speedup} i \textit{efficiency} zapisano w bazie danych.
-
-\section{Przebieg eksperymentów}
-\label{sec:PrzebiegBadan}
-
-Opis jak zostały przeprowadzone testy. Przygotowanie środowisk testowych. Sposób zapisywania i archiwizacji wyników. Procedura uruchomienia algorytmu itp.
-
-Dopytać czy ta sekcja w ogóle ma sens !!!!!!!!!!!!

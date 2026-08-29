@@ -1,13 +1,13 @@
 \section{Porównanie czasu sortowania}
 \label{sec:CzasSortowania}
 
-Pierwszym i podstawowym kryterium wykorzystanym do oceny wydajności badanych algorytmów był czas wykonania sortowania. 
+Pierwszym i~podstawowym kryterium wykorzystanym do oceny wydajności badanych algorytmów był czas wykonania sortowania. 
 Analizie poddano warianty sekwencyjne oraz równoległe algorytmów Quick Sort, Merge Sort, 
 Bucket Sort i~Sample Sort dla zbiorów danych o rozmiarach 1~000, 10~000, 100~000 oraz 1~000~000 elementów.
 
-W pierwszej kolejności przeanalizowano wpływ rozmiaru danych na czas wykonania poszczególnych algorytmów. 
+W~pierwszej kolejności przeanalizowano wpływ rozmiaru danych na czas wykonania poszczególnych algorytmów. 
 Jako punkt odniesienia przyjęto zbiór danych \texttt{random\_int}, zawierający losowo wygenerowane liczby całkowite. 
-Pozwala to na porównanie badanych algorytmów w jednakowych warunkach, 
+Pozwala to na porównanie badanych algorytmów w~jednakowych warunkach, 
 bez uwzględniania na tym etapie wpływu stopnia uporządkowania danych lub występowania duplikatów.
 
 \begin{figure}[htbp]
@@ -28,15 +28,27 @@ osiągając około 2,04~s. Nieco dłuższego czasu wymagał Quick Sort z czasem 
 Merge Sort wymagał około 3,41~s, natomiast Sample Sort osiągnął najdłuższy czas spośród porównywanych algorytmów, równy 4,95~s.
 Wyniki wskazują, że różnice pomiędzy badanymi implementacjami zwiększają się wraz ze wzrostem rozmiaru przetwarzanego zbioru.
 
-W celu bezpośredniego porównania wariantów sekwencyjnych i~równoległych w tabeli~\ref{tab:best-execution-time} 
+Oprócz średniego czasu wykonania analizowano również medianę oraz odchylenie standardowe uzyskane na podstawie kolejnych powtórzeń eksperymentu. 
+Pozwoliło to ocenić powtarzalność przeprowadzonych pomiarów.
+
+Dla największych analizowanych zbiorów wartości mediany pozostawały zbliżone do średniego czasu wykonania, 
+a~odchylenie standardowe było niewielkie w~stosunku do uzyskiwanych czasów.
+Dla zbiorów liczących 1~000~000 elementów mediana względnego odchylenia standardowego wyniosła około 1,95\%, 
+natomiast mediana względnej różnicy pomiędzy średnim czasem wykonania a~medianą osiągnęła wartość około 0,31\%.
+
+Większą względną zmienność rezultatów odnotowano dla mniejszych zbiorów danych, zwłaszcza dla 10~000 elementów. 
+W~przypadku bardzo krótkich czasów wykonania nawet niewielkie różnice pomiędzy 
+poszczególnymi pomiarami stanowiły większą część całkowitego czasu sortowania.
+
+W celu bezpośredniego porównania wariantów sekwencyjnych i~równoległych w~tabeli~\ref{tab:best-execution-time} 
 zestawiono czasy uzyskane dla 1~000~000 losowych liczb całkowitych. 
 Dla każdego algorytmu przedstawiono czas wariantu sekwencyjnego oraz najlepszy czas uzyskany spośród badanych konfiguracji równoległych.
 
 \input{tables/chapter6/best_execution_time}
 
-Zestawienie pokazuje, że dla każdego z badanych algorytmów możliwe było uzyskanie czasu krótszego niż w wariancie sekwencyjnym, 
+Zestawienie pokazuje, że dla każdego z badanych algorytmów możliwe było uzyskanie czasu krótszego niż w~wariancie sekwencyjnym, 
 niemniej najlepsze wyniki osiągęto przy różnej liczbie jednostek wykonawczych. 
-Największe przyspieszenie w stosunku do wykonania sekwencyjnego odnotowano dla Sample Sort i~wyniosło ono około 2,23. 
+Największe przyspieszenie w~stosunku do wykonania sekwencyjnego odnotowano dla Sample Sort i~wyniosło ono około 2,23. 
 Nie oznaczało to jednak najkrótszego bezwzględnego czasu sortowania. 
 Najlepszy wynik czasowy uzyskał Bucket Sort, dla którego przy wykorzystaniu 16 jednostek wykonawczych wyniósł on około 1,09~s.
 
