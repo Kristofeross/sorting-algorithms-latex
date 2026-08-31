@@ -15,9 +15,12 @@ Istotnym czynnikiem wpływającym na uzyskane wyniki był sposób sterowania
 poziomem równoległości. W przypadku Quick Sort oraz Merge Sort maksymalną
 głębokość równoległego podziału określano zgodnie z~zależnością
 
-\[
-    \textit{max\_depth} = \lfloor \log_2(p) \rfloor,
-\]
+% \[
+%     \textit{max\_depth} = \lfloor \log_2(p) \rfloor,
+% \]
+\begin{equation}
+    \texttt{max\_depth} = \left\lfloor \log_2(p) \right\rfloor.
+\end{equation}
 
 gdzie $p$ oznacza liczbę jednostek wykonawczych. 
 Dodatkowo wprowadzono progi minimalnego rozmiaru fragmentu danych, po których osiągnięciu dalsze przetwarzanie realizowano sekwencyjnie. 

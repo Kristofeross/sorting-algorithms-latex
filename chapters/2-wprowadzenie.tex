@@ -45,9 +45,8 @@ pozostałe nadal wykonują obliczenia~\cite{bib:Grama,bib:Jaja}.
 
 \begin{figure}[htbp]
     \centering \includegraphics[width=0.80\textwidth]{images/chapter2/parallelSortingGeneral.png}
-    \caption{Ogólny schemat podziału pracy w~sortowaniu równoległym.}
+    \caption{Ogólny schemat podziału pracy w~sortowaniu równoległym. Źródło: opracowanie własne.}
     \label{fig:parallel-sorting-general}
-    {\small Źródło: opracowanie własne.}
 \end{figure}
 
 \section{Charakterystyka procesorów wielordzeniowych}
@@ -99,13 +98,16 @@ przyspieszenie (ang. \textit{speedup}) oraz efektywność (ang. \textit{efficien
 Umożliwiają one określenie, w~jakim stopniu zastosowanie wielu jednostek wykonawczych wpływa na czas wykonania
 zadania oraz jak skutecznie wykorzystywane są dostępne zasoby obliczeniowe.
 
-Niech $T^*(n)$ oznacza czas wykonania wariantu sekwencyjnego algorytmu sekwencyjnego dla danych o~rozmiarze $n$, 
+Niech $T_1(n)$ oznacza czas wykonania wariantu sekwencyjnego algorytmu sekwencyjnego dla danych o~rozmiarze $n$, 
 natomiast $T_p(n)$ oznacza czas wykonania wariantu równoległego przy wykorzystaniu $p$ jednostek wykonawczych. 
 Przyspieszenie definiuje się jako:
 
-\[
-S_p(n) = \frac{T^*(n)}{T_p(n)}.
-\]
+% \[
+% S_p(n) = \frac{T_1(n)}{T_p(n)}.
+% \]
+\begin{equation}
+    S_p(n) = \frac{T_1(n)}{T_p(n)}.
+\end{equation}
 
 W przypadku idealnym przyspieszenie powinno być zbliżone do liczby
 wykorzystanych jednostek wykonawczych, czyli $S_p(n) \approx p$. W praktyce wartość ta może być mniejsza między innymi 
@@ -115,15 +117,21 @@ z realizacją obliczeń równoległych~\cite{bib:Jaja,bib:Grama}.
 Efektywność określa stopień wykorzystania dostępnych jednostek wykonawczych i~jest definiowana
 jako stosunek uzyskanego przyspieszenia do ich liczby:
 
-\[
-E_p(n) = \frac{S_p(n)}{p}.
-\]
+% \[
+% E_p(n) = \frac{S_p(n)}{p}.
+% \]
+\begin{equation}
+    E_p(n) = \frac{S_p(n)}{p}.
+\end{equation}
 
 Po uwzględnieniu definicji przyspieszenia zależność tę można zapisać również w~postaci:
 
-\[
-E_p(n) = \frac{T_1(n)}{p \cdot T_p(n)}.
-\]
+% \[
+% E_p(n) = \frac{T_1(n)}{p \cdot T_p(n)}.
+% \]
+\begin{equation}
+    E_p(n) = \frac{T_1(n)}{p \cdot T_p(n)}.
+\end{equation}
 
 Wartość efektywności bliska $1$ oznacza wysokie wykorzystanie dostępnych zasobów obliczeniowych.
 W rzeczywistych systemach efektywność jest zazwyczaj niższa od wartości idealnej ze względu na czas
@@ -139,9 +147,12 @@ natomiast czas idealnie skalowalnej części równoległej zmniejsza się propor
 Jeżeli przez $f$ oznaczony zostanie udział części sekwencyjnej programu, a przez $p$ liczbę
 jednostek wykonawczych, przyspieszenie wynikające z prawa~Amdahla można zapisać jako:
 
-\[
-S_p = \frac{1}{f + \frac{1-f}{p}}.
-\]
+% \[
+% S_p = \frac{1}{f + \frac{1-f}{p}}.
+% \]
+\begin{equation}
+    S_p = \frac{1}{f + \frac{1-f}{p}}.
+\end{equation}
 
 Zależność ta wskazuje, że nawet przy zwiększaniu liczby jednostek wykonawczych część sekwencyjna
 programu ogranicza maksymalne możliwe przyspieszenie. Klasyczny model prawa Amdahla zakłada przy tym

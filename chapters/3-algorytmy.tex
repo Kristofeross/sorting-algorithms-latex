@@ -28,14 +28,13 @@ Jednym z głównych wyzwań wersji równoległej Quick Sortu pozostaje nierówno
 gdy pivot jest źle dobrany. Problem ten, w~połączeniu z~narzutem związanym z~tworzeniem i~synchronizacją jednostek wykonawczych, 
 może istotnie ograniczać skalowalność algorytmu~\cite{bib:Maus}. 
 Algorytm sprawdza się najlepiej przy danych zrównoważonych i~dobrze dobranym pivocie,
-traci natomiast na efektywności m.in. wtedy, gdy podziały stają się nierównomiernie.
+traci natomiast na efektywności m.in. wtedy, gdy podziały stają się nierównomierne.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapter3/parallelQuicksort.png}
-    \caption{Schemat działania Quick Sort.}
+    \caption{Schemat działania Quick Sort. Źródło: \protect\url{https://medium.com/@lucky_rydar/parallel-quick-sort-on-c-a3526ba8b532}.}
     \label{fig:qs-partition}
-    {\small Źródło: \url{https://medium.com/@lucky_rydar/parallel-quick-sort-on-c-a3526ba8b532}.}
 \end{figure}
 
 \section{Parallel Merge Sort}
@@ -71,9 +70,8 @@ do wykonania sekwencyjnego w~celu ograniczenia narzutu związanego z~równoległ
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapter3/parallelMergeSort.jpg}
-    \caption{Schemat działania Merge Sort.}
+    \caption{Schemat działania Merge Sort. Źródło: \protect\url{https://www.tutorialspoint.com.cach3.com/parallel_algorithm/parallel_algorithm_quick_guide.htm}.}
     \label{fig:ms-merge}
-    {\small Źródło: \url{https://www.tutorialspoint.com.cach3.com/parallel_algorithm/parallel_algorithm_quick_guide.htm}.}
 \end{figure}
 
 \section{Parallel Bucket Sort}
@@ -107,9 +105,8 @@ natomiast dla większych zbiorów możliwe jest uzyskanie lepszej wydajności~\c
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapter3/parallelBucketSort.png}
-    \caption{Schemat działania Bucket Sort.}
+    \caption{Schemat działania Bucket Sort. Źródło: \protect\url{https://guideofgreece.com/}.}
     \label{fig:bs-buckets}
-    {\small Źródło: \url{https://guideofgreece.com/}.}
 \end{figure}
 
 \FloatBarrier
@@ -149,7 +146,6 @@ fragmentów danych dalsze sortowanie może być realizowane za pomocą algorytmu
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapter3/parallelSampleSort.png}
-    \caption{Schemat działania Sample Sort.}
+    \caption{Schemat działania Sample Sort. Źródło: opracowanie własne na podstawie \cite{bib:ShiSchaeffer1992}.}
     \label{fig:ss-samplesort}
-    {\small Źródło: opracowanie własne na podstawie \cite{bib:ShiSchaeffer1992}.}
 \end{figure}

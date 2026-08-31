@@ -26,9 +26,9 @@ Wariant sekwencyjny stanowił punkt odniesienia i był zawsze uruchamiany na jed
 
 Testy przeprowadzono dla następujących rozmiarów danych zarówno dla liczb całkowitych, jak i zmiennoprzecinkowych:
 \begin{itemize}
-    \item 1~000 elemntów
-    \item 10~000 elemntów
-    \item 100~000 elemntów
+    \item 1~000 elementów
+    \item 10~000 elementów
+    \item 100~000 elementów
     \item 1~000~000 elementów
 \end{itemize}
 
@@ -43,10 +43,12 @@ Wykorzystano dwanaście wariantów zbiorów wejściowych, obejmujących:
 
 Testy równoległe wykonano dla dostępnych konfiguracji liczby jednostek wykonawczych udostępnianych przez środowisko sprzętowe. 
 W przypadku algorytmów Quick Sort oraz Merge Sort liczba procesów była zależna od parametru głębokości równoległości:
-\[
-% \textit{max\_depth} = \log_2(\textit{cores}), 
-\textit{max\_depth} = \left\lfloor \log_2(p) \right\rfloor, 
-\]
+% \[
+% \textit{max\_depth} = \left\lfloor \log_2(p) \right\rfloor, 
+% \]
+\begin{equation}
+    \texttt{max\_depth} = \left\lfloor \log_2(p) \right\rfloor.
+\end{equation}
 
 gdzie p oznacza liczb˛e jednostek wykonawczych. W przypadku Bucket Sort oraz Sample Sort 
 liczbę procesów ustawiano jako równą liczbie wykorzystanych jednostek wykonawczych.
@@ -57,7 +59,7 @@ Każdy pomiar wykonywano wielokrotnie, a do analizy przyjmowano wartości uśred
 Liczbę powtórzeń ustalono na 10 dla każdego wariantu eksperymentu, 
 aby uzyskać możliwie dokładną wartość średnią z przeprowadzonych pomiarów. Przed właściwymi pomiarami wykonano dodatkowe uruchomienie,
 którego wynik nie był uwzględniany w obliczeniach. Miało ono na celu przygotowanie środowiska do właściwych testów, jak również 
-zprofilowanie uruchomionego algorytmu, dzięki czemu narzut pracy profilera nie wpływał na wyniki.
+przeprowadzenie profilowania uruchomionego algorytmu, dzięki czemu narzut pracy profilera nie wpływał na wyniki.
 
 Przeprowadzone testy pozwoliły uzyskać zróżnicowany zestaw wyników, które umożliwiają analizę wpływu rozmiaru danych, 
 liczby wykorzystywanych jednostek wykonawczych oraz charakterystyki zbioru wejściowego na czas sortowania, zużycie pamięci oraz efektywność zrównoleglenia.
@@ -105,25 +107,34 @@ Na podstawie czasu sekwencyjnego $T_1$ oraz czasu równoległego $T_p$
 wyznaczano metryki efektywności zrównoleglenia:
 \begin{itemize}
     \item przyspieszenie (\textit{speedup}):
-    \[
-    S_p = \frac{T_1}{T_p},
-    \]
+    % \[
+    % S_p = \frac{T_1}{T_p},
+    % \]
+
+    \begin{equation}
+        S_p = \frac{T_1}{T_p},
+    \end{equation}
+
     \item efektywność (\textit{efficiency}):
-    \[
-    E_p = \frac{S_p}{p} = \frac{T_1}{p \cdot T_p},
-    \]
+    
+    % \[
+    % E_p = \frac{S_p}{p} = \frac{T_1}{p \cdot T_p},
+    % \]
+    \begin{equation}
+        E_p = \frac{S_p}{p} = \frac{T_1}{p \cdot T_p},
+    \end{equation}
+
     gdzie $p$ oznacza liczbę jednostek wykonawczych.
 \end{itemize}
 
 Wartości \textit{speedup} oraz \textit{efficiency} dla wariantu sekwencyjnego są pomijane.
-
 Wszystkie uzyskane wyniki zapisywano w bazie danych SQLite, 
 co umożliwiło ich bezpieczne przechowywanie oraz wykorzystanie w dalszych etapach badań.
 
 \section{Narzędzia do pomiaru czasu, CPU i pamięci}
 \label{sec:NarzedziaPomiaru}
 
-Do realizacji potrzebnych pomiarów wykorzystano zestaw narzędzi i bibliotek umożliwiających 
+Do realizacji potrzebnych pomiarów wykorzystano zestaw narzędzi i~bibliotek umożliwiających 
 precyzyjne rejestrowanie czasu wykonania oraz monitorowanie wykorzystania zasobów systemowych w trakcie działania algorytmów.
 
 \subsection*{Pomiar czasu}
@@ -169,5 +180,5 @@ Każdy pojedynczy przebieg algorytmu uruchamiano w osobnym procesie roboczym, co
 umożliwiało zabezpieczenie testów w~przypadku awarii lub zawieszeniu badanego algorytmu.
 Wprowadzono limit czasowy ustawiony na 15 minut, po przekroczeniu którego proces był przerywany, a dany test otrzymywał status \texttt{TIMEOUT}.
 
-Zebrane próbki CPU i RAM agregowano do wartości średnich oraz maksymalnych, 
-a następnie wraz z~wynikami pomiaru czasu oraz wartościami \textit{speedup} i~\textit{efficiency}
+Zebrane próbki CPU i~RAM agregowano do wartości średnich oraz maksymalnych, 
+a~następnie wraz z~wynikami pomiaru czasu oraz wartościami \textit{speedup} i~\textit{efficiency} zapisywano w~bazie danych.
