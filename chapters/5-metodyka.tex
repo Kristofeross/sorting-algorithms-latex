@@ -59,7 +59,13 @@ Każdy pomiar wykonywano wielokrotnie, a do analizy przyjmowano wartości uśred
 Liczbę powtórzeń ustalono na 10 dla każdego wariantu eksperymentu, 
 aby uzyskać możliwie dokładną wartość średnią z przeprowadzonych pomiarów. Przed właściwymi pomiarami wykonano dodatkowe uruchomienie,
 którego wynik nie był uwzględniany w obliczeniach. Miało ono na celu przygotowanie środowiska do właściwych testów, jak również 
-przeprowadzenie profilowania uruchomionego algorytmu, dzięki czemu narzut pracy profilera nie wpływał na wyniki.
+sprofilowanie uruchomionego algorytmu, dzięki czemu narzut pracy profilera nie wpływał na wyniki.
+
+Po każdym wykonaniu algorytmu przeprowadzano również weryfikację poprawności uzyskanego wyniku. 
+W tym celu tworzono kopię danych wejściowych, dla której wyznaczano wynik referencyjny 
+za~pomocą wbudowanej funkcji \texttt{sorted()} języka Python. 
+Wynik uzyskany przez badaną implementację porównywano następnie z~wynikiem referencyjnym.
+Weryfikację przeprowadzano zarówno dla wariantów sekwencyjnych, jak i~równoległych.
 
 Przeprowadzone testy pozwoliły uzyskać zróżnicowany zestaw wyników, które umożliwiają analizę wpływu rozmiaru danych, 
 liczby wykorzystywanych jednostek wykonawczych oraz charakterystyki zbioru wejściowego na czas sortowania, zużycie pamięci oraz efektywność zrównoleglenia.
@@ -154,7 +160,7 @@ Dla zbiorów danych o rozmiarze nieprzekraczającym 10~000 odstęp wynosił 0,01
 Podczas każdego pomiaru odczytywano:
 \begin{itemize}
     \item łączne obciążenie CPU procesu głównego oraz procesów potomnych
-    \item zużycie pamięci RAM na podstawie wartości RSS
+    \item zużycie pamięci RAM na podstawie wartości rozmiaru pamięci rezydentnej (ang. \textit{Resident Set Size}, RSS)
 \end{itemize}
 
 Dzięki uwzględnieniu procesów potomnych możliwe było poprawne oszacowanie wykorzystywanych zasobów przez algorytmy równoległe.

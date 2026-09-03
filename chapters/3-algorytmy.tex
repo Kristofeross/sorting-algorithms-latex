@@ -9,14 +9,14 @@ oraz najważniejsze ograniczenia związane z~realizacją równoległą.
 \section{Parallel Quick Sort}
 \label{sec:ParallelQuicksort}
 
-Quick Sort należy do rodziny algorytmów opartych na strategii ``dziel i zwyciężaj'' (ang. \textit{divide-and-conquer})~\cite{bib:CLRS}. 
+Quick Sort należy do rodziny algorytmów opartych na strategii ``dziel i zwyciężaj'' (ang. \textit{divide-and-conquer})~\cite{bib:CLRS4}. 
 W kroku podziału wybierany jest element rozdzielający (ang. \textit{pivot}), który dzieli wejściowy ciąg $A[p \ldots r]$ na dwa podciągi. 
 Po zakończeniu partycjonowania pivot trafia na pozycję $A[q]$, przy czym wszystkie elementy w~podciągu $A[p \ldots q-1]$ są mniejsze 
 lub równe $A[q]$, a wszystkie elementy w~podciągu $A[q+1 \ldots r]$ są od niego większe. 
 Następnie oba podciągi są rekurencyjnie sortowane aż do uzyskania podciągów o długości 1~\cite{bib:Božidar2015}.
 
 Średnia złożoność obliczeniowa Quick Sortu wynosi $O(n \log n)$, natomiast w przypadku pesymistycznym 
-związanym z silnie niezrównoważonym podziałem może wzrosnąć do $O(n^2)$~\cite{bib:CLRS}.
+związanym z silnie niezrównoważonym podziałem może wzrosnąć do $O(n^2)$~\cite{bib:CLRS4}.
 
 W wersji równoległej algorytm wykorzystuje fakt, że po wykonaniu partycjonowania powstałe podciągi mogą być sortowane niezależnie od siebie. 
 Dzięki temu możliwe jest równoległe przetwarzanie obu części tablicy przez niezależne jednostki wykonawcze. 
@@ -33,7 +33,7 @@ traci natomiast na efektywności m.in. wtedy, gdy podziały stają się nierówn
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapter3/parallelQuicksort.png}
-    \caption{Schemat działania Quick Sort. Źródło: \protect\url{https://medium.com/@lucky_rydar/parallel-quick-sort-on-c-a3526ba8b532}.}
+    \caption{Schemat działania Quick Sort. Źródło: opracowanie własne na podstawie \cite{bib:GoodrichC++}.}
     \label{fig:qs-partition}
 \end{figure}
 
@@ -69,8 +69,8 @@ do wykonania sekwencyjnego w~celu ograniczenia narzutu związanego z~równoległ
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.85\textwidth]{images/chapter3/parallelMergeSort.jpg}
-    \caption{Schemat działania Merge Sort. Źródło: \protect\url{https://www.tutorialspoint.com.cach3.com/parallel_algorithm/parallel_algorithm_quick_guide.htm}.}
+    \includegraphics[width=0.85\textwidth]{images/chapter3/parallelMergeSort.png}
+    \caption{Schemat działania Merge Sort. Źródło: opracowanie własne na podstawie \cite{bib:GoodrichC++}.}
     \label{fig:ms-merge}
 \end{figure}
 
@@ -105,7 +105,7 @@ natomiast dla większych zbiorów możliwe jest uzyskanie lepszej wydajności~\c
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapter3/parallelBucketSort.png}
-    \caption{Schemat działania Bucket Sort. Źródło: \protect\url{https://guideofgreece.com/}.}
+    \caption{Schemat działania Bucket Sort. Źródło: opracowanie własne na podstawie \cite{bib:CLRS4}.}
     \label{fig:bs-buckets}
 \end{figure}
 

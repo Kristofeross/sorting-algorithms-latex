@@ -39,10 +39,11 @@ operacyjnymi, takimi jak Windows, Linux, macOS, co ma znaczenie przy planowaniu 
 
 Niezwykle istotną rolę w projekcie odgrywa biblioteka \texttt{multiprocessing}~\cite{bib:Multiprocessing}, stanowiąca część standardowej 
 biblioteki Pythona. Pakiet ten przy użyciu interfejsu programistycznego podobnego do~pythonowego modułu \texttt{threading} umożliwia 
-tworzenie procesów oraz realizację obliczeń równoległych z pominięciem ograniczeń wynikających z Global Interpreter Lock (GIL). 
-Dzięki temu możliwe jest efektywne wykorzystanie wielu rdzeni procesora. W ramach tej biblioteki wykorzystano również 
-moduł \texttt{multiprocessing.shared\_memory}~\cite{bib:SharedMemory}, który pozwala na bezpośredni dostęp wielu procesów do~wspólnego 
-obszaru pamięci. Mechanizm ten eliminuje konieczność serializacji oraz przesyłania dużych struktur danych między procesami, 
+tworzenie procesów oraz realizację obliczeń równoległych z pominięciem ograniczeń wynikających z globalnej blokady interpretera 
+(ang. \texttt{global interpreter lock}, GIL). Dzięki temu możliwe jest efektywne wykorzystanie wielu rdzeni procesora. 
+Do współdzielenia danych wykorzystano moduł \texttt{shared\_memory} z~pakietu \texttt{multiprocessing}~\cite{bib:SharedMemory}, 
+który pozwala na bezpośredni dostęp wielu procesów do~wspólnego obszaru pamięci. 
+Mechanizm ten eliminuje konieczność serializacji oraz przesyłania dużych struktur danych między procesami, 
 ograniczając związany z tym narzut, co ma szczególne znaczenie podczas sortowania dużych zbiorów danych.
 
 Biblioteka \texttt{NumPy}~\cite{bib:NumPy} obsługująca dane numeryczne i~szybkie operacje na tablicach, została wykorzystana w~optymalizacji 
@@ -88,7 +89,24 @@ Dla algorytmów opartych na kubełkach czyli Parallel Bucket Sort oraz Parallel 
 w którym liczba procesów jest określana na podstawie liczby jednostek wykonawczych wykorzystywanych w danym eksperymencie. 
 Dane są najpierw rozdzielane do kubełków, a~następnie grupy kubełków są przydzielane poszczególnym procesom. 
 Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w \texttt{PARALLEL\_SIZE\_CUTOFF} 
-oraz \texttt{GROUP\_SIZE\_CUTOFF}, poniżej których algorytm przełącza się na wariant sekwencyjny.
+oraz \texttt{GROUP\_SIZE\_CUTOFF}, ograniczające wykorzystanie przetwarzania równoległego dla niewielkich zbiorów lub grup danych.
+
+Wartości progów zastosowanych w~poszczególnych implementacjach przedstawiono w~tabeli~\ref{tab:parallel-cutoffs}.
+
+Kolumna Quick/Merge zawiera wartości parametru \texttt{PARALLEL\_CUTOFF}, 
+natomiast kolumna Bucket/Sample wartości parametru \texttt{PARALLEL\_SIZE\_CUTOFF}. 
+Dwie ostatnie kolumny przedstawiają wartości parametru \texttt{GROUP\_SIZE\_CUTOFF}, różne dla implementacji Bucket Sort i~Sample Sort.
+
+\input{tables/chapter4/parallel_cutoffs}
+
+Próg \texttt{PARALLEL\_CUTOFF} określa minimalny rozmiar fragmentu danych,
+dla którego w~implementacjach Quick Sort i~Merge Sort dopuszczalne jest dalsze tworzenie procesów.
+Po osiągnięciu wartości progowej dalsze sortowanie danego fragmentu wykonywane jest sekwencyjnie.
+
+Parametr \texttt{PARALLEL\_SIZE\_CUTOFF} wyznacza próg rozmiaru danych
+brany pod uwagę przy wyborze pomiędzy wykonaniem równoległym a~sekwencyjnym w~implementacjach Bucket Sort oraz Sample Sort. 
+Natomiast \texttt{GROUP\_SIZE\_CUTOFF} ogranicza tworzenie osobnych procesów dla grup danych o~małym rozmiarze. 
+Wartości tego parametru są różne dla implementacji Bucket Sort i~Sample Sort.
 
 \subsection*{Parallel Quick Sort}
 

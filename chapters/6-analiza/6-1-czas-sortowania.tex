@@ -21,10 +21,11 @@ bez uwzględniania na tym etapie wpływu stopnia uporządkowania danych lub wyst
 Dla wszystkich badanych algorytmów zwiększenie rozmiaru zbioru skutkowało wzrostem czasu wykonania, 
 przy czym różnice dla różnych algorytmów szczególnie stawały się widoczne dla największego badanego zbioru.
 
-Zestaw danych obejmujący 1~000~000 losowych liczb całkowitych uzyskał najkrótszy średni czas wykonania dla algorytmu Bucket Sort, 
+Zestaw danych obejmujący 1~000~000 losowych liczb całkowitych uzyskał najkrótszy średni czas wykonania dla implementacji Bucket Sort, 
 osiągając około 2,04~s. Nieco dłuższego czasu wymagał Quick Sort z czasem około 2,25~s. 
-Merge Sort wymagał około 3,41~s, natomiast Sample Sort osiągnął najdłuższy czas spośród porównywanych algorytmów, równy 4,95~s.
-Wyniki wskazują, że różnice pomiędzy badanymi implementacjami zwiększają się wraz ze wzrostem rozmiaru przetwarzanego zbioru.
+Merge Sort wymagał około 3,41~s, natomiast Sample Sort osiągnął najdłuższy czas spośród porównywanych implementacji, równy 4,95~s.
+
+Uzyskane czasy pokazują również, że różnice pomiędzy badanymi implementacjami zwiększają się wraz ze wzrostem rozmiaru przetwarzanego zbioru.
 
 Oprócz średniego czasu wykonania analizowano również medianę oraz odchylenie standardowe uzyskane na podstawie kolejnych powtórzeń eksperymentu. 
 Pozwoliło to ocenić powtarzalność przeprowadzonych pomiarów.
@@ -48,7 +49,7 @@ Zestawienie pokazuje, że dla każdego z badanych algorytmów możliwe było uzy
 niemniej najlepsze wyniki osiągęto przy różnej liczbie jednostek wykonawczych. 
 Największe przyspieszenie w~stosunku do wykonania sekwencyjnego odnotowano dla Sample Sort i~wyniosło ono około 2,23. 
 Nie oznaczało to jednak najkrótszego bezwzględnego czasu sortowania. 
-Najlepszy wynik czasowy uzyskał Bucket Sort, dla którego przy wykorzystaniu 16 jednostek wykonawczych wyniósł on około 1,09~s.
+Najlepszy wynik czasowy uzyskała implementacja Bucket Sort, dla której przy wykorzystaniu 16 jednostek wykonawczych wyniósł on około 1,09~s.
 
 Uzyskane wyniki wskazują, że zastosowanie wariantu równoległego może prowadzić do skrócenia czasu sortowania,
 jednak wielkość uzyskanej poprawy jest zależna od badanego algorytmu oraz zastosowanej konfiguracji równoległości.

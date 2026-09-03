@@ -2,9 +2,9 @@
 \label{sec:NajwazniejszeWyniki}
 
 Wyniki przeprowadzonych badań wskazują, że wykorzystanie obliczeń równoległych pozwalało na skrócenie czasu sortowania,
-jednak uzyskiwane korzyści różniły się w zależności od badanego algorytmu, liczby jednostek wykonawczych oraz charakterystyki danych wejściowych. 
+jednak uzyskiwane korzyści różniły się w zależności od badanej implementacji, liczby jednostek wykonawczych oraz charakterystyki danych wejściowych. 
 
-Spośród badanych algorytmów najkorzystniejsze wyniki czasowe uzyskał Bucket Sort. 
+Spośród badanych implementacji najkorzystniejsze wyniki czasowe uzyskał Bucket Sort. 
 Dla zbioru \texttt{random\_int} obejmującego 1~000~000 elementów najlepszy czas wyniósł około 1,09~s przy zastosowaniu 16 jednostek wykonawczych.
 Algorytm ten jako jedyny uzyskiwał coraz krótszy czas wykonania przy zwiększaniu liczby jednostek od 2 do 16, 
 natomiast przejście do 32 jednostek nie przyniosło już dalszej poprawy.
@@ -14,7 +14,7 @@ Quick Sort osiągnął najlepszy wynik dla 2 jednostek, Merge Sort dla 4, natomi
 Dalszy wzrost poziomu równoległości nie powodował skrócenia czasu wykonania, a~dla części analizowanych konfiguracji skutkował jego wydłużeniem.
 Wskazuje to, że optymalny poziom równoległości różnił się w zależności od sposobu implementacji poszczególnych algorytmów.
 
-Różnice pomiędzy badanymi implementacjami były zauważalne także pod względem osiągniętego przyspieszenia. 
+Badane implementacje różniły się również pod względem uzyskanego przyspieszenia.  
 Najwyższą wartość spośród wszystkich algorytmów uzyskał Sample Sort, dla którego przy 8 jednostkach wykonawczych wyniosła ona około 2,23. 
 Bucket Sort charakteryzował się natomiast najbardziej równomiernym wzrostem przyspieszenia wraz ze wzrostem liczby jednostek wykonawczych 
 i~jako jedyny utrzymał wartość przyspieszenia powyżej 1 również dla konfiguracji obejmujących 16 oraz 32 jednostki.
