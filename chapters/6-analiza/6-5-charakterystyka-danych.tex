@@ -7,8 +7,9 @@ Porównano wyniki otrzymane dla liczb całkowitych i~zmiennoprzecinkowych oraz z
 W celu bezpośredniego porównania zachowania algorytmów przy różnych charakterystykach danych przyjęto 
 wspólną konfigurację obejmującą 1~000~000 elementów oraz 8 jednostek wykonawczych. 
 
-W tabeli~\ref{tab:dataset-impact} przedstawiono średnie czasy wykonania badanych algorytmów dla analizowanych rodzajów danych.
-Umożliwiło to zbadanie oddziaływania typu danych wejściowych przy utrzymaniu niezmiennego rozmiaru zbioru oraz stopnia równoległości.
+W tabeli~\ref{tab:dataset-impact} przedstawiono średnie czasy wykonania badanych algorytmów wraz z~odchyleniem standardowym dla analizowanych rodzajów danych.
+Umożliwiło to zbadanie oddziaływania typu danych wejściowych przy utrzymaniu niezmiennego rozmiaru zbioru oraz stopnia równoległości. 
+Odchylenie standardowe uwzględniono również na wykresach w~postaci słupków błędu, co pozwala na ocenę zmienności wyników kolejnych powtórzeń.
 
 \input{tables/chapter6/dataset_impact}
 
@@ -22,7 +23,8 @@ Porównanie danych losowych oraz zbiorów zawierających duplikaty pozwoliło oc
 i~występowania powtarzających się elementów na czas wykonania badanych algorytmów.
 
 Uzyskane rezultaty wskazują, że wpływ typu danych oraz obecności duplikatów był zróżnicowany w~zależności od analizowanego algorytmu.
-Dla Merge Sort, Bucket Sort i~Sample Sort różnice pomiędzy analizowanymi rodzajami danych były stosunkowo niewielkie. 
+Dla Merge Sort, Bucket Sort i~Sample Sort różnice pomiędzy analizowanymi rodzajami danych były stosunkowo niewielkie, a~w~wielu
+przypadkach miały wielkość porównywalną z~odchyleniem standardowym pomiarów. 
 Większe zmiany zaobserwowano natomiast w~przypadku Quick Sort.
 
 Zestawienie czasów wykonania dla poszczególnych rodzajów danych przedstawiono również na rysunku~\ref{fig:dataset-impact}.
@@ -39,8 +41,8 @@ Zestawienie czasów wykonania dla poszczególnych rodzajów danych przedstawiono
 W przypadku Merge Sort czasy wykonania dla wszystkich czterech badanych zbiorów były bardzo zbliżone i~zawierały się w przedziale około 2,32--2,36~s.
 Podobną sytuację zaobserwowano dla Bucket Sort, dla którego średni czas wykonania wynosił około 1,17--1,20~s. 
 Niewielkie różnice pojawiły się również dla Sample Sort, którego wyniki mieściły się w zakresie około 2,18--2,22~s.
-Oznacza to, że w przypadku tych algorytmów zmiana typu wartości oraz obecność duplikatów wywierały ograniczony wpływ 
-na czas wykonania w analizowanej konfiguracji.
+Różnice pomiędzy średnimi czasami były w~tych przypadkach niewielkie w~stosunku do obserwowanego odchylenia standardowego. 
+Uzyskane wyniki nie pozwalają zatem na jednoznaczne określenie wpływu typu danych lub obecności duplikatów na czas wykonania analizowanych implementacji.
 
 Większe różnice wystąpiły dla Quick Sort. Dla losowych liczb całkowitych średni czas wykonania wyniósł około 2,56~s, 
 natomiast przy losowych liczbach zmiennoprzecinkowych było to już około 2,44~s. 
@@ -82,14 +84,15 @@ W przypadku Merge Sort wraz ze wzrostem stopnia uporządkowania danych zaobserwo
 Średni czas spadł z~około 2,30~s dla 20\% uporządkowanych elementów do około 2,25~s dla 40\%, 2,18~s dla 60\% oraz 2,13~s dla 80\%. 
 Zaobserwowane różnice były jednak niewielkie i~należy je interpretować z~uwzględnieniem zmienności wyników kolejnych powtórzeń.
 
-Bucket Sort z kolei charakteryzował się dużą stabilnością uzyskiwanych wyników.
+Bucket Sort charakteryzował się niewielkimi różnicami średniego czasu wykonania pomiędzy analizowanymi stopniami uporządkowania danych.
 Zbiory uporządkowane w~20\%, 40\% i~60\% posiadały średni czas wykonania na poziomie około 1,16~s. 
-Przy 80\% uporządkowania zmniejszył się jednak do około 1,12~s. 
-Oznacza to, że w~badanym zakresie stopień częściowego uporządkowania danych nie miał dużego wpływu na czas wykonania tego algorytmu.
+Przy 80\% uporządkowania zmniejszył się jednak do około 1,12~s. Różnice te były jednak mniejsze od obserwowanych wartości odchylenia standardowego.
+Oznacza to, że w~badanym zakresie stopień częściowego uporządkowania danych nie miał dużego wpływu na czas wykonania tej implementacji.
 
 Podobnie małe różnice pomiędzy wynikami wystąpiły dla Sample Sort. 
-Średni czas wykonania wynosił około 2,27~s dla 20\% uporządkowanych elementów, 2,26~s dla 40\%, 2,24~s dla 60\% oraz 2,15~s dla 80\%.
-Wraz ze wzrostem stopnia uporządkowania czas wykonania nieznacznie się skracał, jednak różnice pomiędzy poszczególnymi zbiorami były niewielkie.
+Średni czas wykonania wynosił około 2,27~s dla 20\% uporządkowanych elementów, 2,26~s dla 40\%, 2,24~s dla 60\% oraz 2,15~s dla 80\%. 
+Różnice pomiędzy tymi wartościami były porównywalne z~odchyleniem standardowym uzyskanym w~kolejnych powtórzeniach.
+Nie pozwala to na stwierdzenie jednoznacznej zależności pomiędzy stopniem częściowego uporządkowania a~czasem wykonania Sample Sort.
 
 Analogiczne wyniki dla danych zmiennoprzecinkowych przedstawiono na rysunku~\ref{fig:sortedness-impact-float}.
 
@@ -113,7 +116,7 @@ Podobny przebieg zaobserwowano również dla danych całkowitych.
 
 W przypadku Bucket Sort różnice pomiędzy poszczególnymi stopniami uporządkowania danych ponownie były niewielkie.
 Średnie czasy wykonania wyniosły około 1,19~s, 1,16~s, 1,16~s oraz 1,12~s odpowiednio dla 20\%, 40\%, 60\% i~80\% uporządkowania. 
-Oznacza to, że również dla danych zmiennoprzecinkowych oddziaływanie tego czynnika na czas działania Bucket Sort pozostawało stosunkowo niewielkie.
+Na ich podstawie nie można zatem stwierdzić jednoznacznego wpływu stopnia częściowego uporządkowania danych na czas wykonania tej implementacji.
 
 Dla Sample Sort uzyskano również niewielkie różnice pomiędzy wynikami.
 Średni czas wykonania wynosił około 2,23~s dla 20\% uporządkowania, 2,21~s dla 40\%, 2,22~s dla 60\% oraz 2,20~s dla 80\%. 
@@ -123,13 +126,15 @@ Zestawienie wyników dla obu typów danych pokazuje różne reakcje badanych alg
 Najbardziej widoczne różnice pomiędzy kolejnymi poziomami uporządkowania odnotowano dla Quick Sort. 
 Zarówno dla danych całkowitych, jak i~zmiennoprzecinkowych najkrótszy czas osiągnął zbiór uporządkowany w~80\%.
 
-W przypadku Merge Sort wraz ze wzrostem stopnia uporządkowania czas wykonania nieznacznie się skracał.
-Bucket Sort i~Sample Sort wykazywały natomiast mniejsze różnice pomiędzy uzyskanymi wynikami.
+W~przypadku Merge Sort zaobserwowano tendencję do zmniejszania średniego czasu wykonania wraz ze wzrostem stopnia uporządkowania.
+W~przypadku niektórych sąsiednich wariantów różnice były jednak niewielkie i~porównywalne z~odchyleniem standardowym pomiarów.
+Dla Bucket Sort i~Sample Sort różnice pomiędzy średnimi czasami wykonania były w~większości 
+przypadków porównywalne z~obserwowanym odchyleniem standardowym.
 
-Uzyskane wyniki wskazują, że wpływ charakterystyki danych wejściowych na czas wykonania był zależny od badanego algorytmu.
+Uzyskane wyniki wskazują, że wpływ charakterystyki danych wejściowych na czas wykonania był zależny od badanej implementacji.
 Porównanie wyników dla danych całkowitych i~zmiennoprzecinkowych nie wykazało wyraźnej przewagi 
 żadnego z tych typów dla wszystkich badanych algorytmów. 
 Również obecność duplikatów nie wpływała w taki sam sposób na czas wykonania we wszystkich analizowanych przypadkach.
 
 Największą zmienność czasu wykonania związaną ze zmiany charakterystyki zbioru zaobserwowano dla Quick Sort, natomiast Bucket Sort
-i~Sample Sort uzyskiwały bardziej zbliżone wyniki dla analizowanych wariantów danych.
+i~Sample Sort uzyskiwały bardziej zbliżone wyniki dla analizowanych wariantów i~często porównywalne z~odchyleniem standardowym pomiarów.

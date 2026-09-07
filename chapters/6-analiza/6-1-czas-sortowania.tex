@@ -25,6 +25,18 @@ Zestaw danych obejmujący 1~000~000 losowych liczb całkowitych uzyskał najkró
 osiągając około 2,04~s. Nieco dłuższego czasu wymagał Quick Sort z czasem około 2,25~s. 
 Merge Sort wymagał około 3,41~s, natomiast Sample Sort osiągnął najdłuższy czas spośród porównywanych implementacji, równy 4,95~s.
 
+Należy przy tym zaznaczyć, że bezpośrednie porównanie czasów wykonania 
+poszczególnych implementacji wymaga uwzględnienia różnic w~sposobie realizacji ich operacji.
+W~implementacjach Bucket Sort oraz Sample Sort etap dystrybucji danych wykorzystuje 
+operacje biblioteki \texttt{NumPy}, w~tym \texttt{argsort} oraz \texttt{searchsorted}. 
+Zasadnicza część tych operacji wykonywana jest w~zoptymalizowanym,
+skompilowanym kodzie biblioteki NumPy, a~nie za pomocą pętli realizowanych bezpośrednio przez interpreter Pythona.
+
+W~implementacjach Quick Sort oraz Merge Sort zasadnicze operacje sortowania, odpowiednio partycjonowanie i~scalanie, 
+zostały natomiast zaimplementowane bezpośrednio w~języku Python. 
+Z~tego względu przy interpretacji różnic w~czasach wykonania badanych implementacji należy 
+uwzględnić nie tylko właściwości poszczególnych algorytmów, ale również sposób realizacji ich kolejnych etapów.
+
 Uzyskane czasy pokazują również, że różnice pomiędzy badanymi implementacjami zwiększają się wraz ze wzrostem rozmiaru przetwarzanego zbioru.
 
 Oprócz średniego czasu wykonania analizowano również medianę oraz odchylenie standardowe uzyskane na podstawie kolejnych powtórzeń eksperymentu. 

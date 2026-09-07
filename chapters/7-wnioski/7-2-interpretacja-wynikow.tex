@@ -67,6 +67,25 @@ oraz brak dalszych korzyści dla 16 i~32 jednostek.
 Przy większej liczbie jednostek ulegała zmniejszeniu ilość danych przypadająca na pojedyncze zadanie, 
 podczas gdy koszty organizacji kolejnych etapów pozostawały obecne.
 
+\subsection*{Wpływ sposobu realizacji operacji pomocniczych}
+
+Na uzyskane czasy wykonania wpływały również różnice w~sposobie implementacji poszczególnych etapów badanych algorytmów.
+
+W~przypadku Bucket Sort etap dystrybucji elementów do kubełków wykorzystywał operacje biblioteki \texttt{NumPy}, 
+w~tym \texttt{argsort} oraz \texttt{searchsorted}. 
+W~Sample Sort podobne operacje wykorzystywano podczas przypisywania elementów do kubełków zgodnie z~wyznaczonymi wartościami rozdzielającymi.
+
+Nie oznacza to jednak, że całe implementacje Bucket Sort i~Sample Sort realizowano za pomocą biblioteki \texttt{NumPy}. 
+Zawartość utworzonych kubełków sortowano za pomocą własnej implementacji Merge Sort. 
+Biblioteka \texttt{NumPy} była natomiast wykorzystywana na etapie dystrybucji danych.
+
+W~implementacji Quick Sort operacje partycjonowania, a~w~Merge Sort operacje scalania realizowano natomiast bezpośrednio w~języku Python.
+Różnice pomiędzy badanymi implementacjami dotyczyły zatem zarówno zastosowanych algorytmów, jak i~sposobu realizacji poszczególnych operacji.
+
+Krótszych czasów wykonania uzyskanych przez Bucket Sort nie należy zatem wiązać wyłącznie z~właściwościami samego algorytmu. 
+Przy interpretacji tych wyników należy również uwzględnić wykorzystanie 
+zoptymalizowanych operacji biblioteki \texttt{NumPy} na etapie dystrybucji danych.
+
 \subsection*{Wpływ narzutu wieloprocesowości}
 
 Na uzyskane wyniki wpływał również narzut związany z~wykorzystaniem wieloprocesowości. 

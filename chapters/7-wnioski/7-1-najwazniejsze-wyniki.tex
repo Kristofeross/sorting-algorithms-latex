@@ -6,7 +6,12 @@ jednak uzyskiwane korzyści różniły się w zależności od badanej implementa
 
 Spośród badanych implementacji najkorzystniejsze wyniki czasowe uzyskał Bucket Sort. 
 Dla zbioru \texttt{random\_int} obejmującego 1~000~000 elementów najlepszy czas wyniósł około 1,09~s przy zastosowaniu 16 jednostek wykonawczych.
-Algorytm ten jako jedyny uzyskiwał coraz krótszy czas wykonania przy zwiększaniu liczby jednostek od 2 do 16, 
+Na uzyskany wynik wpływ miały jednak nie tylko właściwości samego algorytmu, ale również sposób jego implementacji.
+W~implementacji Bucket Sort etap dystrybucji danych wykorzystywał zoptymalizowane operacje biblioteki \texttt{NumPy}, 
+podczas gdy zasadnicze operacje Quick Sort oraz Merge Sort realizowano bezpośrednio w~języku Python. 
+Różnice w~sposobie realizacji poszczególnych etapów mogły zatem wpływać na uzyskane czasy wykonania.
+
+Bucket Sort jako jedyny uzyskiwał coraz krótszy czas wykonania przy zwiększaniu liczby jednostek od 2 do 16, 
 natomiast przejście do 32 jednostek nie przyniosło już dalszej poprawy.
 
 Pozostałe algorytmy uzyskały najkorzystniejsze rezultaty przy mniejszej liczbie jednostek wykonawczych. 

@@ -39,5 +39,16 @@ W~niektórych konfiguracjach ograniczały one faktyczny stopień równoległośc
 % natomiast zastosowanie większej liczby powtórzeń mogłoby zapewnić bardziej stabilne wartości średniej, 
 % mediany i~odchylenia standardowego.
 
+Przy porównywaniu badanych implementacji należy również uwzględnić różnice w~sposobie realizacji części wykonywanych operacji.
+W~implementacjach Bucket Sortoraz Sample Sort etap dystrybucji danych wykorzystywał 
+operacje biblioteki \texttt{NumPy}, wykonywane w~zoptymalizowanym kodzie biblioteki.
+
+Quick Sort oraz Merge Sort realizowały natomiast zasadnicze operacje sortowania za pomocą kodu zaimplementowanego bezpośrednio w~języku Python.
+W~konsekwencji uzyskane różnice czasów wykonania odzwierciedlają nie tylko 
+właściwości porównywanych algorytmów, lecz również różnice implementacyjne.
+
+Uzyskane rezultaty odnoszą się zatem przede wszystkim do przygotowanych implementacji i~warunków, 
+w~jakich przeprowadzono eksperymenty, a~nie do ogólnej wydajności poszczególnych algorytmów.
+
 Przedstawione ograniczenia określają zakres, w~jakim można interpretować i~uogólniać uzyskane wyniki. 
 Rezultaty odnoszą się przede wszystkim do badanych implementacji oraz przyjętych warunków przeprowadzania eksperymentów.

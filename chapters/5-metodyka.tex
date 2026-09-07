@@ -50,7 +50,7 @@ W przypadku algorytmów Quick Sort oraz Merge Sort liczba procesów była zależ
     \texttt{max\_depth} = \left\lfloor \log_2(p) \right\rfloor.
 \end{equation}
 
-gdzie p oznacza liczb˛e jednostek wykonawczych. W przypadku Bucket Sort oraz Sample Sort 
+gdzie p oznacza liczbę jednostek wykonawczych. W przypadku Bucket Sort oraz Sample Sort 
 liczbę procesów ustawiano jako równą liczbie wykorzystanych jednostek wykonawczych.
 
 \subsection*{Organizacja eksperymentów}
@@ -153,14 +153,14 @@ W implementacji CPython wykorzystywany zegar jest monotoniczny, dzięki czemu je
 
 \subsection*{Monitorowanie CPU i pamięci RAM}
 
-Zużycie procesora oraz pamięci operacyjnej monitorowano z wykorzystaniem biblioteki \texttt{psutil}~\cite{bib:Psutil}. 
+Wykorzystanie procesora oraz pamięci operacyjnej monitorowano z wykorzystaniem biblioteki \texttt{psutil}~\cite{bib:Psutil}. 
 Pomiary realizowano w osobnym wątku, który w ustalonych odstępach czasu zapisanych w \texttt{sample\_interval} 
 odczytywał informacje o wykorzystanych zasobach.
 Dla zbiorów danych o rozmiarze nieprzekraczającym 10~000 odstęp wynosił 0,01 sekundy, natomiast dla pozostałych zbiorów 0,05 sekundy.
 Podczas każdego pomiaru odczytywano:
 \begin{itemize}
     \item łączne obciążenie CPU procesu głównego oraz procesów potomnych
-    \item zużycie pamięci RAM na podstawie wartości rozmiaru pamięci rezydentnej (ang. \textit{Resident Set Size}, RSS)
+    \item wykorzystanie pamięci RAM na podstawie wartości rozmiaru pamięci rezydentnej (ang. \textit{Resident Set Size}, RSS)
 \end{itemize}
 
 Dzięki uwzględnieniu procesów potomnych możliwe było poprawne oszacowanie wykorzystywanych zasobów przez algorytmy równoległe.
