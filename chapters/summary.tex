@@ -7,7 +7,7 @@ However, simply increasing the number of processing units does not guarantee a p
 as the results are influenced, among other factors, by the method of data partitioning, the organization of computations, 
 and the overhead associated with process creation and synchronization.
 
-The aim of this thesis was to analyze the performance and efficiency of selected parallel sorting algorithms on a multicore processor. 
+The aim of this thesis is to analyze the performance and efficiency of selected parallel sorting algorithms on a multicore processor. 
 Sequential and parallel implementations of Quick Sort, Merge Sort, Bucket Sort, and
 Sample Sort were developed in Python using the \texttt{multiprocessing} module and shared memory.
 
@@ -15,15 +15,15 @@ The experiments were conducted on datasets ranging from 1,000 to 1,000,000 eleme
 including integer and floating-point data, random data, data with duplicates, and partially sorted data. 
 Execution time, CPU and RAM usage, speedup, and efficiency were analyzed.
 
-For a random dataset of 1,000,000 integers, the shortest execution time was obtained for Bucket Sort, 
-at approximately 1.20~s with 16 processing units.
+For a random dataset of 1,000,000 integers, the shortest execution time was obtained for Bucket Sort 
+and was approximately 1.20~s with 16 processing units.
 Quick Sort achieved its best result of approximately 1.80~s with 2 units, Merge Sort approximately 2.15~s with 4 units, 
 and Sample Sort approximately 2.37~s with 8 units. 
-The highest speedup was achieved by Sample Sort, reaching approximately 2.60, while for Bucket Sort, Merge Sort, 
-and Quick Sort it was approximately 1.80, 1.59, and 1.21, respectively.
+The highest speedup was achieved by Sample Sort and was approximately 2.60, while for Bucket Sort, Merge Sort, 
+and Quick Sort it reached approximately 1.80, 1.59, and 1.21, respectively.
 
 The results showed that increasing the number of processing units did not always lead to shorter execution times, 
-while the achieved efficiency depended on the algorithm used, the dataset size, and the characteristics
-of the input data. The greatest benefits from parallel processing were obtained for larger datasets. 
-The conducted experiments confirmed that effective use of parallelism requires its level to be adapted to the
+while the achieved efficiency depended on the algorithm used, the dataset size, and the characteristics of the input data. 
+The greatest benefits from parallel processing were obtained for larger datasets. 
+The conducted research confirmed that effective use of parallelism requires its level to be adapted to the
 characteristics of the algorithm and the processed data.

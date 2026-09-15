@@ -37,7 +37,7 @@ Dodatkowa diagnostyka pozwoliła określić rzeczywistą liczbę procesów potom
 Wyniki te pokazują, że zwiększanie liczby zadeklarowanych jednostek wykonawczych
 nie prowadziło do proporcjonalnego zwiększenia liczby tworzonych procesów.
 
-W przypadku Quick Sort partycjonowanie prowadziło do powstawania fragmentów o~różnych rozmiarach, 
+W przypadku Quick Sort partycjonowanie mogło prowadzić do powstawania fragmentów o~różnych rozmiarach, 
 a~tym samym do nierównomiernego rozłożenia pracy pomiędzy procesami. 
 Dodatkowo możliwość tworzenia kolejnych procesów ograniczały maksymalna głębokość podziału oraz przyjęty próg minimalnego rozmiaru fragmentu.
 
@@ -110,10 +110,26 @@ Na wygenerowanych wykresach płomieni widoczne były między innymi stosy wywoł
 w tym funkcje \texttt{spawn\_main} oraz \texttt{\_bootstrap}, a także funkcje odpowiadające właściwym operacjom analizowanych algorytmów.
 Przykładowy wykres dla równoległej implementacji Merge Sort przedstawiono na~rysunku~\ref{fig:merge-sort-flamegraph}.
 
-\begin{figure}[H]
+% \begin{sidewaysfigure}
+%     \centering
+%     \includegraphics[width=0.95\textheight]
+%     {images/chapter7/Merge_Sort_-_Parallel.png}
+%     \caption{Wykres płomieni dla równoległej implementacji Merge Sort uzyskany za pomocą narzędzia \texttt{py-spy}}
+%     \label{fig:merge-sort-flamegraph}
+% \end{sidewaysfigure}
+
+% Druga wersja
+% \begin{sidewaysfigure}
+%     \centering
+%     \includegraphics[width=0.95\textheight]{images/chapter7/Merge_Sort_-_Parallel.png}
+%     \caption{Wykres płomieni dla równoległej implementacji Merge Sort uzyskany za pomocą narzędzia \texttt{py-spy}}
+%     \label{fig:merge-sort-flamegraph}
+% \end{sidewaysfigure}
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]
-    {images/chapter7/Merge_Sort_-_ParallelV4.png}
+    \includegraphics[angle=90, height=0.85\textheight]
+    {images/chapter7/Merge_Sort_-_Parallel.png}
     \caption{Wykres płomieni dla równoległej implementacji Merge Sort uzyskany za pomocą narzędzia \texttt{py-spy}}
     \label{fig:merge-sort-flamegraph}
 \end{figure}
