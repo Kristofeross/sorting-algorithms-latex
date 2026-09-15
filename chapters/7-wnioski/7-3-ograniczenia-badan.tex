@@ -10,7 +10,7 @@ Wszystkie eksperymenty przeprowadzono na tej samej platformie wyposażonej w~pro
 18 rdzeni fizycznych i~36 wątków logicznych oraz 128~GB pamięci RAM.
 Oznacza to, że uzyskane rezultaty odzwierciedlają zachowanie badanych implementacji na konkretnej konfiguracji sprzętowej. 
 W przypadku innych procesorów, cechujących się inną liczbą rdzeni, organizacją pamięci podręcznej lub przepustowością pamięci, 
-relacje pomiędzy analizowanymi wariantami mogłyby wyglądać inaczej.
+uzyskane relacje pomiędzy analizowanymi wariantami nie mogą być bezpośrednio uogólniane na inne konfiguracje sprzętowe.
 
 Badania przeprowadzono również w~jednym środowisku systemowym.
 Wykorzystano system Windows, w~którym moduł \texttt{multiprocessing} uruchamia procesy z~wykorzystaniem mechanizmu \texttt{spawn}.
@@ -30,7 +30,8 @@ Wartości progów zostały ustalone przed przeprowadzeniem końcowej serii ekspe
 i~nie były później modyfikowane na podstawie uzyskiwanych rezultatów. 
 Umożliwiło to zachowanie jednakowych warunków pomiarowych, jednak uzyskane wyniki pokazują, 
 że przyjęte progi nie były jednakowo korzystne dla wszystkich kombinacji rozmiaru danych i~liczby jednostek wykonawczych. 
-W~niektórych konfiguracjach ograniczały one faktyczny stopień równoległości, co mogło przekładać się na osiągane przyspieszenie i~efektywność.
+W~niektórych konfiguracjach ograniczały one faktyczny stopień równoległości.
+Konfiguracje te charakteryzowały się również niższymi wartościami przyspieszenia i~efektywności.
 
 Uzyskane wyniki należy również interpretować z~uwzględnieniem specyfiki zastosowanych implementacji. 
 Badane algorytmy różniły się między innymi pod względem podziału danych, 
@@ -42,5 +43,5 @@ Istotnym ograniczeniem pozostaje również charakter środowiska wykonawczego j�
 Zastosowanie modułu \texttt{multiprocessing} umożliwiało wykonywanie zadań w~niezależnych procesach, 
 jednak rzeczywisty poziom równoległości zależał również od sposobu organizacji procesów, 
 przyjętych progów oraz mechanizmu planowania zadań przez system operacyjny.
-Przeprowadzona dodatkowa diagnostyka wykazała, że liczba zadeklarowanych jednostek wykonawczych nie zawsze odpowiadała 
-liczbie faktycznie tworzonych procesów potomnych, szczególnie w~przypadku Quick Sort i~Merge Sort.
+Przeprowadzona dodatkowa diagnostyka wykazała, że liczba zadeklarowanych jednostek wykonawczych 
+nie odpowiadała liczbie faktycznie tworzonych procesów potomnych w~przypadku Quick Sort i~Merge Sort.

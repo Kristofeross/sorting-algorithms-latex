@@ -9,14 +9,15 @@ Implementacje poddano badaniom dla zróżnicowanych rozmiarów i~charakterystyk 
 
 Przeprowadzone eksperymenty umożliwiły porównanie algorytmów pod względem czasu wykonania, 
 wykorzystania CPU i~pamięci RAM, przyspieszenia oraz efektywności. 
-Uzyskane wyniki wykazały, że obliczenia równoległe mogą skracać czas sortowania, 
+Uzyskane wyniki wykazały, że zastosowanie obliczeń równoległych prowadziło do skrócenia czasu sortowania,
 jednak osiągane korzyści zależały od algorytmu i~liczby wykorzystywanych jednostek wykonawczych.
 Nie zaobserwowano jednej konfiguracji, która byłaby najkorzystniejsza dla wszystkich badanych implementacji.
 
-Spośród badanych algorytmów najkrótsze czasy wykonania osiągnał Bucket Sort, poprawiając rezultaty do 16 jednostek wykonawczych.
+Spośród badanych algorytmów najkrótsze czasy wykonania osiągał Bucket Sort, poprawiając rezultaty do 16 jednostek wykonawczych.
 Najwyższe przyspieszenie uzyskano natomiast dla Sample Sort przy 8 jednostkach.
 Quick Sort i~Merge Sort osiągały najlepsze wyniki przy niższym poziomie równoległości. 
-Dalsze zwiększanie liczby jednostek nie zawsze skracało czas wykonania, a~jednocześnie odnotowywano spadek efektywności.
+Dalsze zwiększanie liczby jednostek powyżej konfiguracji zapewniających najlepsze wyniki
+prowadziło w~części przypadków do wydłużenia czasu wykonania, a~jednocześnie do spadku efektywności.
 Dodatkowa diagnostyka wykazała również, że liczba zadeklarowanych jednostek wykonawczych 
 nie zawsze odpowiadała liczbie faktycznie tworzonych procesów potomnych, szczególnie w~przypadku Quick Sort i~Merge Sort.
 

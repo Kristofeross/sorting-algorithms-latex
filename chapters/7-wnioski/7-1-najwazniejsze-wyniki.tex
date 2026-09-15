@@ -14,8 +14,8 @@ Bucket Sort osiągnął przyspieszenie na poziomie około 1,80, natomiast dla Me
 Jednocześnie zwiększanie liczby jednostek wykonawczych nie przekładało się na proporcjonalny wzrost wydajności. 
 Przy 32 jednostkach efektywność wyniosła około 0,06 dla Sample Sort, 0,05 dla Bucket Sort i~Merge Sort oraz 0,03 dla Quick Sort.
 
-Dodatkowa diagnostyka wykazała, że liczba zadeklarowanych jednostek wykonawczych 
-nie zawsze przekładała się bezpośrednio na liczbę faktycznie tworzonych procesów.
+Dodatkowa diagnostyka wykazała, że liczba zadeklarowanych jednostek wykonawczych
+nie przekładała się bezpośrednio na liczbę faktycznie tworzonych procesów.
 W~przypadku Quick Sort i~Merge Sort liczba procesów zależała również od sposobu podziału danych, 
 maksymalnej głębokości zrównoleglenia oraz przyjętych progów uruchamiania wykonania równoległego. 
 Dla Quick Sort utworzono odpowiednio 2, 6, 4, 4 oraz 4 procesy przy wykorzystaniu 2, 4, 8, 16 i~32 jednostek wykonawczych, 
@@ -25,7 +25,7 @@ Odmienną charakterystykę zaobserwowano dla Bucket Sort, gdzie liczba utworzony
 Sample Sort tworzył natomiast procesy w~dwóch odrębnych fazach przetwarzania, obejmujących sortowanie lokalne oraz sortowanie kubełków.
 W~każdej z~faz tworzono liczbę procesów odpowiadającą zadeklarowanej liczbie jednostek, dlatego łączna liczba utworzonych procesów była dwukrotnie większa.
 
-Wyniki pokazują zatem, że zależność pomiędzy liczbą zadeklarowanych jednostek wykonawczych 
+Zależność pomiędzy liczbą zadeklarowanych jednostek wykonawczych
 a~liczbą tworzonych procesów była uzależniona od sposobu organizacji równoległości w~konkretnym algorytmie.
 
 Przy 8 jednostkach najwyższe średnie obciążenie procesora uzyskano dla Sample Sort około 426\%, a~najniższe dla Quick Sort około 174\%. 
@@ -34,7 +34,7 @@ Przy 32 jednostkach maksymalne zużycie pamięci dla Bucket Sort i~Sample Sort p
 
 Przeprowadzone eksperymenty pokazały, że charakterystyka danych wejściowych wpływała na badane algorytmy w różnym stopniu. 
 Największe różnice w czasie wykonania pomiędzy analizowanymi rodzajami danych odnotowano dla Quick Sort, 
-podczas gdy dla pozostałych algorytmów zmienność wyników była na ogół mniejsza.
+podczas gdy dla pozostałych algorytmów zmienność wyników była mniejsza.
 
 Zestawienie wyników dla danych całkowitych i~zmiennoprzecinkowych nie wykazało 
 jednoznacznej przewagi jednego z tych typów dla wszystkich analizowanych algorytmów. 

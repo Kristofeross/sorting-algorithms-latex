@@ -1,7 +1,7 @@
 \section{Interpretacja uzyskanych wyników}
 \label{sec:InterpretacjaWynikow}
 
-Z~uzyskanych wyników wynika, że różnice wydajnościowe między algorytmami wynikały zarówno z~ich charakterystyki obliczeniowej,
+Uzyskane wyniki pokazują, że różnice wydajnościowe między algorytmami wynikały zarówno z~ich charakterystyki obliczeniowej,
 jak i~z~przyjętego sposobu implementacji obliczeń równoległych.
 
 Na obserwowane rezultaty wpływały między innymi sposób podziału danych, liczba tworzonych procesów, 
@@ -31,20 +31,20 @@ jednocześnie wpływając na rzeczywisty poziom równoległości.
 
 Przyjęte wartości progów zależały od konfiguracji liczby jednostek wykonawczych,
 w~związku z~czym nie zapewniały jednakowo korzystnego podziału pracy dla każdego rozmiaru i~rodzaju danych.
-Mogło to przyczyniać się do spadków wykorzystania CPU, przyspieszenia i efektywności obserwowanych w części analizowanych konfiguracji.
+W~części analizowanych konfiguracji obserwowano jednocześnie niższe wykorzystanie CPU, mniejsze przyspieszenie oraz niższą efektywność.
 
 Dodatkowa diagnostyka pozwoliła określić rzeczywistą liczbę procesów potomnych tworzonych podczas wykonania algorytmów. 
-Wyniki te pokazują, że zwiększanie liczby zadeklarowanych jednostek wykonawczych 
-nie musiało prowadzić do proporcjonalnego zwiększenia liczby tworzonych procesów.
+Wyniki te pokazują, że zwiększanie liczby zadeklarowanych jednostek wykonawczych
+nie prowadziło do proporcjonalnego zwiększenia liczby tworzonych procesów.
 
-W przypadku Quick Sort partycjonowanie mogło prowadzić do powstawania fragmentów o~różnych rozmiarach, 
+W przypadku Quick Sort partycjonowanie prowadziło do powstawania fragmentów o~różnych rozmiarach, 
 a~tym samym do nierównomiernego rozłożenia pracy pomiędzy procesami. 
 Dodatkowo możliwość tworzenia kolejnych procesów ograniczały maksymalna głębokość podziału oraz przyjęty próg minimalnego rozmiaru fragmentu.
 
 Potwierdza to diagnostyka, w~której po zwiększeniu liczby jednostek wykonawczych z~8 do 16 i~32 
 liczba utworzonych procesów dla Quick Sort pozostała na poziomie 4. 
-Może to częściowo tłumaczyć, dlaczego dla zbioru \texttt{random\_int} najlepszy czas uzyskano przy 2 jednostkach wykonawczych,
-natomiast dalsze zwiększanie ich liczby nie przynosiło poprawy.
+Dla zbioru \texttt{random\_int} najlepszy czas uzyskano przy 2 jednostkach wykonawczych,
+natomiast przy 8, 16 i~32 jednostkach czas wykonania nie ulegał dalszemu skróceniu.
 
 W przypadku Merge Sort podział danych miał bardziej regularny charakter, ponieważ na kolejnych 
 poziomach przetwarzany zakres dzielono na dwie części. 
@@ -53,8 +53,9 @@ Wraz ze zwiększaniem poziomu równoległości rosło więc znaczenie kosztów t
 
 Diagnostyka wykazała, że przy 8, 16 i~32 jednostkach wykonawczych dla Merge Sort utworzono po 2 procesy potomne. 
 Jest to zgodne z~ograniczeniem wynikającym z~maksymalnej głębokości oraz progów przejścia do wykonania sekwencyjnego. 
-Może to częściowo tłumaczyć, dlaczego najlepszy czas uzyskano przy 4 jednostkach wykonawczych, 
-natomiast dalsze zwiększanie ich liczby nie prowadziło już do poprawy wyniku.
+Najlepszy czas uzyskano przy 4 jednostkach wykonawczych,
+natomiast przy 8, 16 i~32 jednostkach liczba utworzonych procesów pozostawała na poziomie 2,
+a~dalsze zwiększanie ich liczby nie prowadziło już do poprawy wyniku.
 
 W przypadku Bucket Sort dane przydzielano do kubełków, które następnie grupowano i~przekazywano dostępnym procesom. 
 Przyjęte progi decydowały o~wykorzystaniu wykonania równoległego oraz utworzeniu oddzielnego procesu dla danej grupy. 
@@ -74,8 +75,7 @@ W~każdej z~faz uruchamiano liczbę procesów odpowiadającą zadeklarowanej lic
 dlatego łączna liczba utworzonych procesów wynosiła odpowiednio 4, 8, 16, 32 i~64 dla 2, 4, 8, 16 i~32 jednostek. 
 Procesy z~poszczególnych faz nie były jednak uruchamiane jednocześnie.
 
-Może to częściowo tłumaczyć poprawę wyników do 8 jednostek wykonawczych
-oraz brak dalszych korzyści dla 16 i~32 jednostek. 
+Najlepszy wynik uzyskano przy 8 jednostkach wykonawczych, natomiast dalsze zwiększanie ich liczby do 16 i~32 nie prowadziło już do poprawy czasu wykonania.
 Przy większej liczbie jednostek ulegała zmniejszeniu ilość danych przypadająca na pojedyncze zadanie, 
 podczas gdy koszty organizacji kolejnych etapów pozostawały obecne.
 
@@ -91,8 +91,9 @@ Ponadto w~części implementacji konieczne było kopiowanie fragmentów danych d
 lokalnych na potrzeby dalszego przetwarzania, co stanowiło dodatkowy element wykonywanych operacji.
 
 Znaczenie tego narzutu rosło wraz ze zmniejszaniem ilości pracy przypadającej na pojedynczy proces. 
-Może to częściowo tłumaczyć niewielkie korzyści z~równoległości dla małych zbiorów danych oraz 
-spadek efektywności obserwowany przy większej liczbie jednostek wykonawczych, gdy przetwarzane fragmenty stawały się mniejsze.
+Niewielkie korzyści z~równoległości obserwowano dla małych zbiorów danych,
+natomiast wraz ze zwiększaniem liczby jednostek wykonawczych obserwowano spadek efektywności,
+przy jednoczesnym zmniejszaniu ilości pracy przypadającej na pojedynczy proces.
 
 Dodatkowe znaczenie miało środowisko przeprowadzania eksperymentów. Badania wykonano w~systemie Windows, 
 gdzie moduł \texttt{multiprocessing} wykorzystuje metodę \texttt{spawn} do uruchamiania nowych procesów. 
@@ -101,7 +102,7 @@ co wiąże się z~dodatkowym narzutem inicjalizacji przed rozpoczęciem właści
 
 W~opracowanych implementacjach nie stosowano stałej puli procesów.
 Procesy tworzono w~momentach, w~których poszczególne etapy algorytmów wymagały wykonania zadań równoległych. 
-Koszty ich uruchamiania i~synchronizacji mogły zatem ograniczać korzyści z~równoległości, 
+Koszty ich uruchamiania i~synchronizacji stanowiły dodatkowy element czasu wykonania,
 szczególnie przy niewielkiej ilości pracy przypadającej na pojedynczy proces.
 
 Dodatkowych informacji na temat przebiegu obliczeń dostarczyło profilowanie przeprowadzone z~wykorzystaniem narzędzia \texttt{py-spy}.
