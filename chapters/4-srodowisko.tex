@@ -40,23 +40,15 @@ operacyjnymi, takimi jak Windows, Linux, macOS, co ma znaczenie przy planowaniu 
 Niezwykle istotną rolę w projekcie odgrywa biblioteka \texttt{multiprocessing}~\cite{bib:Multiprocessing}, stanowiąca część standardowej 
 biblioteki Pythona. Pakiet ten przy użyciu interfejsu programistycznego podobnego do~pythonowego modułu \texttt{threading} umożliwia 
 tworzenie procesów oraz realizację obliczeń równoległych z pominięciem ograniczeń wynikających z globalnej blokady interpretera 
-(ang. \texttt{global interpreter lock}, GIL). Dzięki temu możliwe jest efektywne wykorzystanie wielu rdzeni procesora. 
+(ang. \textit{global interpreter lock}, GIL). Dzięki temu możliwe jest efektywne wykorzystanie wielu rdzeni procesora. 
 Do współdzielenia danych wykorzystano moduł \texttt{shared\_memory} z~pakietu \texttt{multiprocessing}~\cite{bib:SharedMemory}, 
 który pozwala na bezpośredni dostęp wielu procesów do~wspólnego obszaru pamięci. 
 Mechanizm ten eliminuje konieczność serializacji oraz przesyłania dużych struktur danych między procesami, 
 ograniczając związany z tym narzut, co ma szczególne znaczenie podczas sortowania dużych zbiorów danych.
 
-% version with NumPy
-Biblioteka \texttt{NumPy}~\cite{bib:NumPy}, przeznaczona do przetwarzania danych numerycznych 
-i~wykonywania operacji na tablicach, została wykorzystana w~implementacjach Bucket Sort oraz Sample Sort.
-Zastosowano ją na etapie dystrybucji elementów do kubełków, między innymi do wyznaczania ich przypisania oraz grupowania danych.
-Ponadto \texttt{NumPy} wykorzystano w~module analizy złożoności obliczeniowej oraz przy generowaniu wykresów.
-% end
-% version without NumPy
-% Biblioteka \texttt{NumPy}~\cite{bib:NumPy}, przeznaczona do przetwarzania danych numerycznych i~wykonywania operacji na tablicach, 
-% została wykorzystana pomocniczo podczas analizy i~prezentacji uzyskanych wyników. 
-% Zastosowano ją w~module analizy złożoności obliczeniowej oraz przy generowaniu wybranych wykresów.
-% end
+Biblioteka \texttt{NumPy}~\cite{bib:NumPy}, przeznaczona do przetwarzania danych numerycznych i~wykonywania operacji na tablicach, 
+została wykorzystana pomocniczo podczas analizy i~prezentacji uzyskanych wyników. 
+Zastosowano ją w~module analizy złożoności obliczeniowej oraz przy generowaniu wybranych wykresów.
 
 Wyniki eksperymentów były przechowywane i~przetwarzane z użyciem biblioteki \texttt{pandas}~\cite{bib:Pandas}, która oferuje wygodne 
 struktury danych (DataFrame) oraz narzędzia do~filtrowania, agregacji i~analizy tabelarycznej. Do~generowania wykresów i~wizualizacji 
@@ -86,23 +78,21 @@ Dzięki temu procesy potomne mogą odczytywać i modyfikować te same dane bez k
 
 \subsection*{Ogólna architektura rozwiązania}
 
-Przy algorytmach opartych na strategii ``dziel i zwyciężaj'' czyli Parallel Quick Sort oraz Parallel Merge Sort, 
+Przy algorytmach opartych na strategii ,,dziel i zwyciężaj'', czyli Parallel Quick Sort oraz Parallel Merge Sort, 
 zastosowano rekurencyjne tworzenie procesów z ograniczeniem głębokości równoległości za pomocą parametru \texttt{max\_depth}. 
 Dodatkowo wprowadzono progi minimalnego rozmiaru fragmentu danych zawarte w słowniku\\ \texttt{PARALLEL\_CUTOFF}, 
 poniżej których dalsze tworzenie procesów jest nieopłacalne i~następuje przejście do sortowania sekwencyjnego. 
 Takie rozwiązanie ogranicza narzut związany z tworzeniem zbyt dużej liczby procesów przy małych fragmentach danych.
 
 Dla algorytmów opartych na kubełkach czyli Parallel Bucket Sort oraz Parallel Sample Sort, zastosowano model, 
-w którym liczba procesów jest określana na podstawie liczby jednostek wykonawczych wykorzystywanych w danym eksperymencie. 
+w~którym liczba procesów jest określana na podstawie liczby jednostek wykonawczych wykorzystywanych w~danym eksperymencie. 
 Dane są najpierw rozdzielane do kubełków, a~następnie grupy kubełków są przydzielane poszczególnym procesom. 
 Również tutaj wprowadzono progi minimalnego rozmiaru zawarte w \texttt{PARALLEL\_SIZE\_CUTOFF} 
 oraz \texttt{GROUP\_SIZE\_CUTOFF}, ograniczające wykorzystanie przetwarzania równoległego dla niewielkich zbiorów lub grup danych.
 
 Wartości progów zastosowanych w~poszczególnych implementacjach przedstawiono w~tabeli~\ref{tab:parallel-cutoffs}.
-
-Kolumna Quick/Merge zawiera wartości parametru \texttt{PARALLEL\_CUTOFF}, 
-natomiast kolumna Bucket/Sample wartości parametru \texttt{PARALLEL\_SIZE\_CUTOFF}. 
-Dwie ostatnie kolumny przedstawiają wartości parametru \texttt{GROUP\_SIZE\_CUTOFF}, różne dla implementacji Bucket Sort i~Sample Sort.
+Skróty zastosowane w~tabeli oznaczają PC -- \texttt{PARALLEL\allowbreak\_CUTOFF},
+PSC -- \texttt{PARALLEL\allowbreak\_SIZE\allowbreak\_CUTOFF} oraz GSC -- \texttt{GROUP\allowbreak\_SIZE\allowbreak\_CUTOFF}.
 
 \input{tables/chapter4/parallel_cutoffs}
 
@@ -113,7 +103,6 @@ Po osiągnięciu wartości progowej dalsze sortowanie danego fragmentu wykonywan
 Parametr \texttt{PARALLEL\_SIZE\_CUTOFF} wyznacza próg rozmiaru danych
 brany pod uwagę przy wyborze pomiędzy wykonaniem równoległym a~sekwencyjnym w~implementacjach Bucket Sort oraz Sample Sort. 
 Natomiast \texttt{GROUP\_SIZE\_CUTOFF} ogranicza tworzenie osobnych procesów dla grup danych o~małym rozmiarze. 
-Wartości tego parametru są różne dla implementacji Bucket Sort i~Sample Sort.
 
 \subsection*{Parallel Quick Sort}
 
@@ -161,8 +150,7 @@ W wersji równoległej liczba utworzonych kubełków jest wyliczana na podstawie
 Po utworzeniu kubełków ich zawartość jest łączona w jedną tablicę, która umieszczana zostaje w pamięci współdzielonej, 
 a zakresy poszczególnych kubełków są grupowane i przydzielane procesom. Procesy sortują przypisane im grupy kubełków niezależnie. 
 Dla małych grup sortowanie wykonywane jest sekwencyjnie, co ogranicza narzut związany z~tworzeniem procesów.
-Na etapie rozdzielania elementów do kubełków wykorzystano operacje biblioteki \texttt{NumPy}. % version with NumPy
-% Rozdzielanie elementów do kubełków realizowano bezpośrednio w~języku Python poprzez wyznaczenie numeru kubełka dla każdego elementu. % version without NumPy
+Rozdzielanie elementów do kubełków realizowano bezpośrednio w~języku Python poprzez wyznaczenie numeru kubełka dla każdego elementu.
 
 \lstinputlisting[
   language=Python, caption={Przydzielanie grup kubełków procesom w Parallel Bucket Sort}, label={lst:bs-parallel-spawn}
@@ -182,8 +170,7 @@ Na początku procesy równolegle sortują lokalne fragmenty danych i zbierają p
 Na podstawie próbek wyznaczane są wartości rozdzielające, po czym dane elementy są rozdzielane do odpowiednich kubełków. 
 Na końcu grupy kubełków są ponownie sortowane równolegle. 
 W przypadku niewielkich grup danych stosowany jest wariant sekwencyjny, co ogranicza koszt związany z tworzeniem procesów.
-Na etapie dystrybucji elementów do kubełków wykorzystano operacje biblioteki \texttt{NumPy}. % version with NumPy
-% Rozdzielanie elementów do kubełków realizowano bezpośrednio w~języku Python na podstawie wcześniej wyznaczonych wartości rozdzielających. % version without NumPy
+Rozdzielanie elementów do kubełków realizowano bezpośrednio w~języku Python na podstawie wcześniej wyznaczonych wartości rozdzielających. 
 
 \lstinputlisting[
   language=Python, caption={Równoległe sortowanie grup kubełków w Parallel Sample Sort}, label={lst:ss-parallel-spawn}

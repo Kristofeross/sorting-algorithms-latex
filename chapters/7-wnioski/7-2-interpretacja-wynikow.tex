@@ -1,90 +1,83 @@
 \section{Interpretacja uzyskanych wyników}
 \label{sec:InterpretacjaWynikow}
 
-Z~uzyskanych wyników wynika, że różnice wydajnościowe między algorytmami były spowodowane zarówno z~ich charakterystyki obliczeniowej, 
-jak i przyjętym sposobem implementacji obliczeń równoległych.
+Z~uzyskanych wyników wynika, że różnice wydajnościowe między algorytmami wynikały zarówno z~ich charakterystyki obliczeniowej,
+jak i~z~przyjętego sposobu implementacji obliczeń równoległych.
 
 Na obserwowane rezultaty wpływały między innymi sposób podziału danych, liczba tworzonych procesów, 
-moment przejścia do wykonania sekwencyjnego, a także dodatkowy narzut związany z~tworzeniem i~synchronizacją procesów.
+moment przejścia do wykonania sekwencyjnego, a~także dodatkowy narzut związany z~tworzeniem i~synchronizacją procesów.
 Wpływ tych czynników różnił się pomiędzy poszczególnymi algorytmami, co było widoczne w uzyskanych czasach wykonania, 
 wartościach przyspieszenia i~efektywności oraz wykorzystaniu zasobów.
 
 \subsection*{Wpływ sposobu organizacji obliczeń równoległych}
 
-Istotnym czynnikiem wpływającym na uzyskane wyniki był sposób sterowania
-poziomem równoległości. W przypadku Quick Sort oraz Merge Sort maksymalną
-głębokość równoległego podziału określano zgodnie z~zależnością
+Istotnym czynnikiem wpływającym na uzyskane wyniki był sposób sterowania poziomem równoległości. 
+W przypadku Quick Sort oraz Merge Sort maksymalną głębokość równoległego podziału określano zgodnie z~zależnością
 
-% \[
-%     \textit{max\_depth} = \lfloor \log_2(p) \rfloor,
-% \]
 \begin{equation}
     \texttt{max\_depth} = \left\lfloor \log_2(p) \right\rfloor.
 \end{equation}
 
 gdzie $p$ oznacza liczbę jednostek wykonawczych. 
-Dodatkowo wprowadzono progi minimalnego rozmiaru fragmentu danych, po których osiągnięciu dalsze przetwarzanie realizowano sekwencyjnie. 
-W Bucket Sort oraz Sample Sort analogiczne progi określały zasadność utworzenia procesu dla danego fragmentu danych.
 
-Rozwiązania te zmniejszały narzut wynikający z~równoległego wykonywania niewielkich zadań, 
-jednocześnie oddziałując na rzeczywisty poziom równoległości.
-Przyjęte wartości progów pozostawały stałe dla poszczególnych konfiguracji liczby jednostek wykonawczych, 
-w związku z~czym nie zapewniały jednakowo korzystnego podziału pracy dla każdego rozmiaru i rodzaju danych. 
+Dodatkowo wprowadzono progi minimalnego rozmiaru fragmentu danych, po których osiągnięciu dalsze przetwarzanie realizowano sekwencyjnie. 
+W~przypadku osiągnięcia maksymalnej głębokości również następowało przejście do wykonania sekwencyjnego. 
+Oznacza to, że utworzenie kolejnego procesu było możliwe tylko w~przypadku niespełnienia obu tych warunków.
+
+W~Bucket Sort oraz Sample Sort zastosowano natomiast progi określające uruchomienie 
+wykonania równoległego oraz utworzenie procesu dla określonej grupy danych. 
+Rozwiązania te ograniczały narzut związany z~uruchamianiem procesów dla niewielkich zadań, 
+jednocześnie wpływając na rzeczywisty poziom równoległości.
+
+Przyjęte wartości progów zależały od konfiguracji liczby jednostek wykonawczych,
+w~związku z~czym nie zapewniały jednakowo korzystnego podziału pracy dla każdego rozmiaru i~rodzaju danych.
 Mogło to przyczyniać się do spadków wykorzystania CPU, przyspieszenia i efektywności obserwowanych w części analizowanych konfiguracji.
+
+Dodatkowa diagnostyka pozwoliła określić rzeczywistą liczbę procesów potomnych tworzonych podczas wykonania algorytmów. 
+Wyniki te pokazują, że zwiększanie liczby zadeklarowanych jednostek wykonawczych 
+nie musiało prowadzić do proporcjonalnego zwiększenia liczby tworzonych procesów.
 
 W przypadku Quick Sort partycjonowanie mogło prowadzić do powstawania fragmentów o~różnych rozmiarach, 
 a~tym samym do nierównomiernego rozłożenia pracy pomiędzy procesami. 
 Dodatkowo możliwość tworzenia kolejnych procesów ograniczały maksymalna głębokość podziału oraz przyjęty próg minimalnego rozmiaru fragmentu.
 
-Może to częściowo tłumaczyć, dlaczego dla zbioru \texttt{random\_int} najkrótszy czas uzyskano przy 2 jednostkach wykonawczych, 
-natomiast dalsze zwiększanie ich liczby nie przynosiło poprawy. 
-Towarzyszyły temu również spadek efektywności oraz brak dalszego wzrostu wykorzystania CPU.
+Potwierdza to diagnostyka, w~której po zwiększeniu liczby jednostek wykonawczych z~8 do 16 i~32 
+liczba utworzonych procesów dla Quick Sort pozostała na poziomie 4. 
+Może to częściowo tłumaczyć, dlaczego dla zbioru \texttt{random\_int} najlepszy czas uzyskano przy 2 jednostkach wykonawczych,
+natomiast dalsze zwiększanie ich liczby nie przynosiło poprawy.
 
 W przypadku Merge Sort podział danych miał bardziej regularny charakter, ponieważ na kolejnych 
 poziomach przetwarzany zakres dzielono na dwie części. 
 Po zakończeniu sortowania fragmentów konieczne było jednak oczekiwanie na procesy potomne oraz scalanie uzyskanych części. 
-Wraz ze wzrostem liczby procesów wzrastało więc znaczenie kosztów ich tworzenia, synchronizacji oraz operacji scalania.
+Wraz ze zwiększaniem poziomu równoległości rosło więc znaczenie kosztów tworzenia i~synchronizacji procesów oraz operacji scalania.
 
+Diagnostyka wykazała, że przy 8, 16 i~32 jednostkach wykonawczych dla Merge Sort utworzono po 2 procesy potomne. 
+Jest to zgodne z~ograniczeniem wynikającym z~maksymalnej głębokości oraz progów przejścia do wykonania sekwencyjnego. 
 Może to częściowo tłumaczyć, dlaczego najlepszy czas uzyskano przy 4 jednostkach wykonawczych, 
-natomiast zastosowanie 16 i~32 jednostek prowadziło do pogorszenia wyników. Towarzyszyło temu również niskie 
-wykorzystanie CPU w~stosunku do liczby dostępnych jednostek wykonawczych.
+natomiast dalsze zwiększanie ich liczby nie prowadziło już do poprawy wyniku.
 
 W przypadku Bucket Sort dane przydzielano do kubełków, które następnie grupowano i~przekazywano dostępnym procesom. 
 Przyjęte progi decydowały o~wykorzystaniu wykonania równoległego oraz utworzeniu oddzielnego procesu dla danej grupy. 
 Pozwalało to na przetwarzanie mniejszych zadań bez ponoszenia dodatkowych kosztów związanych z~wieloprocesowością.
 
-Taki sposób organizacji obliczeń odpowiada korzystniejszemu zachowaniu Bucket Sort przy zwiększaniu liczby jednostek wykonawczych. 
-Dla zbioru \texttt{random\_int} czas wykonania ulegał zmniejszeniu aż do konfiguracji obejmującej 16 jednostek, 
-a wraz ze wzrostem ich liczby odnotowywano również zwiększanie średniego wykorzystania CPU. 
-Przy 32 jednostkach dalsza poprawa czasu nie nastąpiła, mimo jeszcze większego obciążenia procesora.
+Diagnostyka wykazała, że w przypadku Bucket Sort liczba utworzonych procesów była zgodna z~liczbą 
+zadeklarowanych jednostek wykonawczych i~wynosiła odpowiednio 2, 4, 8, 16 oraz 32. 
+Wraz ze zwiększaniem liczby procesów obserwowano skracanie czasu wykonania aż do konfiguracji z~16 jednostkami wykonawczymi. 
+Dalsze zwiększenie ich liczby do 32 nie przyniosło już poprawy, mimo utrzymującego się wysokiego wykorzystania procesora. 
 
 Sample Sort wykorzystywał wieloetapową organizację obliczeń, obejmującą równoległe sortowanie fragmentów, 
 wyznaczanie elementów podziałowych, redystrybucję danych oraz sortowanie utworzonych grup. 
 Wiązało się to z~kilkoma etapami tworzenia i~synchronizacji procesów oraz dodatkową pracą związaną z~podziałem danych.
 
+W~diagnostyce Sample Sort tworzył procesy na dwóch etapach przetwarzania, obejmujących sortowanie lokalne oraz sortowanie grup kubełków.
+W~każdej z~faz uruchamiano liczbę procesów odpowiadającą zadeklarowanej liczbie jednostek wykonawczych, 
+dlatego łączna liczba utworzonych procesów wynosiła odpowiednio 4, 8, 16, 32 i~64 dla 2, 4, 8, 16 i~32 jednostek. 
+Procesy z~poszczególnych faz nie były jednak uruchamiane jednocześnie.
+
 Może to częściowo tłumaczyć poprawę wyników do 8 jednostek wykonawczych
 oraz brak dalszych korzyści dla 16 i~32 jednostek. 
 Przy większej liczbie jednostek ulegała zmniejszeniu ilość danych przypadająca na pojedyncze zadanie, 
 podczas gdy koszty organizacji kolejnych etapów pozostawały obecne.
-
-\subsection*{Wpływ sposobu realizacji operacji pomocniczych}
-
-Na uzyskane czasy wykonania wpływały również różnice w~sposobie implementacji poszczególnych etapów badanych algorytmów.
-
-W~przypadku Bucket Sort etap dystrybucji elementów do kubełków wykorzystywał operacje biblioteki \texttt{NumPy}, 
-w~tym \texttt{argsort} oraz \texttt{searchsorted}. 
-W~Sample Sort podobne operacje wykorzystywano podczas przypisywania elementów do kubełków zgodnie z~wyznaczonymi wartościami rozdzielającymi.
-
-Nie oznacza to jednak, że całe implementacje Bucket Sort i~Sample Sort realizowano za pomocą biblioteki \texttt{NumPy}. 
-Zawartość utworzonych kubełków sortowano za pomocą własnej implementacji Merge Sort. 
-Biblioteka \texttt{NumPy} była natomiast wykorzystywana na etapie dystrybucji danych.
-
-W~implementacji Quick Sort operacje partycjonowania, a~w~Merge Sort operacje scalania realizowano natomiast bezpośrednio w~języku Python.
-Różnice pomiędzy badanymi implementacjami dotyczyły zatem zarówno zastosowanych algorytmów, jak i~sposobu realizacji poszczególnych operacji.
-
-Krótszych czasów wykonania uzyskanych przez Bucket Sort nie należy zatem wiązać wyłącznie z~właściwościami samego algorytmu. 
-Przy interpretacji tych wyników należy również uwzględnić wykorzystanie 
-zoptymalizowanych operacji biblioteki \texttt{NumPy} na etapie dystrybucji danych.
 
 \subsection*{Wpływ narzutu wieloprocesowości}
 
@@ -92,8 +85,8 @@ Na uzyskane wyniki wpływał również narzut związany z~wykorzystaniem wielopr
 Badane warianty równoległe zaimplementowano z~wykorzystaniem modułu \texttt{multiprocessing}, tworząc procesy klasą \texttt{Process}. 
 Współdzielenie danych realizowano poprzez mechanizm \texttt{shared\_memory}.
 
-Tworzenie procesów i~kontrolowanie ich wykonania wiązało się z~dodatkowym narzutem, które nie występowały w~wariantach sekwencyjnych. 
-Obejmowały one między innymi uruchamianie procesów, oczekiwanie na ich zakończenie oraz operacje związane z~obsługą pamięci współdzielonej.
+Tworzenie procesów i~kontrolowanie ich wykonania wiązało się z~dodatkowym narzutem, który nie występował w~wariantach sekwencyjnych. 
+Obejmował on między innymi uruchamianie procesów, oczekiwanie na ich zakończenie oraz operacje związane z~obsługą pamięci współdzielonej.
 Ponadto w~części implementacji konieczne było kopiowanie fragmentów danych do struktur 
 lokalnych na potrzeby dalszego przetwarzania, co stanowiło dodatkowy element wykonywanych operacji.
 
@@ -103,22 +96,23 @@ spadek efektywności obserwowany przy większej liczbie jednostek wykonawczych, 
 
 Dodatkowe znaczenie miało środowisko przeprowadzania eksperymentów. Badania wykonano w~systemie Windows, 
 gdzie moduł \texttt{multiprocessing} wykorzystuje metodę \texttt{spawn} do uruchamiania nowych procesów. 
-Metoda ta prowadzi do uruchomienia odrębnego procesu interpretera Pythona, 
+Metoda ta prowadzi do~uruchomienia odrębnego procesu interpretera Pythona, 
 co wiąże się z~dodatkowym narzutem inicjalizacji przed rozpoczęciem właściwych obliczeń.
-W opracowanych implementacjach nie stosowano stałej puli procesów.
+
+W~opracowanych implementacjach nie stosowano stałej puli procesów.
 Procesy tworzono w~momentach, w~których poszczególne etapy algorytmów wymagały wykonania zadań równoległych. 
-Koszty ich uruchamiania i synchronizacji mogły zatem ograniczać korzyści z~równoległości, 
+Koszty ich uruchamiania i~synchronizacji mogły zatem ograniczać korzyści z~równoległości, 
 szczególnie przy niewielkiej ilości pracy przypadającej na pojedynczy proces.
 
 Dodatkowych informacji na temat przebiegu obliczeń dostarczyło profilowanie przeprowadzone z~wykorzystaniem narzędzia \texttt{py-spy}.
 Na wygenerowanych wykresach płomieni widoczne były między innymi stosy wywołań związane z~mechanizmem \texttt{multiprocessing}, 
 w tym funkcje \texttt{spawn\_main} oraz \texttt{\_bootstrap}, a także funkcje odpowiadające właściwym operacjom analizowanych algorytmów.
-Przykładowy wykres dla równoległej implementacji Merge Sort przedstawiono na rysunku~\ref{fig:merge-sort-flamegraph}.
+Przykładowy wykres dla równoległej implementacji Merge Sort przedstawiono na~rysunku~\ref{fig:merge-sort-flamegraph}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]
-    {images/chapter7/Merge_Sort_-_Parallel.png}
+    {images/chapter7/Merge_Sort_-_ParallelV4.png}
     \caption{Wykres płomieni dla równoległej implementacji Merge Sort uzyskany za pomocą narzędzia \texttt{py-spy}}
     \label{fig:merge-sort-flamegraph}
 \end{figure}

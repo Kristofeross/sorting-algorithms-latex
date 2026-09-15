@@ -6,18 +6,24 @@ Rozwój procesorów wielordzeniowych stwarza możliwość przyspieszania oblicze
 Samo zwiększanie liczby jednostek wykonawczych nie gwarantuje jednak proporcjonalnego wzrostu wydajności, 
 ponieważ na uzyskiwane rezultaty wpływają między innymi sposób podziału danych, 
 organizacja obliczeń oraz narzut związany z~tworzeniem i~synchronizacją procesów. 
-Ma to szczególne znaczenie w~przypadku algorytmów sortowania, których efektywność może zależeć od sposobu realizacji obliczeń równoległych.
 
-Celem pracy była ocena wydajności oraz efektywności wybranych algorytmów sortowania równoległego na procesorze wielordzeniowym. 
-Analizie poddano algorytmy Quick Sort, Merge Sort, Bucket Sort oraz Sample Sort, 
-dla których opracowano zarówno warianty sekwencyjne, jak i~równoległe w języku Python, 
-wykorzystując moduł \texttt{multiprocessing} oraz pamięci współdzielonej.
+Celem pracy była analiza wydajności i~efektywności wybranych algorytmów sortowania równoległego na procesorze wielordzeniowym. 
+W~języku Python opracowano sekwencyjne i~równoległe implementacje algorytmów Quick Sort,
+Merge Sort, Bucket Sort oraz Sample Sort z~wykorzystaniem modułu \texttt{multiprocessing} i~pamięci współdzielonej.
 
-Badania przeprowadzono dla zbiorów liczących od 1~000 do 1~000~000 elementów. 
-Badania obejmowały liczby całkowite i~zmiennoprzecinkowe oraz dane losowe, dane z~duplikatami i~dane częściowo posortowane. 
-Warianty równoległe badano przy różnej liczbie jednostek wykonawczych. 
-Każdą konfigurację uruchamiano 10 razy, natomiast wyniki wariantów sekwencyjnych 
-wykorzystano jako punkt odniesienia do oceny efektów zrównoleglenia.
+Badania przeprowadzono dla zbiorów od 1~000 do 1~000~000 elementów, obejmujących dane całkowite i~zmiennoprzecinkowe, 
+losowe, z~duplikatami oraz częściowo posortowane.
+Analizowano czas wykonania, wykorzystanie CPU i~pamięci RAM, przyspieszenie oraz efektywność. 
 
-W~ramach badań analizowano czas wykonania, obciążenie procesora, wykorzystanie pamięci RAM, przyspieszenie oraz efektywność. 
-Oceniono także skalowalność przygotowanych implementacji, a~także wpływ rozmiaru i~charakterystyki danych wejściowych na uzyskiwane rezultaty.
+Dla losowego zbioru 1~000~000 liczb całkowity najkrótszy czas wykonania uzyskano dla 
+Bucket Sort i~wyniósł on około 1,20~s przy 16 jednostkach wykonawczych. 
+Dla Quick Sort najlepszy wynik wyniósł około 1,80~s przy 2 jednostkach, 
+dla Merge Sort około 2,15~s przy 4 jednostkach, a~dla Sample Sort około 2,37~s przy 8 jednostkach. 
+Najwyższe przyspieszenie uzyskano dla Sample Sort i~wyniosło około 2,60, 
+podczas gdy dla Bucket Sort, Merge Sort i~Quick Sort osiągnęło odpowiednio około 1,80, 1,59 oraz 1,21.
+
+Wyniki wykazały, że zwiększanie liczby jednostek wykonawczych nie zawsze prowadziło do skrócenia czasu wykonania, 
+a~uzyskana efektywność zależała od~zastosowanego algorytmu, rozmiaru oraz charakterystyki danych wejściowych.
+Największe korzyści z~przetwarzania równoległego uzyskano dla większych zbiorów danych. 
+Przeprowadzone badania pozwoliły potwierdzić, że efektywne wykorzystanie 
+równoległości wymaga dopasowania jej poziomu do charakterystyki algorytmu oraz przetwarzanych danych.

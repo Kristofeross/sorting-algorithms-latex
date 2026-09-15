@@ -2,9 +2,13 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
 \usepackage{booktabs}
 \usepackage{placeins}
 \usepackage{makecell}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{pdflscape}
 
 %--------------------------------------
 % początek: do uzupełnienia
@@ -54,7 +58,7 @@
 
 \input{chapters/7-wnioski}
 
-\input{chapters/podsumowanie}
+\input{chapters/8-podsumowanie}
 
 %--------------------------------------
 % Bibliografia
@@ -62,7 +66,7 @@
 
 \input{bibliography/bibliography}
 
-\input{chapters/spis-skrotow}
+% \input{chapters/spis-skrotow}
 
 %--------------------------------------
 % Spisy
@@ -75,7 +79,7 @@
 \addcontentsline{toc}{chapter}{\listtablename}
 
 \lstlistoflistings
-\addcontentsline{toc}{chapter}{\lstlistingname}
+\addcontentsline{toc}{chapter}{\lstlistlistingname}
 
 %--------------------------------------
 % Streszczenie i słowa kluczowe
@@ -89,6 +93,6 @@
 
 \input{chapters/keywords}
 
-\oswiadczenie % tego elementu ma nie być w spisie treści
+% \oswiadczenie % tego elementu ma nie być w spisie treści
 
 \end{document}

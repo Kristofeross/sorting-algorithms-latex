@@ -27,11 +27,12 @@ Celem sortowania jest przekształcenie nieuporządkowanego ciągu elementów $S 
 w~ciąg uporządkowany monotonicznie rosnąco lub malejąco. Algorytmy sortowania można podzielić na porównujące
 (ang. \textit{comparison-based}) oraz nieporównujące (ang. \textit{noncomparison-based}).
 Algorytmy porównujące ustalają kolejność elementów na podstawie wykonywanych między nimi porównań.
-Dolne ograniczenie złożoności sekwencyjnej dla tej klasy algorytmów wynosi $\Omega(n \log n)$.
+Dolne ograniczenie złożoności sekwencyjnej dla tej klasy algorytmów wynosi $\Omega(n \log n)$, natomiast w~dalszej części pracy
+symbol $O$ będzie stosowany do określania asymptotycznego ograniczenia górnego złożoności analizowanych algorytmów.
 Algorytmy nieporównujące wykorzystują natomiast dodatkowe właściwości danych, takie jak ich reprezentacja
 lub rozkład wartości, dzięki czemu w~określonych warunkach mogą osiągać złożoność liniową~\cite{bib:Grama,bib:CLRS4}.
 
-Równoległe sortowanie polega na rozłożeniu danych oraz operacji potrzebnych do ich uporządkowania pomiędzy wiele
+Równoległe sortowanie polega na rozłożeniu danych oraz operacji potrzebnych do~ich uporządkowania pomiędzy wiele
 jednostek wykonawczych. Typowym podejściem jest podział zbioru wejściowego na fragmenty, ich równoległe przetwarzanie,
 a~następnie odpowiednia reorganizacja lub połączenie uzyskanych wyników. Sposób realizacji poszczególnych etapów
 zależy od zastosowanego algorytmu oraz modelu obliczeń równoległych~\cite{bib:Grama}.
@@ -60,8 +61,8 @@ jest wykorzystanie równoległości na poziomie wątków (ang. \textit{thread-le
 
 Procesory wielordzeniowe zawierają wiele jednostek obliczeniowych zdolnych do równoczesnego wykonywania różnych zadań. 
 Poszczególne rdzenie mogą wykonywać niezależne strumienie instrukcji, co umożliwia jednoczesne realizowanie wielu zadań. 
-Współczesne procesory mogą dodatkowo wykorzystywać mechanizmy wielowątkowości sprzętowej, takie jak 
-simultaneous multithreading (SMT). Przykładem takiego rozwiązania jest technologia Intel Hyper-Threading, 
+Współczesne procesory mogą dodatkowo wykorzystywać mechanizmy wielowątkowości sprzętowej, takie jak jednoczesna wielowątkowość 
+(ang. \textit{simultaneous multithreading}, SMT). Przykładem takiego rozwiązania jest technologia Intel Hyper-Threading, 
 w której jeden rdzeń fizyczny udostępnia dwa konteksty wykonawcze, widoczne przez system operacyjny jako dwa procesory logiczne
 ~\cite{bib:IntelHT,bib:Hennessy}.
 
@@ -142,10 +143,10 @@ Istotnym ograniczeniem możliwego przyspieszenia jest udział części programu,
 wykonana równolegle. Zależność tę opisuje prawo Amdahla. W jego podstawowym modelu czas wykonania
 programu dzielony jest na część sekwencyjną oraz część możliwą do wykonania równolegle.
 Czas części sekwencyjnej pozostaje niezależny od liczby wykorzystywanych jednostek wykonawczych,
-natomiast czas idealnie skalowalnej części równoległej zmniejsza się proporcjonalnie do ich liczby~\cite{bib:KarbowskiAmdahl}.
+natomiast czas idealnie skalowalnej części równoległej zmniejsza się proporcjonalnie do~ich liczby~\cite{bib:KarbowskiAmdahl}.
 
-Jeżeli przez $f$ oznaczony zostanie udział części sekwencyjnej programu, a przez $p$ liczbę
-jednostek wykonawczych, przyspieszenie wynikające z prawa~Amdahla można zapisać jako:
+Przyjmując, że $f$ oznacza udział części sekwencyjnej programu, natomiast $p$ liczbę jednostek wykonawczych, 
+przyspieszenie uzyskiwane w~wyniku równoległego wykonania programu, zgodnie z~prawem Amdahla, można wyrazić za pomocą zależności:
 
 % \[
 % S_p = \frac{1}{f + \frac{1-f}{p}}.
@@ -157,7 +158,7 @@ jednostek wykonawczych, przyspieszenie wynikające z prawa~Amdahla można zapisa
 Zależność ta wskazuje, że nawet przy zwiększaniu liczby jednostek wykonawczych część sekwencyjna
 programu ogranicza maksymalne możliwe przyspieszenie. Klasyczny model prawa Amdahla zakłada przy tym
 idealne skalowanie części równoległej i~pomija dodatkowe koszty występujące w rzeczywistych systemach.
-Do takiego narzutu zalicza się komunikację, synchronizację oraz tworzenie procesów lub wątków~\cite{bib:KarbowskiAmdahl}.
+Do~takiego narzutu zalicza się komunikację, synchronizację oraz tworzenie procesów lub wątków~\cite{bib:KarbowskiAmdahl}.
 
 \section{Skalowalność algorytmów równoległych}
 \label{sec:SkalowalnoscAlgorytmow}
@@ -170,11 +171,11 @@ Przy stałym rozmiarze danych wejściowych zwiększanie liczby jednostek wykonaw
 Powodem tego jest wzrost całkowitego narzutu obliczeń równoległych, na który składają się takie czynniki jak komunikacja pomiędzy jednostkami, 
 czas ich bezczynności oraz dodatkowe obliczenia wykonywane w wariancie równoległym. 
 Wzrost liczby jednostek wykonawczych może przyczyniać się do zwiększenia tych kosztów, 
-co skutkuje ograniczeniem uzyskiwanego przyspieszenia~\cite{bib:Grama}.
+co~skutkuje ograniczeniem uzyskiwanego przyspieszenia~\cite{bib:Grama}.
 
 Skalowalność algorytmu zależy również od rozmiaru przetwarzanych danych.
-Dla wielu systemów równoległych zwiększenie rozmiaru danych wejściowych przy stałej liczbie jednostek wykonawczych powoduje wzrost efektywności, 
-ponieważ większy udział w całkowitym czasie wykonania mają właściwe obliczenia. 
+Zwiększenie rozmiaru danych przy stałej liczbie jednostek wykonawczych może zwiększać efektywność systemu, 
+ponieważ właściwe obliczenia stanowią wtedy większą część całkowitego czasu wykonania.
 System równoległy uznaje się za skalowalny, jeżeli przy jednoczesnym zwiększaniu liczby jednostek wykonawczych 
 oraz rozmiaru danych możliwe jest utrzymanie efektywności na zbliżonym poziomie~\cite{bib:Grama}.
 

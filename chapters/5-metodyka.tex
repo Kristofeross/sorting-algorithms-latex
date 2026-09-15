@@ -147,7 +147,7 @@ precyzyjne rejestrowanie czasu wykonania oraz monitorowanie wykorzystania zasob�
 
 Czas wykonania mierzono za pomocą funkcji \texttt{time.perf\_counter} z biblioteki standardowej Pythona~\cite{bib:PerfCounter}. 
 Zapewnia ona dostęp do zegara o wysokiej rozdzielczości, przeznaczonego do pomiaru krótkich przedziałów czasu. 
-Czas wykonania wyznaczano jako różnica wartości licznika zarejestrowanych przed rozpoczęciem i po zakończeniu
+Czas wykonania wyznaczano jako różnica wartości licznika zarejestrowanych przed rozpoczęciem i~po zakończeniu
 badanego fragmentu kodu. Dzięki wysokiej rozdzielczości funkcja dobrze nadaje się do przeprowadzania pomiarów wydajnościowych. 
 W implementacji CPython wykorzystywany zegar jest monotoniczny, dzięki czemu jego wartość nie może cofać się w czasie.
 

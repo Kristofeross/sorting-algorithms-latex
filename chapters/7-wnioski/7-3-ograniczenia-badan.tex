@@ -25,30 +25,22 @@ Natomiast w~przypadku najmniejszych zbiorów bardzo krótki czas wykonania ogran
 W~efekcie w~niektórych pomiarach odnotowano wartość 0\%, co nie oznacza jednak, że procesor nie był w~tym czasie wykorzystywany.
 Z~tego względu wyniki uzyskane dla skrajnych rozmiarów danych należy interpretować z~uwzględnieniem tych ograniczeń.
 
-Na otrzymane rezultaty wpływ miały również zastosowane progi przejścia do wykonania sekwencyjnego.
+Na otrzymane rezultaty wpływ miały również zastosowane progi przejścia do~wykonania sekwencyjnego.
 Wartości progów zostały ustalone przed przeprowadzeniem końcowej serii eksperymentów 
 i~nie były później modyfikowane na podstawie uzyskiwanych rezultatów. 
 Umożliwiło to zachowanie jednakowych warunków pomiarowych, jednak uzyskane wyniki pokazują, 
 że przyjęte progi nie były jednakowo korzystne dla wszystkich kombinacji rozmiaru danych i~liczby jednostek wykonawczych. 
 W~niektórych konfiguracjach ograniczały one faktyczny stopień równoległości, co mogło przekładać się na osiągane przyspieszenie i~efektywność.
 
-% Pewnym ograniczeniem była również liczba powtórzeń eksperymentów.
-% Dla każdej konfiguracji przeprowadzono jedno uruchomienie rozgrzewkowe, 
-% którego rezultatów nie uwzględniono w~statystykach, a~następnie wykonano 10 właściwych powtórzeń. 
-% Takie podejście zmniejszało znaczenie pojedynczych odchyleń w~czasie wykonania, 
-% natomiast zastosowanie większej liczby powtórzeń mogłoby zapewnić bardziej stabilne wartości średniej, 
-% mediany i~odchylenia standardowego.
+Uzyskane wyniki należy również interpretować z~uwzględnieniem specyfiki zastosowanych implementacji. 
+Badane algorytmy różniły się między innymi pod względem podziału danych, 
+organizacji etapów równoległych oraz zarządzania procesami i~pamięcią współdzieloną. 
+W rezultacie zaobserwowane różnice w~czasach wykonania wynikały zarówno z~charakterystyki poszczególnych algorytmów, 
+jak i~zastosowanych w~nich rozwiązań implementacyjnych.
 
-Przy porównywaniu badanych implementacji należy również uwzględnić różnice w~sposobie realizacji części wykonywanych operacji.
-W~implementacjach Bucket Sortoraz Sample Sort etap dystrybucji danych wykorzystywał 
-operacje biblioteki \texttt{NumPy}, wykonywane w~zoptymalizowanym kodzie biblioteki.
-
-Quick Sort oraz Merge Sort realizowały natomiast zasadnicze operacje sortowania za pomocą kodu zaimplementowanego bezpośrednio w~języku Python.
-W~konsekwencji uzyskane różnice czasów wykonania odzwierciedlają nie tylko 
-właściwości porównywanych algorytmów, lecz również różnice implementacyjne.
-
-Uzyskane rezultaty odnoszą się zatem przede wszystkim do przygotowanych implementacji i~warunków, 
-w~jakich przeprowadzono eksperymenty, a~nie do ogólnej wydajności poszczególnych algorytmów.
-
-Przedstawione ograniczenia określają zakres, w~jakim można interpretować i~uogólniać uzyskane wyniki. 
-Rezultaty odnoszą się przede wszystkim do badanych implementacji oraz przyjętych warunków przeprowadzania eksperymentów.
+Istotnym ograniczeniem pozostaje również charakter środowiska wykonawczego języka Python. 
+Zastosowanie modułu \texttt{multiprocessing} umożliwiało wykonywanie zadań w~niezależnych procesach, 
+jednak rzeczywisty poziom równoległości zależał również od sposobu organizacji procesów, 
+przyjętych progów oraz mechanizmu planowania zadań przez system operacyjny.
+Przeprowadzona dodatkowa diagnostyka wykazała, że liczba zadeklarowanych jednostek wykonawczych nie zawsze odpowiadała 
+liczbie faktycznie tworzonych procesów potomnych, szczególnie w~przypadku Quick Sort i~Merge Sort.

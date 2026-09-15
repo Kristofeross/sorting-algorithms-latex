@@ -2,27 +2,28 @@
 \chapter*{Summary}
 \addcontentsline{toc}{chapter}{Summary}
 
-The first chapter introduces the subject of the study and defines its main objective and scope.
+The development of multicore processors creates opportunities to accelerate computations through parallel processing. 
+However, simply increasing the number of processing units does not guarantee a proportional increase in performance, 
+as the results are influenced, among other factors, by the method of data partitioning, the organization of computations, 
+and the overhead associated with process creation and synchronization.
 
-The second chapter presents the theoretical foundations of parallel sorting, the characteristics of multicore processors 
-and~issues related to the performance, efficiency, and~scalability of parallel computing.
+The aim of this thesis was to analyze the performance and efficiency of selected parallel sorting algorithms on a multicore processor. 
+Sequential and parallel implementations of Quick Sort, Merge Sort, Bucket Sort, and
+Sample Sort were developed in Python using the \texttt{multiprocessing} module and shared memory.
 
-The third chapter presents the selected sorting algorithms:
-Parallel Quick Sort, Parallel Merge Sort, Parallel Bucket Sort, and Parallel Sample Sort,
-describing their operating principles and the implementation of parallel computation.
+The experiments were conducted on datasets ranging from 1,000 to 1,000,000 elements, 
+including integer and floating-point data, random data, data with duplicates, and partially sorted data. 
+Execution time, CPU and RAM usage, speedup, and efficiency were analyzed.
 
-The fourth chapter is devoted to the research environment and the implementation of the algorithms.
-It discusses the hardware and system configuration, the technologies used,
-the implementation of sequential and parallel variants, as well as the characteristics of the test data.
+For a random dataset of 1,000,000 integers, the shortest execution time was obtained for Bucket Sort, 
+at approximately 1.20~s with 16 processing units.
+Quick Sort achieved its best result of approximately 1.80~s with 2 units, Merge Sort approximately 2.15~s with 4 units, 
+and Sample Sort approximately 2.37~s with 8 units. 
+The highest speedup was achieved by Sample Sort, reaching approximately 2.60, while for Bucket Sort, Merge Sort, 
+and Quick Sort it was approximately 1.80, 1.59, and 1.21, respectively.
 
-The fifth chapter presents the research methodology, including test scenarios, measurement parameters 
-and~tools used to measure execution time, processor utilization, and RAM usage.
-
-The sixth chapter presents and analyzes the results of the conducted experiments.
-The analysis covers execution time, the impact of the number of processing units, resource utilization, 
-scalability, and~the influence of input data characteristics on the performance of the examined algorithms.
-
-The seventh chapter presents the main conclusions drawn from the conducted research, discusses the obtained results 
-and~identifies the limitations of the experiments and~potential directions for further research.
-
-The final section summarizes the most important results.
+The results showed that increasing the number of processing units did not always lead to shorter execution times, 
+while the achieved efficiency depended on the algorithm used, the dataset size, and the characteristics
+of the input data. The greatest benefits from parallel processing were obtained for larger datasets. 
+The conducted experiments confirmed that effective use of parallelism requires its level to be adapted to the
+characteristics of the algorithm and the processed data.

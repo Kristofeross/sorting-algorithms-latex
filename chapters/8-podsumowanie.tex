@@ -1,6 +1,6 @@
 \cleardoublepage
-\chapter*{Podsumowanie}
-\addcontentsline{toc}{chapter}{Podsumowanie}
+\chapter{Podsumowanie}
+\label{cha:Podsumowanie}
 
 Celem niniejszej pracy było przeprowadzenie analizy wydajności i~efektywności wybranych algorytmów sortowania równoległego na procesorach wielordzeniowych. 
 W~języku Python zaimplementowano Quick Sort, Merge Sort, Bucket Sort oraz Sample Sort w~wariantach sekwencyjnych i~równoległych. 
@@ -17,6 +17,8 @@ Spośród badanych algorytmów najkrótsze czasy wykonania osiągnał Bucket Sor
 Najwyższe przyspieszenie uzyskano natomiast dla Sample Sort przy 8 jednostkach.
 Quick Sort i~Merge Sort osiągały najlepsze wyniki przy niższym poziomie równoległości. 
 Dalsze zwiększanie liczby jednostek nie zawsze skracało czas wykonania, a~jednocześnie odnotowywano spadek efektywności.
+Dodatkowa diagnostyka wykazała również, że liczba zadeklarowanych jednostek wykonawczych 
+nie zawsze odpowiadała liczbie faktycznie tworzonych procesów potomnych, szczególnie w~przypadku Quick Sort i~Merge Sort.
 
 Na uzyskane rezultaty oddziaływały między innymi sposób podziału danych, wielkość zadań, 
 zastosowane progi przejścia do wykonania sekwencyjnego oraz narzut związany z~tworzeniem i~synchronizacją procesów.

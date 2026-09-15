@@ -2,42 +2,39 @@
 \label{sec:NajwazniejszeWyniki}
 
 Wyniki przeprowadzonych badań wskazują, że wykorzystanie obliczeń równoległych pozwalało na skrócenie czasu sortowania,
-jednak uzyskiwane korzyści różniły się w zależności od badanej implementacji, liczby jednostek wykonawczych oraz charakterystyki danych wejściowych. 
+jednak uzyskiwane korzyści różniły się w~zależności od badanej implementacji, liczby jednostek wykonawczych oraz charakterystyki danych wejściowych. 
 
-Spośród badanych implementacji najkorzystniejsze wyniki czasowe uzyskał Bucket Sort. 
-Dla zbioru \texttt{random\_int} obejmującego 1~000~000 elementów najlepszy czas wyniósł około 1,09~s przy zastosowaniu 16 jednostek wykonawczych.
-Na uzyskany wynik wpływ miały jednak nie tylko właściwości samego algorytmu, ale również sposób jego implementacji.
-W~implementacji Bucket Sort etap dystrybucji danych wykorzystywał zoptymalizowane operacje biblioteki \texttt{NumPy}, 
-podczas gdy zasadnicze operacje Quick Sort oraz Merge Sort realizowano bezpośrednio w~języku Python. 
-Różnice w~sposobie realizacji poszczególnych etapów mogły zatem wpływać na uzyskane czasy wykonania.
+Dla zbioru \texttt{random\_int} o~rozmiarze 1~000~000 elementów najlepsze wyniki czasowe uzyskano dla Bucket Sort, 
+dla którego średni czas wykonania wyniósł około 1,20~s przy 16 jednostkach wykonawczych.
+W~przypadku Quick Sort najlepszy wynik wyniósł około 1,80~s przy 2 jednostkach, 
+dla Merge Sort 2,15~s przy 4 jednostkach, a~dla Sample Sort 2,37~s przy 8 jednostkach.
 
-Bucket Sort jako jedyny uzyskiwał coraz krótszy czas wykonania przy zwiększaniu liczby jednostek od 2 do 16, 
-natomiast przejście do 32 jednostek nie przyniosło już dalszej poprawy.
+Najwyższe przyspieszenie odnotowano dla Sample Sort, dla którego wartość ta wyniosła około 2,60. 
+Bucket Sort osiągnął przyspieszenie na poziomie około 1,80, natomiast dla Merge Sort i~Quick Sort wyniosło ono odpowiednio 1,59 i~1,21. 
+Jednocześnie zwiększanie liczby jednostek wykonawczych nie przekładało się na proporcjonalny wzrost wydajności. 
+Przy 32 jednostkach efektywność wyniosła około 0,06 dla Sample Sort, 0,05 dla Bucket Sort i~Merge Sort oraz 0,03 dla Quick Sort.
 
-Pozostałe algorytmy uzyskały najkorzystniejsze rezultaty przy mniejszej liczbie jednostek wykonawczych. 
-Quick Sort osiągnął najlepszy wynik dla 2 jednostek, Merge Sort dla 4, natomiast Sample Sort dla 8.
-Dalszy wzrost poziomu równoległości nie powodował skrócenia czasu wykonania, a~dla części analizowanych konfiguracji skutkował jego wydłużeniem.
-Wskazuje to, że optymalny poziom równoległości różnił się w zależności od sposobu implementacji poszczególnych algorytmów.
+Dodatkowa diagnostyka wykazała, że liczba zadeklarowanych jednostek wykonawczych 
+nie zawsze przekładała się bezpośrednio na liczbę faktycznie tworzonych procesów.
+W~przypadku Quick Sort i~Merge Sort liczba procesów zależała również od sposobu podziału danych, 
+maksymalnej głębokości zrównoleglenia oraz przyjętych progów uruchamiania wykonania równoległego. 
+Dla Quick Sort utworzono odpowiednio 2, 6, 4, 4 oraz 4 procesy przy wykorzystaniu 2, 4, 8, 16 i~32 jednostek wykonawczych, 
+natomiast dla Merge Sort liczby te wynosiły odpowiednio 2, 6, 2, 2 oraz 2.
 
-Badane implementacje różniły się również pod względem uzyskanego przyspieszenia.  
-Najwyższą wartość spośród wszystkich algorytmów uzyskał Sample Sort, dla którego przy 8 jednostkach wykonawczych wyniosła ona około 2,23. 
-Bucket Sort charakteryzował się natomiast najbardziej równomiernym wzrostem przyspieszenia wraz ze wzrostem liczby jednostek wykonawczych 
-i~jako jedyny utrzymał wartość przyspieszenia powyżej 1 również dla konfiguracji obejmujących 16 oraz 32 jednostki.
+Odmienną charakterystykę zaobserwowano dla Bucket Sort, gdzie liczba utworzonych procesów odpowiadała liczbie zadeklarowanych jednostek wykonawczych.
+Sample Sort tworzył natomiast procesy w~dwóch odrębnych fazach przetwarzania, obejmujących sortowanie lokalne oraz sortowanie kubełków.
+W~każdej z~faz tworzono liczbę procesów odpowiadającą zadeklarowanej liczbie jednostek, dlatego łączna liczba utworzonych procesów była dwukrotnie większa.
 
-Wraz ze wzrostem liczby jednostek wykonawczych dla wszystkich analizowanych algorytmów odnotowano spadek efektywności. 
-Wskazuje to, że zwiększanie liczby wykorzystywanych jednostek nie przekładało się na proporcjonalny przyrost przyspieszenia. 
-Zjawisko to było szczególnie widoczne dla konfiguracji wykorzystujących 16 oraz 32 jednostki wykonawcze.
+Wyniki pokazują zatem, że zależność pomiędzy liczbą zadeklarowanych jednostek wykonawczych 
+a~liczbą tworzonych procesów była uzależniona od sposobu organizacji równoległości w~konkretnym algorytmie.
 
-Analiza wykorzystania zasobów również wskazała na różnice pomiędzy poszczególnymi implementacjami.
-Bucket Sort zwiększał obciążenie procesora wraz ze wzrostem liczby jednostek wykonawczych, a jednocześnie rosło jego zapotrzebowanie na pamięć RAM. 
-Dla pozostałych algorytmów wzrost liczby jednostek nie przekładał się w każdym przypadku na większe obciążenie CPU.
-Wyniki pokazały również, że większe zbiory danych pozwalały na lepsze wykorzystanie 
-wielu jednostek wykonawczych niż zbiory o niewielkiej liczbie elementów.
+Przy 8 jednostkach najwyższe średnie obciążenie procesora uzyskano dla Sample Sort około 426\%, a~najniższe dla Quick Sort około 174\%. 
+Najmniejsze średnie zużycie pamięci odnotowano dla Merge Sort około 163~MB, natomiast największe dla Sample Sort około 258~MB. 
+Przy 32 jednostkach maksymalne zużycie pamięci dla Bucket Sort i~Sample Sort przekraczało 1~GB.
 
-Przeprowadzone eksperymenty pokazały, że charakterystyka danych wejściowych ma wpływ na badane algorytmy w różnym stopniu. 
-Największe różnice w czasie wykonania pomiędzy analizowanymi rodzajami danych odnotowano dla Quick Sort.
-Bucket Sort jak i~Sample Sort osiągały natomiast bardziej zbliżone wyniki dla analizowanych wariantów danych.
-W przypadku Merge Sort wzrost stopnia częściowego uporządkowania wiązał się z niewielkim skracaniem czasu wykonania.
+Przeprowadzone eksperymenty pokazały, że charakterystyka danych wejściowych wpływała na badane algorytmy w różnym stopniu. 
+Największe różnice w czasie wykonania pomiędzy analizowanymi rodzajami danych odnotowano dla Quick Sort, 
+podczas gdy dla pozostałych algorytmów zmienność wyników była na ogół mniejsza.
 
 Zestawienie wyników dla danych całkowitych i~zmiennoprzecinkowych nie wykazało 
 jednoznacznej przewagi jednego z tych typów dla wszystkich analizowanych algorytmów. 

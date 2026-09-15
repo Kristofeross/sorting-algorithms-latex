@@ -14,7 +14,7 @@ bez uwzględniania na tym etapie wpływu stopnia uporządkowania danych lub wyst
     \centering
     \includegraphics[width=0.90\textwidth]
     {images/chapter6/execution_time/execution_time_vs_data_size_random_int.png}
-    \caption{Średni czas wykonania wariantów sekwencyjnych w zależności od rozmiaru zbioru \texttt{random\_int}. Źródło: opracowanie własne.}
+    \caption{Średni czas wykonania wariantów sekwencyjnych w zależności od~rozmiaru zbioru \texttt{random\_int}. Źródło: opracowanie własne.}
     \label{fig:time-data-size-sequential}
 \end{figure}
 
@@ -22,34 +22,18 @@ Dla wszystkich badanych algorytmów zwiększenie rozmiaru zbioru skutkowało wzr
 przy czym różnice dla różnych algorytmów szczególnie stawały się widoczne dla największego badanego zbioru.
 
 Zestaw danych obejmujący 1~000~000 losowych liczb całkowitych uzyskał najkrótszy średni czas wykonania dla implementacji Bucket Sort, 
-osiągając około 2,04~s. Nieco dłuższego czasu wymagał Quick Sort z czasem około 2,25~s. 
-Merge Sort wymagał około 3,41~s, natomiast Sample Sort osiągnął najdłuższy czas spośród porównywanych implementacji, równy 4,95~s.
-
-Należy przy tym zaznaczyć, że bezpośrednie porównanie czasów wykonania 
-poszczególnych implementacji wymaga uwzględnienia różnic w~sposobie realizacji ich operacji.
-W~implementacjach Bucket Sort oraz Sample Sort etap dystrybucji danych wykorzystuje 
-operacje biblioteki \texttt{NumPy}, w~tym \texttt{argsort} oraz \texttt{searchsorted}. 
-Zasadnicza część tych operacji wykonywana jest w~zoptymalizowanym,
-skompilowanym kodzie biblioteki NumPy, a~nie za pomocą pętli realizowanych bezpośrednio przez interpreter Pythona.
-
-W~implementacjach Quick Sort oraz Merge Sort zasadnicze operacje sortowania, odpowiednio partycjonowanie i~scalanie, 
-zostały natomiast zaimplementowane bezpośrednio w~języku Python. 
-Z~tego względu przy interpretacji różnic w~czasach wykonania badanych implementacji należy 
-uwzględnić nie tylko właściwości poszczególnych algorytmów, ale również sposób realizacji ich kolejnych etapów.
-
-Uzyskane czasy pokazują również, że różnice pomiędzy badanymi implementacjami zwiększają się wraz ze wzrostem rozmiaru przetwarzanego zbioru.
+osiągając około 2,16~s. Nieco dłuższego czasu wymagał Quick Sort z czasem około 2,17~s. 
+Merge Sort wymagał około 3,43~s, natomiast najdłuższy czas spośród badanych implementacji uzyskał Sample Sort, 
+dla którego średni czas wykonania wyniósł około 6,17~s.
+Wyniki wskazują, że różnice pomiędzy badanymi implementacjami zwiększają się wraz ze wzrostem rozmiaru przetwarzanego zbioru.
 
 Oprócz średniego czasu wykonania analizowano również medianę oraz odchylenie standardowe uzyskane na podstawie kolejnych powtórzeń eksperymentu. 
 Pozwoliło to ocenić powtarzalność przeprowadzonych pomiarów.
 
 Dla największych analizowanych zbiorów wartości mediany pozostawały zbliżone do średniego czasu wykonania, 
 a~odchylenie standardowe było niewielkie w~stosunku do uzyskiwanych czasów.
-Dla zbiorów liczących 1~000~000 elementów mediana względnego odchylenia standardowego wyniosła około 1,95\%, 
-natomiast mediana względnej różnicy pomiędzy średnim czasem wykonania a~medianą osiągnęła wartość około 0,31\%.
-
-Większą względną zmienność rezultatów odnotowano dla mniejszych zbiorów danych, zwłaszcza dla 10~000 elementów. 
-W~przypadku bardzo krótkich czasów wykonania nawet niewielkie różnice pomiędzy 
-poszczególnymi pomiarami stanowiły większą część całkowitego czasu sortowania.
+W~przypadku mniejszych zbiorów względna zmienność wyników była większa, co wynikało między innymi z~tego, 
+że niewielkie różnice pomiędzy poszczególnymi pomiarami stanowiły większą część całkowitego czasu sortowania.
 
 W celu bezpośredniego porównania wariantów sekwencyjnych i~równoległych w~tabeli~\ref{tab:best-execution-time} 
 zestawiono czasy uzyskane dla 1~000~000 losowych liczb całkowitych. 
@@ -58,10 +42,13 @@ Dla każdego algorytmu przedstawiono czas wariantu sekwencyjnego oraz najlepszy 
 \input{tables/chapter6/best_execution_time}
 
 Zestawienie pokazuje, że dla każdego z badanych algorytmów możliwe było uzyskanie czasu krótszego niż w~wariancie sekwencyjnym, 
-niemniej najlepsze wyniki osiągęto przy różnej liczbie jednostek wykonawczych. 
-Największe przyspieszenie w~stosunku do wykonania sekwencyjnego odnotowano dla Sample Sort i~wyniosło ono około 2,23. 
+niemniej najlepsze wyniki osiągnięto przy różnej liczbie jednostek wykonawczych. 
+
+Największe przyspieszenie w~stosunku do wykonania sekwencyjnego odnotowano dla Sample Sort i~wyniosło ono około 2,60. 
+Najlepszy czas wykonania tego algorytmu wyniósł około 2,37~s przy wykorzystaniu 8 jednostek wykonawczych.
+
 Nie oznaczało to jednak najkrótszego bezwzględnego czasu sortowania. 
-Najlepszy wynik czasowy uzyskała implementacja Bucket Sort, dla której przy wykorzystaniu 16 jednostek wykonawczych wyniósł on około 1,09~s.
+Najlepszy wynik czasowy uzyskała implementacja Bucket Sort, dla której przy wykorzystaniu 16 jednostek wykonawczych wyniósł on około 1,20~s.
 
 Uzyskane wyniki wskazują, że zastosowanie wariantu równoległego może prowadzić do skrócenia czasu sortowania,
 jednak wielkość uzyskanej poprawy jest zależna od badanego algorytmu oraz zastosowanej konfiguracji równoległości.
