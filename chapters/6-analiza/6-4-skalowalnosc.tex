@@ -96,20 +96,36 @@ Dalsze zwiększanie liczby jednostek wykonawczych skutkowało wyraźnym obniżen
 Przy 32 jednostkach najwyższą wartość uzyskał Sample Sort, wynoszącą 0,0592. 
 W~przypadku Merge Sort, Bucket Sort oraz Quick Sort efektywność wynosiła odpowiednio 0,0463, 0,0458 oraz 0,0307.
 
-Obserwowany spadek efektywności wraz ze zwiększaniem liczby jednostek wykonawczych wskazuje, 
+Obserwowany spadek efektywności wraz ze zwiększaniem liczby jednostek wykonawczych oznaczał, 
 że dodatkowe zasoby obliczeniowe nie przekładały się na proporcjonalny przyrost przyspieszenia. 
 Największe różnice były widoczne dla konfiguracji wykorzystujących 16 i~32 jednostki,
 dla których efektywność wszystkich badanych algorytmów pozostawała na niskim poziomie.
 
-W przypadku Bucket Sort przyspieszenie rosło wraz ze zwiększaniem liczby jednostek wykonawczych
-do konfiguracji obejmującej 16 jednostek, dla której osiągnęło najwyższą wartość 1,8011.
-Dalsze zwiększenie liczby jednostek do 32 spowodowało spadek przyspieszenia do 1,4641.
+W porównaniu z pozostałymi algorytmami Bucket Sort wyróżniał się najbardziej równomiernym wzrostem 
+przyspieszenia wraz ze zwiększaniem liczby jednostek wykonawczych. 
 Sample Sort uzyskał natomiast najwyższą wartość przyspieszenia spośród wszystkich badanych konfiguracji, 
-wynoszącą około 2,60 przy 8 jednostkach wykonawczych.
+wynoszącą 2,6021 przy 8 jednostkach wykonawczych.
 
 Uzyskane wartości przyspieszenia i~efektywności świadczą o ograniczonej skalowalności badanych implementacji. 
 Żaden z algorytmów nie zbliżył się do skalowania idealnego, a wraz ze wzrostem liczby jednostek wykonawczych 
-różnica pomiędzy uzyskanym a teoretycznym przyspieszeniem ulegała zwiększeniu.
+różnica pomiędzy uzyskanym a~teoretycznym przyspieszeniem ulegała zwiększeniu.
+
+Uzyskane wyniki można również odnieść do prawa Amdahla omówionego w~rozdziale~\ref{sec:WydajnoscEfektywnosc}. 
+Zgodnie z~prawem Amdahla możliwości uzyskania dalszego przyspieszenia są ograniczone przez tę część obliczeń, 
+której nie można zrealizować równolegle. 
+W~badanych implementacjach przejawiało się to brakiem proporcjonalnego wzrostu przyspieszenia wraz ze zwiększaniem liczby jednostek wykonawczych.
+
+Przykładowo, dla Sample Sort przyspieszenie wzrosło z~1,5594 przy 2 jednostkach wykonawczych do 2,6021 przy 8 jednostkach. 
+Dalsze zwiększanie liczby jednostek wykonawczych nie prowadziło już do poprawy przyspieszenia. 
+Przy 16 jednostkach uzyskano wartość 2,5242, natomiast zwiększenie ich liczby do 32 spowodowało spadek przyspieszenia do 1,8933.
+Podobną zależność można zaobserwować dla pozostałych algorytmów, 
+dla których zwiększanie liczby jednostek wykonawczych nie prowadziło do proporcjonalnego wzrostu przyspieszenia. 
+Wyniki te potwierdzają, że samo zwiększanie poziomu równoległości nie gwarantuje dalszego wzrostu wydajności.
+
+Należy jednak pamiętać, że prawo Amdahla opisuje uproszczony, idealny model przyspieszenia i~nie uwzględnia wszystkich 
+czynników występujących w~rzeczywistych obliczeniach równoległych. 
+W~przeprowadzonych badaniach na uzyskiwane przyspieszenie wpływały dodatkowo między innymi czas potrzebny na utworzenie 
+i~synchronizację procesów, podział danych pomiędzy procesy oraz sposób organizacji poszczególnych etapów obliczeń.
 
 \subsection*{Wpływ rozmiaru danych na skalowalność}
 
@@ -140,16 +156,16 @@ Oznacza to, że dla Bucket Sort konfiguracja obejmująca 32 jednostki wykonawcze
 
 Inną zależność zaobserwowano dla Merge Sort. 
 Dla trzech mniejszych rozmiarów danych wartość przyspieszenia utrzymywała się poniżej 1 i~wynosiła około 0,76--0,89. 
-Dla największego zbioru, zawierającego 1~000~000 elementów, przyspieszenie wzrosło do około 1,48,
+Dla największego zbioru, zawierającego 1~000~000 elementów, przyspieszenie wzrosło do 1,4807,
 co oznacza, że przy tej wielkości danych wariant równoległy uzyskał przewagę czasową nad wariantem sekwencyjnym.
 
-W przypadku Quick Sort przyspieszenie również pozostawało poniżej 1 dla wszystkich analizowanych rozmiarów danych. Dla 1~000 elementów wynosiło 0,8568,
-dla 10~000 elementów 0,8706, natomiast dla 100~000 i~1~000~000 elementów osiągnęło odpowiednio 0,8633 i~0,9828.
+W przypadku Quick Sort przyspieszenie również pozostawało poniżej 1 dla wszystkich analizowanych rozmiarów danych. 
+Dla 1~000 elementów wynosiło 0,8568, dla 10~000 0,8706, natomiast dla 100~000 i~1~000~000 elementów osiągnęło odpowiednio 0,8633 i~0,9828.
 Mimo odnotowanego wzrostu wariant równoległy nie osiągnął przy 32 jednostkach wykonawczych przyspieszenia przekraczającego wartość 1.
 
 Sample Sort charakteryzował się wartościami przyspieszenia zróżnicowanymi w zależności od rozmiaru danych. 
-Dla 1~000 elementów wynosiło ono około 1,24, a~dla 10~000 elementów około 1,00. 
-Przy 100~000 elementów wartość osiągnęła około 1,01, natomiast dla 1~000~000 elementów wzrosła do około 1,89.
+Dla 1~000 elementów wynosiło ono 1,2408, a~dla 10~000 elementów 0,9958. 
+Przy 100~000 elementów wartość osiągnęła 1,0149, natomiast dla 1~000~000 elementów wzrosła do 1,8933.
 W przypadku Sample Sort największy zbiór danych przyniósł zatem wyraźną poprawę przyspieszenia.
 
 Porównanie uzyskanych rezultatów wskazuje, że zwiększanie rozmiaru danych wejściowych w zróżnicowanym 
@@ -159,8 +175,8 @@ Wysokie wartości odnotowano również dla Merge Sort oraz Bucket Sort, odpowied
 W przypadku Quick Sort zwiększenie rozmiaru danych nie było wystarczające do uzyskania przyspieszenia przekraczającego wartość 1.
 
 Zbliżone zależności zaobserwowano również dla zbioru \texttt{random\_float}. 
-Wyniki uzyskane dla danych zmiennoprzecinkowych potwierdziły, że wpływ rozmiaru danych na skalowalność zależał od analizowanego algorytmu, 
-a zwiększenie liczby przetwarzanych elementów nie gwarantowało poprawy przyspieszenia we wszystkich implementacjach.
+Wyniki uzyskane dla danych zmiennoprzecinkowych potwierdziły, że wpływ rozmiaru danych na skalowalność zależał od analizowanego algorytmu.  
+Zwiększenie liczby przetwarzanych elementów prowadziło do poprawy przyspieszenia jedynie w części badanych implementacji.
 
 Uzyskane wyniki wskazują na zróżnicowaną skalowalność badanych implementacji. 
 Wraz ze zwiększaniem liczby jednostek wykonawczych we wszystkich algorytmach odnotowywano spadek efektywności, 

@@ -13,8 +13,8 @@ zestawiono wyniki uzyskane dla wszystkich badanych konfiguracji.
 \input{tables/chapter6/scalability_time}
 
 Uzyskane wyniki wskazują wyraźne różnice pomiędzy badanymi algorytmami.
-Wzrost liczby jednostek wykonawczych nie zawsze przekładał się na poprawę uzyskiwanego czasu sortowania, a najkrótsze
-czasy osiągano przy różnej liczbie wykorzystywanych jednostek.
+Wzrost liczby jednostek wykonawczych nie prowadził we wszystkich badanych konfiguracjach do skrócenia czasu sortowania, 
+a~najkrótsze czasy osiągano przy różnej liczbie wykorzystywanych jednostek.
 
 W~przypadku Quick Sort najkrótszy średni czas wykonania uzyskano już przy wykorzystaniu 2 jednostek wykonawczych i~wyniósł on około 1,80~s.
 Zwiększenie ich liczby do 4 skutkowało wydłużeniem czasu do około 2,01~s, natomiast dla 8 jednostek osiągnął on około 2,22~s. 
@@ -35,8 +35,8 @@ Najkorzystniejszy wynik dla Bucket Sort uzyskano zatem przy 16 jednostkach wykon
 
 Sample Sort również początkowo charakteryzował się poprawą wydajności.
 Średni czas wykonania zmniejszył się z około 3,96~s dla 2 jednostek do 2,89~s dla 4 oraz 2,37~s dla 8 jednostek wykonawczych. 
-Przy 16 jednostkach uzyskano dalsze, niewielkie skrócenie czasu do około 2,44~s. 
-Dla 32 jednostek nastąpiło natomiast wyraźne wydłużenie czasu wykonania do około 3,26~s.
+Przy 16 jednostkach nastąpiło niewielkie wydłużenie czasu wykonania do około 2,44~s. 
+Dla 32 jednostek czas wykonania wzrósł natomiast wyraźnie do około 3,26~s.
 Najlepszy wynik uzyskano zatem przy 8 jednostkach wykonawczych.
 
 Zmiany czasu wykonania poszczególnych algorytmów wraz ze zwiększaniem liczby 
@@ -70,10 +70,12 @@ Różnica pomiędzy konfiguracjami 8 i~16 jednostek dla danych zmiennoprzecinkow
 Podobną tendencję zaobserwowano szczególnie dla Bucket Sort oraz Sample Sort.
 Dla obu typów danych Bucket Sort skracał czas sortowania wraz ze wzrostem liczby 
 jednostek wykonawczych aż do konfiguracji 16 jednostek, po której nastąpiło wydłużenie czasu wykonania.
-W przypadku Sample Sort najkrótszy czas dla danych całkowitych uzyskiwał przy 8 jednostkach, a~dla danych zmiennoprzecinkowych przy 16 jednostkach. 
-Zwiększenie liczby jednostek wykonawczych powyżej tych wartości prowadziło już do wydłużenia czasu wykonania.
-Powtarzalność tych zależności dla dwóch typów danych sugeruje, że obserwowane zmiany wydajności mogły wynikać 
-przede wszystkim ze sposobu realizacji równoległości badanych algorytmów, a~nie wyłącznie z~typu przetwarzanych wartości.
+W przypadku Sample Sort zależność była nieco odmienna dla obu typów danych. 
+Dla danych całkowitych najkrótszy czas wykonania uzyskano przy 8 jednostkach wykonawczych, 
+natomiast zwiększenie ich liczby do 16 spowodowało niewielkie wydłużenie czasu wykonania. 
+Dla danych zmiennoprzecinkowych najkrótszy czas wykonania uzyskano natomiast przy 16 jednostkach wykonawczych.
+Powtarzalność podobnych zależności dla obu typów danych sugeruje, że obserwowane zmiany wydajności 
+mogły wynikać przede wszystkim ze sposobu realizacji równoległości badanych algorytmów, a~nie wyłącznie z~typu przetwarzanych wartości.
 
 Uzyskane wyniki pokazują, że zwiększenie liczby wykorzystywanych jednostek nie prowadziło do proporcjonalnego wzrostu wydajności.
 Dodatkowa diagnostyka wykonania przeprowadzona dla zbioru \texttt{random\_int} o~rozmiarze 1~000~000 elementów wykazała, 
@@ -83,8 +85,8 @@ W~przypadku Quick Sort utworzono 2 procesy potomne dla konfiguracji 2 jednostek,
 6 procesów dla 4 jednostek oraz po 4 procesy dla konfiguracji 8, 16 i~32 jednostek wykonawczych. 
 W~przypadku Merge Sort utworzono odpowiednio 2, 6, 2, 2 oraz 2 procesy potomne.
 
-Uzyskane wyniki pokazują, że zwiększanie liczby zadeklarowanych jednostek wykonawczych 
-nie zawsze prowadziło do~proporcjonalnego wzrostu liczby tworzonych procesów. 
+Uzyskane wyniki pokazują, że zwiększanie liczby zadeklarowanych jednostek wykonawczych nie prowadziło 
+do~proporcjonalnego wzrostu liczby tworzonych procesów w~przypadku Quick Sort i~Merge Sort.
 W badanej implementacji parametr ten wyznaczał przede wszystkim maksymalną głębokość zrównoleglenia, 
 natomiast rzeczywista liczba procesów zależała również od progów uruchamiania równoległego oraz rozmiaru powstałych fragmentów danych. 
 W przypadku Merge Sort od konfiguracji 8 jednostek liczba utworzonych procesów pozostawała na poziomie dwóch. 
@@ -101,5 +103,4 @@ Mniejsza od oczekiwanej liczba tworzonych procesów była więc skutkiem zastoso
 a nie nieprawidłowego działania algorytmów.
 
 Uzyskane wyniki pokazują, że zwiększenie liczby wykorzystywanych jednostek wykonawczych nie prowadziło do proporcjonalnego wzrostu wydajności.
-Na osiągane rezultaty mogły wpływać również sposób zrównoleglenia konkretnego algorytmu oraz narzut związany z organizacją obliczeń równoległych. 
-Wpływ tych czynników można ocenić również na podstawie wykorzystania zasobów oraz uzyskanego przyspieszenia i~efektywności.
+Wpływ tych czynników oceniono również na podstawie wykorzystania zasobów oraz uzyskanego przyspieszenia i~efektywności.

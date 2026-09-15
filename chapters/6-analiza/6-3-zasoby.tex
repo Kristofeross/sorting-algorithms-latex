@@ -41,10 +41,10 @@ Dla Bucket Sort zwiększanie liczby jednostek wykonawczych skutkowało stopniowy
 Średnie wykorzystanie CPU wzrosło z około 163,59\% dla 2 jednostek do 232,20\% dla 4,
 365,52\% dla 8 oraz 529,63\% dla 16 jednostek wykonawczych.
 Największe średnie obciążenie CPU odnotowano przy 32 jednostkach wykonawczych i~wyniosło ono około 633,31\%.
-Wzrost obciążenia CPU nie prowadził jednak w~każdym przypadku do~dalszego skracania czasu sortowania. 
+Wzrost obciążenia CPU nie prowadził jednak do dalszego skracania czasu sortowania dla wszystkich badanych konfiguracji.
 Najlepszy czas dla tego algorytmu uzyskano przy 16 jednostkach wykonawczych, 
 natomiast zwiększenie ich liczby do 32 spowodowało wydłużenie czasu do około 1,48~s, pomimo dalszego wzrostu średniego wykorzystania procesora. 
-Wskazuje to, że samo zwiększenie obciążenia CPU nie musi prowadzić do poprawy czasu wykonania.
+Wynik ten pokazuje, że samo zwiększenie obciążenia CPU nie prowadziło do poprawy czasu wykonania.
 
 Odmienną tendencję zaobserwowano dla Merge Sort. 
 Wykorzystanie CPU wzrosło z około 181,93\% dla 2 jednostek wykonawczych do około 253,66\% dla 4 jednostek, 
@@ -88,8 +88,8 @@ przedstawiono na rysunku~\ref{fig:cpu-size-random-int}.
 Dla najmniejszych zbiorów danych w części pomiarów odnotowano bardzo niskie,
 a~w~niektórych przypadkach również zerowe wartości średniego wykorzystania CPU.
 Wyniki te należy interpretować z~uwzględnieniem przyjętego sposobu próbkowania obciążenia procesora.
-Ze względu na krótki czas wykonania sortowania dla najmniejszych zbiorów liczba zarejestrowanych próbek była niewielka, 
-co mogło ograniczać możliwość uchwycenia rzeczywistego poziomu obciążenia CPU. 
+Ze względu na krótki czas wykonania sortowania dla najmniejszych zbiorów liczba zarejestrowanych próbek była niewielka. 
+Ograniczało to dokładność oceny średniego poziomu obciążenia CPU dla tych konfiguracji.
 Wartość równa 0\% nie oznacza zatem braku wykorzystania procesora, lecz wynika z~ograniczenia zastosowanej metody pomiarowej.
 Dla większych zbiorów danych rejestrowane wartości wykorzystania procesora były wyższe. 
 Dla zbioru \texttt{random\_int} o rozmiarze 100~000 elementów średnie wykorzystanie procesora przy 
@@ -140,8 +140,8 @@ Jednocześnie maksymalne wykorzystanie pamięci wzrosło od około 230,50~MB dla
 Wzrost wykorzystania pamięci dla Bucket Sort był związany ze zwiększaniem poziomu równoległości. 
 Jednocześnie zwiększenie liczby jednostek wykonawczych z~16 do 32 nie przyniosło skrócenia czasu sortowania, 
 lecz doprowadziło do dalszego wzrostu zużycia pamięci.
-Wskazuje to, że zwiększenie poziomu równoległości może wiązać się z~dodatkowym kosztem pamięciowym, 
-który nie musi być rekompensowany poprawą czasu wykonania.
+Zwiększenie poziomu równoległości wiązało się z~dodatkowym kosztem pamięciowym,
+któremu w~przypadku zwiększenia liczby jednostek z~16 do 32 towarzyszyło wydłużenie czasu wykonania.
 
 W przypadku Merge Sort zależność między liczbą jednostek wykonawczych a zużyciem pamięci była mniej wyraźna. 
 Najwyższe średnie wykorzystanie pamięci odnotowano przy 4 jednostkach wykonawczych, natomiast przy 8 jednostkach nastąpił spadek do poziomu około 163~MB. 
